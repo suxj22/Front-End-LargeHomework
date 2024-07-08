@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <svg>
+        <text id="time1" text-anchor="middle" x="50%" y="50%" class="words time_word_1"></text>
+        <text id="time2" text-anchor="middle" x="50%" y="50%" class="words time_word_2"></text>
+        <text id="time3" text-anchor="middle" x="50%" y="50%" class="words time_word_3"></text>
+        <text id="time4" text-anchor="middle" x="50%" y="50%" class="words time_word_4"></text>
+    </svg>
+    //用户自定义时间
+    <div id="time-controls">
+        <label for="customHours">自定义小时:</label>
+        <input type="number" id="customHours" value="12" min="0" max="23">
+        <label for="customMinutes">自定义分钟:</label>
+        <input type="number" id="customMinutes" value="00" min="0" max="59">
+        <label for="customSeconds">自定义秒:</label>
+        <input type="number" id="customSeconds" value="00" min="0" max="59">
+        <button id="setTime">设置时间</button>
+    </div>
+    <script src="js/clock.js"></script>
+</body>
+
+</html>
