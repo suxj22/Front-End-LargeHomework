@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<!-- saved from url=(0038)http://127.0.0.1:5500/clock/clock.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clock</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./clock_files/style.css">
 </head>
 <body>
     <div class="clock">
@@ -13,44 +13,44 @@
 
             <!--time标签里面放3个圆-->
 
-            <div class="circle" style="--clr:#ff2972"><!--设置秒钟圆里面使用的颜色-->
+            <div class="circle" style="--clr:#ff4242"><!--设置秒钟圆里面使用的颜色-->
                 <!--circle类里面绘制圆形-->
-                <div class="dots second_dot">
+                <div class="dots second_dot" style="transform: rotateZ(162deg);">
                     <!--秒钟圆里面的发光点-->
                 </div>
                 <svg>
                     <!--绘制svg的圆形-->
-                    <circle cx="120" cy="120" r="120" id="ss"></circle>
+                    <circle cx="120" cy="120" r="120" id="ss" style="stroke-dashoffset: 418;"></circle>
                 </svg>
             </div>
 
-            <div class="circle" style="--clr:#fee800"><!--设置分钟圆里面使用的颜色-->
+            <div class="circle" style="--clr:#5badff"><!--设置分钟圆里面使用的颜色-->
                 <!--circle类里面绘制圆形-->
-                <div class="dots minute_dot">
+                <div class="dots minute_dot" style="transform: rotateZ(90deg);">
                     <!--分钟圆里面的发光点-->
                 </div>
                 <svg>
                     <!--绘制svg的圆形-->
-                    <circle cx="100" cy="100" r="100" id="mm"></circle>
+                    <circle cx="100" cy="100" r="100" id="mm" style="stroke-dashoffset: 472.5;"></circle>
                 </svg>
             </div>
 
-            <div class="circle" style="--clr:#04fc43"><!--设置时钟圆里面使用的颜色-->
+            <div class="circle" style="--clr:#f06bff"><!--设置时钟圆里面使用的颜色-->
                 <!--circle类里面绘制圆形-->
-                <div class="dots hour_dot">
+                <div class="dots hour_dot" style="transform: rotateZ(300deg);">
                     <!--时钟圆里面的发光点-->
                 </div>
                 <svg>
                     <!--绘制svg的圆形-->
-                    <circle cx="80" cy="80" r="80" id="hh"></circle>
+                    <circle cx="80" cy="80" r="80" id="hh" style="stroke-dashoffset: 85;"></circle>
                 </svg>
             </div>
 
 
             <!--创建表盘指针-->
-            <div class="needles" style="--clr2:#ff2972" id="sc"><i></i></div>
-            <div class="needles needle2" style="--clr2:#fee800" id="mn"><i></i></div>
-            <div class="needles needle3" style="--clr2:#04fc43" id="hr"><i></i></div>
+            <div class="needles" style="--clr2: #ff4242; transform: rotateZ(162deg);" id="sc"><i></i></div>
+            <div class="needles needle2" style="--clr2: #5badff; transform: rotateZ(90deg);" id="mn"><i></i></div>
+            <div class="needles needle3" style="--clr2: #f06bff; transform: rotateZ(300deg);" id="hr"><i></i></div>
 
             <span style="--i:1;"><b>1</b></span>
             <span style="--i:2;"><b>2</b></span>
@@ -66,42 +66,61 @@
             <span style="--i:12;"><b>12</b></span>
         </div>
     </div>
-    <script>
-        setInterval(()=>{
-                let hh_elem = document.getElementById('hh');
-                let mm_elem = document.getElementById('mm');
-                let ss_elem = document.getElementById('ss');
 
-                let s_dot_elem = document.querySelector('.second_dot');
-                let m_dot_elem = document.querySelector('.minute_dot');
-                let h_dot_elem = document.querySelector('.hour_dot');
-                var current_time = new Date();
+    <!--电子显示屏-->
+    <svg id="screen">
+        <text id="time1" text-anchor="middle" x="50%" y="50%" class="words time_word_1">20:15:27</text>
+        <text id="time2" text-anchor="middle" x="50%" y="50%" class="words time_word_2">20:15:27</text>
+        <text id="time3" text-anchor="middle" x="50%" y="50%" class="words time_word_3">20:15:27</text>
+    </svg>
+    <div id="time-controls">
+        <label for="customHours">自定义小时:</label>
+        <input type="number" id="customHours" value="12" min="0" max="23">
+        <label for="customMinutes">自定义分钟:</label>
+        <input type="number" id="customMinutes" value="00" min="0" max="59">
+        <label for="customSeconds">自定义秒:</label>
+        <input type="number" id="customSeconds" value="00" min="0" max="59">
+        <button id="setTime">设置时间</button>
+    </div>
 
-                let curr_hour = current_time.getHours();
-                let curr_min = current_time.getMinutes();
-                let curr_sec = current_time.getSeconds();
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
 
-
-                let sc_needle_elem = document.getElementById('sc');
-                let mn_needle_elem = document.getElementById('mn');
-                let hr_needle_elem = document.getElementById('hr');
-
-
-                hh_elem.style.strokeDashoffset = 510 * (1 - curr_hour / 24);
-                mm_elem.style.strokeDashoffset = 630 * (1 - curr_min / 60);
-                ss_elem.style.strokeDashoffset = 760 * (1 - curr_sec / 60);
-
-                h_dot_elem.style.transform = `rotateZ(${curr_hour*15}deg)`;
-                m_dot_elem.style.transform = `rotateZ(${curr_min*6}deg)`;
-                s_dot_elem.style.transform = `rotateZ(${curr_sec*6}deg)`;
-
-                hr_needle_elem.style.transform = `rotateZ(${curr_hour*15}deg)`;
-                mn_needle_elem.style.transform = `rotateZ(${curr_min*6}deg)`;
-                sc_needle_elem.style.transform = `rotateZ(${curr_sec*6}deg)`;
-
-
-},1000)
-        
-    </script>
-</body>
-</html>
+<script src="./clock_files/clock.js.下载"></script>
+<deepl-input-controller><template shadowrootmode="open"><link rel="stylesheet" href="chrome-extension://cofdbpoegempjloogbagkncekinflcnj/build/content.css"><div dir="ltr"><div class="dl-input-translation-container svelte-95aucy"><div></div></div></div></template></deepl-input-controller><iframe id="3sjF3qvy" frameborder="0" src="./clock_files/translateSandbox.html" style="width: 0px; height: 0px; display: none;"></iframe></body></html>
