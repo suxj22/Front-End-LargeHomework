@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="clock">
+        <!--最大的clock区域-->
+        <div id="time">
+
+            <!--time标签里面放3个圆-->
+
+            <div class="circle" style="--clr:#ff2972"><!--设置秒钟圆里面使用的颜色-->
+                <!--circle类里面绘制圆形-->
+                <div class="dots second_dot">
+                    <!--秒钟圆里面的发光点-->
+                </div>
+                <svg>
+                    <!--绘制svg的圆形-->
+                    <circle cx="120" cy="120" r="120" id="ss"></circle>
+                </svg>
+            </div>
+
+            <div class="circle" style="--clr:#fee800"><!--设置分钟圆里面使用的颜色-->
+                <!--circle类里面绘制圆形-->
+                <div class="dots minute_dot">
+                    <!--分钟圆里面的发光点-->
+                </div>
+                <svg>
+                    <!--绘制svg的圆形-->
+                    <circle cx="100" cy="100" r="100" id="mm"></circle>
+                </svg>
+            </div>
+
+            <div class="circle" style="--clr:#04fc43"><!--设置时钟圆里面使用的颜色-->
+                <!--circle类里面绘制圆形-->
+                <div class="dots hour_dot">
+                    <!--时钟圆里面的发光点-->
+                </div>
+                <svg>
+                    <!--绘制svg的圆形-->
+                    <circle cx="80" cy="80" r="80" id="hh"></circle>
+                </svg>
+            </div>
+
+
+            <!--创建表盘指针-->
+            <div class="needles" style="--clr2:#ff2972" id="sc"><i></i></div>
+            <div class="needles needle2" style="--clr2:#fee800" id="mn"><i></i></div>
+            <div class="needles needle3" style="--clr2:#04fc43" id="hr"><i></i></div>
+
+            <span style="--i:1;"><b>1</b></span>
+            <span style="--i:2;"><b>2</b></span>
+            <span style="--i:3;"><b>3</b></span>
+            <span style="--i:4;"><b>4</b></span>
+            <span style="--i:5;"><b>5</b></span>
+            <span style="--i:6;"><b>6</b></span>
+            <span style="--i:7;"><b>7</b></span>
+            <span style="--i:8;"><b>8</b></span>
+            <span style="--i:9;"><b>9</b></span>
+            <span style="--i:10;"><b>10</b></span>
+            <span style="--i:11;"><b>11</b></span>
+            <span style="--i:12;"><b>12</b></span>
+        </div>
+    </div>
+    <script>
+        setInterval(()=>{
+                let hh_elem = document.getElementById('hh');
+                let mm_elem = document.getElementById('mm');
+                let ss_elem = document.getElementById('ss');
+
+                let s_dot_elem = document.querySelector('.second_dot');
+                let m_dot_elem = document.querySelector('.minute_dot');
+                let h_dot_elem = document.querySelector('.hour_dot');
+                var current_time = new Date();
+
+                let curr_hour = current_time.getHours();
+                let curr_min = current_time.getMinutes();
+                let curr_sec = current_time.getSeconds();
+
+
+                let sc_needle_elem = document.getElementById('sc');
+                let mn_needle_elem = document.getElementById('mn');
+                let hr_needle_elem = document.getElementById('hr');
+
+
+                hh_elem.style.strokeDashoffset = 510 * (1 - curr_hour / 24);
+                mm_elem.style.strokeDashoffset = 630 * (1 - curr_min / 60);
+                ss_elem.style.strokeDashoffset = 760 * (1 - curr_sec / 60);
+
+                h_dot_elem.style.transform = `rotateZ(${curr_hour*15}deg)`;
+                m_dot_elem.style.transform = `rotateZ(${curr_min*6}deg)`;
+                s_dot_elem.style.transform = `rotateZ(${curr_sec*6}deg)`;
+
+                hr_needle_elem.style.transform = `rotateZ(${curr_hour*15}deg)`;
+                mn_needle_elem.style.transform = `rotateZ(${curr_min*6}deg)`;
+                sc_needle_elem.style.transform = `rotateZ(${curr_sec*6}deg)`;
+
+
+},1000)
+        
+    </script>
+</body>
+</html>
