@@ -1,0 +1,89 @@
+*{
+    padding:0%;
+    margin:0%
+}
+
+html{
+    height: 100%;
+}
+
+body{
+    background-color: black;
+    height: 100%;
+}
+
+svg{
+    width: 100%;
+    height: 100%;
+}
+.words{
+    font-size: 22vh;
+    fill:none;
+    stroke-width: 4px;
+    stroke-dasharray: 100,300;
+    animation: drawing 10s linear infinite;
+}
+
+.words.time_word_1{
+    stroke: deepskyblue;
+    text-shadow: 0 0 50px deepskyblue;
+    animation-delay: -2s ;
+}
+.words.time_word_2 {
+    stroke: lightgreen;
+    text-shadow: 0 0 50px lightgreen;
+    animation-delay: -4s;
+}
+.words.time_word_3 {
+    stroke: orangered;
+    text-shadow: 0 0 50px orangered;
+    animation-delay: -6s;
+}
+.words.time_word_4 {
+    stroke: pink;
+    text-shadow: 0 0 50px violet;
+    animation-delay: -8s;
+}
+
+@keyframes drawing {
+    to{
+        stroke-dashoffset: -400;
+    }
+}
+
+/* 将控件容器定位到屏幕的底部中心 */
+#time-controls {
+    position: fixed;
+    /* 固定定位，相对于浏览器窗口 */
+    left: 50%;
+    /* 容器向左移动50%，然后向右移动自身宽度的50%，实现水平居中 */
+    transform: translateX(-50%);
+    bottom: 20px;
+    /* 控件距离屏幕底部20像素 */
+    color: white;
+}
+
+/* 为控件添加一些基本样式 */
+#time-controls label,
+#time-controls input,
+#time-controls button {
+    display: inline-block;
+    /* 块级元素，每个元素独占一行 */
+    margin: 10px auto;
+    /* 上下边距10px，自动左右边距使元素水平居中 */
+}
+
+/* 调整输入框和按钮的宽度 */
+#time-controls input,
+#time-controls button {
+    width: 100px;
+    /* 设置宽度为100像素 */
+}
+
+/* 按钮样式 */
+#time-controls button {
+    padding: 5px 10px;
+    /* 内边距为5像素上下，10像素左右 */
+    cursor: pointer;
+    /* 鼠标悬停时显示指针手势 */
+}
