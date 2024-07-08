@@ -196,6 +196,7 @@ body{
 
 .words {
     font-size: 15vh;
+    font-family: consolas fantasy monospace;
     fill: none;
     stroke-width: 4px;
     stroke-dasharray: 100, 300;
