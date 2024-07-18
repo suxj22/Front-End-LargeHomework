@@ -1,22 +1,16 @@
 <!DOCTYPE html>
-<!-- saved from url=(0038)http://127.0.0.1:5500/clock/clock.html -->
 <html lang="en">
-
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clock</title>
     <link rel="stylesheet" href="./style.css">
 </head>
-
 <body>
     <div class="clock">
         <!--最大的clock区域-->
         <div id="time">
-
             <!--time标签里面放3个圆-->
-
             <div class="circle" style="--clr:#ff4242"><!--设置秒钟圆里面使用的颜色-->
                 <!--circle类里面绘制圆形-->
                 <div class="dots second_dot" style="transform: rotateZ(162deg);">
@@ -50,7 +44,6 @@
                 </svg>
             </div>
 
-
             <!--创建表盘指针-->
             <div class="needles" style="--clr2: #ff4242; transform: rotateZ(162deg);" id="sc"><i></i></div>
             <div class="needles needle2" style="--clr2: #5badff; transform: rotateZ(90deg);" id="mn"><i></i></div>
@@ -72,7 +65,7 @@
             <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                 <!-- Circle for the clock border -->
                 <circle cx="100" cy="100" r="55" id="calibration" stroke="#1f2328" stroke-width="2" fill="none" style="stroke-dashoffset: 45;"/>
-                
+
                 <!--添加小时表盘刻度 -->
                 <g>
                     <!-- 12 tick marks, positioned via rotation transform -->
@@ -152,7 +145,6 @@
                     <line x1="100" y1="45" x2="100" y2="47" stroke="#1f2328" stroke-width="1" transform="rotate(348 100 100)" />
                     <line x1="100" y1="45" x2="100" y2="47" stroke="#1f2328" stroke-width="1" transform="rotate(354 100 100)" />
                     <line x1="100" y1="45" x2="100" y2="47" stroke="#1f2328" stroke-width="1" transform="rotate(360 100 100)" />
-
                 </g>
             </svg>
         </div>
@@ -175,6 +167,14 @@
         <button id="setAlarm">设置闹钟</button>
         <button id="setWatch">开始计时</button>
         <button id="setStop">停止计时</button>
+        <label for="timerHours">计时器小时:</label>
+        <input type="number" id="timerHours" value="0" min="0">
+        <label for="timerMinutes">计时器分钟:</label>
+        <input type="number" id="timerMinutes" value="0" min="0" max="59">
+        <label for="timerSeconds">计时器秒:</label>
+        <input type="number" id="timerSeconds" value="0" min="0" max="59">
+        <button id="setTimer">设置计时器</button>
     </div>
 </body>
 <script src="js/clock.js"></script>
+</html>

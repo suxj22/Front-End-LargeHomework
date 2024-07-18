@@ -5,6 +5,11 @@ let customedTime = false;
 let intervalId;
 let lastTimestamp = null;
 
+// 计时器相关变量
+let timerHour, timerMinute, timerSecond, timerMillisecond;
+let timerRunning = false;
+let timerIntervalId;
+
 function updateClock(timestamp) {
     let hh_elem = document.getElementById('hh');
     let mm_elem = document.getElementById('mm');
@@ -37,6 +42,31 @@ function updateClock(timestamp) {
             }
         }
         updateTime(customHour, customMinute, customSecond, false);
+    } else if (timerRunning) {
+        timerMillisecond -= elapsed;
+        if (timerMillisecond <= 0) {
+            timerMillisecond += 1000;
+            timerSecond--;
+            if (timerSecond < 0) {
+                timerSecond = 59;
+                timerMinute--;
+                if (timerMinute < 0) {
+                    timerMinute = 59;
+                    timerHour--;
+                    if (timerHour < 0) {
+                        // 计时器到时间
+                        clearInterval(timerIntervalId);
+                        alert("计时器到时间了！");
+                        timerRunning = false;
+                        timerHour = 0;
+                        timerMinute = 0;
+                        timerSecond = 0;
+                        timerMillisecond = 0;
+                    }
+                }
+            }
+        }
+        updateTime(timerHour, timerMinute, timerSecond, false);
     } else {
         var current_time = new Date();
         customHour = current_time.getHours();
@@ -47,9 +77,9 @@ function updateClock(timestamp) {
     }
 
     // 计算当前时间的小数部分
-    let precise_sec = customSecond + customMillisecond / 1000;
-    let precise_min = customMinute + precise_sec / 60;
-    let precise_hour = customHour + precise_min / 60;
+    let precise_sec = (timerRunning ? timerSecond : customSecond) + (timerRunning ? timerMillisecond : customMillisecond) / 1000;
+    let precise_min = (timerRunning ? timerMinute : customMinute) + precise_sec / 60;
+    let precise_hour = (timerRunning ? timerHour : customHour) + precise_min / 60;
 
     // 更新秒针、分针和时针的平滑位置
     hh_elem.style.strokeDashoffset = 510 * (1 - precise_hour / 12);
@@ -145,3 +175,17 @@ function getTime() {
     }
     return { hour: customHour, minute: customMinute, second: customSecond, millisecond: customMillisecond }; // 返回用户自定义的时间
 }
+
+// 为设置计时器按钮添加事件监听器
+document.getElementById('setTimer').addEventListener('click', function () {
+    // 读取用户输入的时间并存储
+    timerHour = parseInt(document.getElementById('timerHours').value);
+    timerMinute = parseInt(document.getElementById('timerMinutes').value);
+    timerSecond = parseInt(document.getElementById('timerSeconds').value);
+    timerMillisecond = 0;
+
+    // 调用updateTime函数，使用用户输入的时间
+    updateTime(timerHour, timerMinute, timerSecond, true);
+    timerRunning = true;
+    startTimer();
+});
