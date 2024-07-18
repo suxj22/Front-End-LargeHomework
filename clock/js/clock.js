@@ -13,6 +13,13 @@
                 let curr_min = getTime().minute;
                 let curr_sec = getTime().second;
 
+            //处理闹钟事件
+            if (curr_hour == customAlarmHour && curr_min == customAlarmMin && curr_sec == customAlarmSec) {
+                // 发出闹钟提示声音并且弹出弹窗
+                playsound();
+                alert("闹钟时间到！");
+            }
+            
                 let sc_needle_elem = document.getElementById('sc');
                 let mn_needle_elem = document.getElementById('mn');
                 let hr_needle_elem = document.getElementById('hr');
@@ -35,6 +42,7 @@
         
 // 存储用户自定义的时间
 var customHour, customMinute, customSecond;
+var customAlarmHour, customAlarmMin, customAlarmSec;
 var customedTime = false;
 
 // 填充时间，确保时间总是以两位数显示
@@ -107,4 +115,24 @@ function getTime() {
         };
     }
     return { hour: customHour, minute: customMinute, second: customSecond }; // 返回用户自定义的时间
+}
+
+//添加闹钟的事件监听器
+
+// 为设置闹钟按钮添加事件监听器
+document.getElementById('setAlarm').addEventListener('click', function() {
+    // 读取用户输入的时间并存储
+    customAlarmHour = parseInt(document.getElementById('customHours').value);
+    customAlarmMin = parseInt(document.getElementById('customMinutes').value);
+    customAlarmSec = parseInt(document.getElementById('customSeconds').value);
+
+});
+
+//播放闹钟音频函数
+// 播放闹钟音频函数
+function playsound() {
+    var alarmSound = new Audio("../clock_sound.mp3");
+    alarmSound.play().catch(function(error) {
+        console.error('无法播放音频:', error);
+    });
 }
