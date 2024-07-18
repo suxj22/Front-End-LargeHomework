@@ -19,15 +19,15 @@
                 let hr_needle_elem = document.getElementById('hr');
 
 
-                hh_elem.style.strokeDashoffset = 510 * (1 - curr_hour / 24);
+                hh_elem.style.strokeDashoffset = 510 * (1 - curr_hour / 12);
                 mm_elem.style.strokeDashoffset = 630 * (1 - curr_min / 60);
                 ss_elem.style.strokeDashoffset = 760 * (1 - curr_sec / 60);
 
-                h_dot_elem.style.transform = `rotateZ(${curr_hour*15}deg)`;
+                h_dot_elem.style.transform = `rotateZ(${curr_hour*30}deg)`;
                 m_dot_elem.style.transform = `rotateZ(${curr_min*6}deg)`;
                 s_dot_elem.style.transform = `rotateZ(${curr_sec*6}deg)`;
 
-                hr_needle_elem.style.transform = `rotateZ(${curr_hour*15}deg)`;
+                hr_needle_elem.style.transform = `rotateZ(${curr_hour*30}deg)`;
                 mn_needle_elem.style.transform = `rotateZ(${curr_min*6}deg)`;
                 sc_needle_elem.style.transform = `rotateZ(${curr_sec*6}deg)`;
 
