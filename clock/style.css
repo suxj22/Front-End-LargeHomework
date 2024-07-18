@@ -269,3 +269,13 @@ body{
     cursor: pointer;
     /* 鼠标悬停时显示指针手势 */
 }
+
+#setWatch{
+    text-align: middle;
+    clear: both;
+}
+
+#setStop{
+    text-align: middle;
+    clear: both;
+}

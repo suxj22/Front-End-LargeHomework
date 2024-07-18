@@ -87,7 +87,7 @@ function startCustomTimer() {
             customMinute++;
             if (customMinute >= 60) {
                 customMinute = 0;
-                customHour = (customHour + 1) % 24; // 24小时制，循环
+                customHour = (customHour + 1) % 12; // 24小时制，循环
             }
         }
         // 更新时间显示
@@ -128,7 +128,6 @@ document.getElementById('setAlarm').addEventListener('click', function() {
 
 });
 
-//播放闹钟音频函数
 // 播放闹钟音频函数
 function playsound() {
     var alarmSound = new Audio("../clock_sound.mp3");
@@ -136,3 +135,24 @@ function playsound() {
         console.error('无法播放音频:', error);
     });
 }
+
+
+// 为设置计时按钮添加事件监听器
+document.getElementById('setWatch').addEventListener('click', function() {
+    // 清空时间从0开始计时
+    customedTime = true;
+    customHour = 0;
+    customMinute = 0;
+    customSecond = 0;
+
+    updateTime(customHour, customMinute, customSecond, true);
+    //启用自定义的计时器
+    startCustomTimer();
+});
+
+// 为设置计时按钮添加事件监听器
+document.getElementById('setStop').addEventListener('click', function() {
+    // 清空时间从0开始计时
+    alert("一共计时了" + getTime().hour + "小时" + getTime().minute + "分钟" + getTime().second + "秒");
+    customedTime = false;
+});
