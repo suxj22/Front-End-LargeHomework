@@ -9,10 +9,9 @@
                 let h_dot_elem = document.querySelector('.hour_dot');
                 var current_time = new Date();
 
-                let curr_hour = current_time.getHours();
-                let curr_min = current_time.getMinutes();
-                let curr_sec = current_time.getSeconds();
-
+                let curr_hour = getTime().hour;
+                let curr_min = getTime().minute;
+                let curr_sec = getTime().second;
 
                 let sc_needle_elem = document.getElementById('sc');
                 let mn_needle_elem = document.getElementById('mn');
