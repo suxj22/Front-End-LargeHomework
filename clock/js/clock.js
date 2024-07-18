@@ -1,49 +1,74 @@
+// 初始化全局变量
+let customHour, customMinute, customSecond, customMillisecond;
+let customAlarmHour, customAlarmMin, customAlarmSec;
+let customedTime = false;
+let intervalId;
+let lastTimestamp = null;
 
-        setInterval(()=>{
-                let hh_elem = document.getElementById('hh');
-                let mm_elem = document.getElementById('mm');
-                let ss_elem = document.getElementById('ss');
+function updateClock(timestamp) {
+    let hh_elem = document.getElementById('hh');
+    let mm_elem = document.getElementById('mm');
+    let ss_elem = document.getElementById('ss');
 
-                let s_dot_elem = document.querySelector('.second_dot');
-                let m_dot_elem = document.querySelector('.minute_dot');
-                let h_dot_elem = document.querySelector('.hour_dot');
-                var current_time = new Date();
+    let s_dot_elem = document.querySelector('.second_dot');
+    let m_dot_elem = document.querySelector('.minute_dot');
+    let h_dot_elem = document.querySelector('.hour_dot');
 
-                let curr_hour = getTime().hour;
-                let curr_min = getTime().minute;
-                let curr_sec = getTime().second;
+    let sc_needle_elem = document.getElementById('sc');
+    let mn_needle_elem = document.getElementById('mn');
+    let hr_needle_elem = document.getElementById('hr');
 
-            //处理闹钟事件
-            if (curr_hour == customAlarmHour && curr_min == customAlarmMin && curr_sec == customAlarmSec) {
-                // 发出闹钟提示声音并且弹出弹窗
-                playsound();
-                alert("闹钟时间到！");
+    if (!lastTimestamp) lastTimestamp = timestamp;
+    let elapsed = timestamp - lastTimestamp;
+    lastTimestamp = timestamp;
+
+    if (customedTime) {
+        customMillisecond += elapsed;
+        if (customMillisecond >= 1000) {
+            customMillisecond -= 1000;
+            customSecond++;
+            if (customSecond >= 60) {
+                customSecond = 0;
+                customMinute++;
+                if (customMinute >= 60) {
+                    customMinute = 0;
+                    customHour = (customHour + 1) % 24;
+                }
             }
-            
-                let sc_needle_elem = document.getElementById('sc');
-                let mn_needle_elem = document.getElementById('mn');
-                let hr_needle_elem = document.getElementById('hr');
+        }
+        updateTime(customHour, customMinute, customSecond, false);
+    } else {
+        var current_time = new Date();
+        customHour = current_time.getHours();
+        customMinute = current_time.getMinutes();
+        customSecond = current_time.getSeconds();
+        customMillisecond = current_time.getMilliseconds();
+        updateTime(customHour, customMinute, customSecond, false);
+    }
 
+    // 计算当前时间的小数部分
+    let precise_sec = customSecond + customMillisecond / 1000;
+    let precise_min = customMinute + precise_sec / 60;
+    let precise_hour = customHour + precise_min / 60;
 
-                hh_elem.style.strokeDashoffset = 510 * (1 - curr_hour / 12);
-                mm_elem.style.strokeDashoffset = 630 * (1 - curr_min / 60);
-                ss_elem.style.strokeDashoffset = 760 * (1 - curr_sec / 60);
+    // 更新秒针、分针和时针的平滑位置
+    hh_elem.style.strokeDashoffset = 510 * (1 - precise_hour / 12);
+    mm_elem.style.strokeDashoffset = 630 * (1 - precise_min / 60);
+    ss_elem.style.strokeDashoffset = 760 * (1 - precise_sec / 60);
 
-                h_dot_elem.style.transform = `rotateZ(${curr_hour*30}deg)`;
-                m_dot_elem.style.transform = `rotateZ(${curr_min*6}deg)`;
-                s_dot_elem.style.transform = `rotateZ(${curr_sec*6}deg)`;
+    h_dot_elem.style.transform = `rotateZ(${precise_hour * 30}deg)`;
+    m_dot_elem.style.transform = `rotateZ(${precise_min * 6}deg)`;
+    s_dot_elem.style.transform = `rotateZ(${precise_sec * 6}deg)`;
 
-                hr_needle_elem.style.transform = `rotateZ(${curr_hour*30}deg)`;
-                mn_needle_elem.style.transform = `rotateZ(${curr_min*6}deg)`;
-                sc_needle_elem.style.transform = `rotateZ(${curr_sec*6}deg)`;
+    hr_needle_elem.style.transform = `rotateZ(${precise_hour * 30}deg)`;
+    mn_needle_elem.style.transform = `rotateZ(${precise_min * 6}deg)`;
+    sc_needle_elem.style.transform = `rotateZ(${precise_sec * 6}deg)`;
 
+    requestAnimationFrame(updateClock);
+}
 
-},1000)
-        
-// 存储用户自定义的时间
-var customHour, customMinute, customSecond;
-var customAlarmHour, customAlarmMin, customAlarmSec;
-var customedTime = false;
+// 初始化时钟更新
+requestAnimationFrame(updateClock);
 
 // 填充时间，确保时间总是以两位数显示
 function fillTime(x) {
@@ -51,7 +76,7 @@ function fillTime(x) {
 }
 
 // 更新时间显示的函数
-function updateTime(hour, minute, second,to_animate) {
+function updateTime(hour, minute, second, to_animate) {
     var timeStr = fillTime(hour) + ":" + fillTime(minute) + ":" + fillTime(second);
     var time_list = document.querySelectorAll('text');
     time_list.forEach((item, i) => {
@@ -60,49 +85,52 @@ function updateTime(hour, minute, second,to_animate) {
 }
 
 // 为设置时间按钮添加事件监听器
-document.getElementById('setTime').addEventListener('click', function() {
+document.getElementById('setTime').addEventListener('click', function () {
     // 读取用户输入的时间并存储
     customHour = parseInt(document.getElementById('customHours').value);
     customMinute = parseInt(document.getElementById('customMinutes').value);
     customSecond = parseInt(document.getElementById('customSeconds').value);
+    customMillisecond = 0;
 
     // 调用updateTime函数，使用用户输入的时间
-    updateTime(customHour, customMinute, customSecond,true);
-    // TODO:这个时间添加数字渐变效果,.time-animation已经在css中实现
-
-
+    updateTime(customHour, customMinute, customSecond, true);
     customedTime = true;
-    // 开始自定义时间的计时
-    startCustomTimer();
 });
 
-// 开始自定义时间的计时
-function startCustomTimer() {
-    clearInterval(intervalId); // 清除现有的定时器
-    intervalId = setInterval(function() {
-        // 递增秒数
-        customSecond++;
-        if (customSecond >= 60) {
-            customSecond = 0;
-            customMinute++;
-            if (customMinute >= 60) {
-                customMinute = 0;
-                customHour = (customHour + 1) % 12; // 24小时制，循环
-            }
-        }
-        // 更新时间显示
-        updateTime(customHour, customMinute, customSecond,false);
-    }, 1000);
+// 为设置闹钟按钮添加事件监听器
+document.getElementById('setAlarm').addEventListener('click', function () {
+    // 读取用户输入的时间并存储
+    customAlarmHour = parseInt(document.getElementById('customHours').value);
+    customAlarmMin = parseInt(document.getElementById('customMinutes').value);
+    customAlarmSec = parseInt(document.getElementById('customSeconds').value);
+});
+
+// 播放闹钟音频函数
+function playsound() {
+    var alarmSound = new Audio("../clock_sound.mp3");
+    alarmSound.play().catch(function (error) {
+        console.error('无法播放音频:', error);
+    });
 }
 
-// 定义一个全局变量来存储定时器的ID
-var intervalId;
+// 为设置计时按钮添加事件监听器
+document.getElementById('setWatch').addEventListener('click', function () {
+    // 清空时间从0开始计时
+    customedTime = true;
+    customHour = 0;
+    customMinute = 0;
+    customSecond = 0;
+    customMillisecond = 0;
 
-// 初始设置定时器，使用当前时间
-intervalId = setInterval(() => {
-    var currentTime = getTime();
-    updateTime(currentTime.hour, currentTime.minute, currentTime.second,false);
-}, 1000);
+    updateTime(customHour, customMinute, customSecond, true);
+});
+
+// 为停止计时按钮添加事件监听器
+document.getElementById('setStop').addEventListener('click', function () {
+    // 清空时间从0开始计时
+    alert("一共计时了" + getTime().hour + "小时" + getTime().minute + "分钟" + getTime().second + "秒");
+    customedTime = false;
+});
 
 // 获取当前时间，如果用户自定义了时间，则使用自定义的时间
 function getTime() {
@@ -111,48 +139,9 @@ function getTime() {
         return {
             hour: now_time.getHours(),
             minute: now_time.getMinutes(),
-            second: now_time.getSeconds()
+            second: now_time.getSeconds(),
+            millisecond: now_time.getMilliseconds()
         };
     }
-    return { hour: customHour, minute: customMinute, second: customSecond }; // 返回用户自定义的时间
+    return { hour: customHour, minute: customMinute, second: customSecond, millisecond: customMillisecond }; // 返回用户自定义的时间
 }
-
-//添加闹钟的事件监听器
-
-// 为设置闹钟按钮添加事件监听器
-document.getElementById('setAlarm').addEventListener('click', function() {
-    // 读取用户输入的时间并存储
-    customAlarmHour = parseInt(document.getElementById('customHours').value);
-    customAlarmMin = parseInt(document.getElementById('customMinutes').value);
-    customAlarmSec = parseInt(document.getElementById('customSeconds').value);
-
-});
-
-// 播放闹钟音频函数
-function playsound() {
-    var alarmSound = new Audio("../clock_sound.mp3");
-    alarmSound.play().catch(function(error) {
-        console.error('无法播放音频:', error);
-    });
-}
-
-
-// 为设置计时按钮添加事件监听器
-document.getElementById('setWatch').addEventListener('click', function() {
-    // 清空时间从0开始计时
-    customedTime = true;
-    customHour = 0;
-    customMinute = 0;
-    customSecond = 0;
-
-    updateTime(customHour, customMinute, customSecond, true);
-    //启用自定义的计时器
-    startCustomTimer();
-});
-
-// 为设置计时按钮添加事件监听器
-document.getElementById('setStop').addEventListener('click', function() {
-    // 清空时间从0开始计时
-    alert("一共计时了" + getTime().hour + "小时" + getTime().minute + "分钟" + getTime().second + "秒");
-    customedTime = false;
-});
