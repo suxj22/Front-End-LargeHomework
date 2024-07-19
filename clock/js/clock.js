@@ -220,3 +220,105 @@ document.getElementById('stopTimer').addEventListener('click', function () {
     startTimer();
 });
 
+function $(selector){
+    return document.querySelectorAll(selector);
+}
+
+var li = $(".usercm ul li");
+var menu = $(".usercm")[0];
+
+//右键菜单单击
+document.oncontextmenu = function(event){
+    var ev = event || window.event;
+    var mX = event.clientX;
+    var mY = event.clientY;
+    menu.style.display = "block";
+    menu.style.left = mX + "px";
+    menu.style.top = mY + "px";
+    return false;   //取消window自带的菜单弹出来
+}
+
+//点击页面菜单消失
+document.onclick = function(){
+    menu.style.display = "none";
+}
+
+//阻止点击li冒泡
+for(var i = 0, len = li.length; i < len; i++ ){
+    li.item(i).onclick = function(event){
+        var ev = event || window.event;
+        console.log(this.innerText);
+        if(ev.stopPropagation()){
+            ev.stopPropagation();
+        }else{
+            ev.cancelBubble = false;
+        }
+    }
+}
+
+//目前以下的响应全部和点击按钮相同
+//TODO：优化响应并增加快捷键
+document.getElementById('setWatchHook').addEventListener('click', function() {
+    // 清空时间从0开始计时
+    customedTime = true;
+    customHour = 0;
+    customMinute = 0;
+    customSecond = 0;
+    updateTime(customHour, customMinute, customSecond, true);
+    //启用自定义的计时器
+    startCustomTimer();
+});
+
+document.getElementById('setStopHook').addEventListener('click', function() {
+    // 清空时间从0开始计时
+    alert("一共计时了" + getTime().hour + "小时" + getTime().minute + "分钟" + getTime().second + "秒");
+    customedTime = false;
+});
+
+// 为设置闹钟按钮添加事件监听器
+document.getElementById('setAlarmHook').addEventListener('click', function() {
+    // 读取用户输入的时间并存储
+    customAlarmHour = parseInt(document.getElementById('customHours').value);
+    customAlarmMin = parseInt(document.getElementById('customMinutes').value);
+    customAlarmSec = parseInt(document.getElementById('customSeconds').value);
+
+});
+
+document.getElementById('setTimeHook').addEventListener('click', function() {
+    // 读取用户输入的时间并存储
+    customHour = parseInt(document.getElementById('customHours').value);
+    customMinute = parseInt(document.getElementById('customMinutes').value);
+    customSecond = parseInt(document.getElementById('customSeconds').value);
+
+    // 调用updateTime函数，使用用户输入的时间
+    updateTime(customHour, customMinute, customSecond,true);
+    // TODO:这个时间添加数字渐变效果,.time-animation已经在css中实现
+    customedTime = true;
+    // 开始自定义时间的计时
+    startCustomTimer();
+});
+
+// 为回到系统时间按钮添加事件监听器
+document.getElementById('setSystemTimeHook').addEventListener('click', function () {
+    customedTime = false;
+});
+
+// 为设置计时器按钮添加事件监听器
+document.getElementById('setTimerHook').addEventListener('click', function () {
+    // 读取用户输入的时间并存储
+    timerHour = parseInt(document.getElementById('timerHours').value);
+    timerMinute = parseInt(document.getElementById('timerMinutes').value);
+    timerSecond = parseInt(document.getElementById('timerSeconds').value);
+    timerMillisecond = 0;
+
+    // 调用updateTime函数，使用用户输入的时间
+    updateTime(timerHour, timerMinute, timerSecond, true);
+    timerRunning = true;
+    startTimer();
+});
+
+// 获取停止计时按钮并添加事件监听器
+document.getElementById('stopTimerHook').addEventListener('click', function () {
+    timerRunning = false;
+    startTimer();
+});
