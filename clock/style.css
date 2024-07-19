@@ -382,3 +382,10 @@ body{
 #time-countdown button:hover {
     background-color: #45a049;
 }
+
+/*右键上下文菜单*/
+.usercm{background-repeat:no-repeat;background-position:center center;background-size:cover;background-color:#fff;font-size:13px!important;width:130px;-moz-box-shadow:1px 1px 3px #b5b5b5;box-shadow:0px 0px 15px #b5b5b5;position:absolute;display:none;z-index:10000;opacity:0.9; border-radius: 8px;overflow:hidden;}
+.usercm ul{list-style-type:none;list-style-position:outside;margin:0px;padding:0px;display:block}
+.usercm ul li{margin:0px;padding:0px;line-height:35px;text-align:center}
+.usercm ul li:hover{background:#ccc;cursor:default;user-select: none;}
+div.usercm{background:#fff !important;}
