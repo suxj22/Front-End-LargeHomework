@@ -151,9 +151,12 @@ document.getElementById('reTime').addEventListener('click', function () {
 // 为设置闹钟按钮添加事件监听器
 document.getElementById('setAlarm').addEventListener('click', function () {
     // 读取用户输入的时间并存储
-    customAlarmHour = parseInt(document.getElementById('customHours').value);
-    customAlarmMin = parseInt(document.getElementById('customMinutes').value);
-    customAlarmSec = parseInt(document.getElementById('customSeconds').value);
+    customAlarmHour = parseInt(document.getElementById('alarmHours').value);
+    customAlarmMin = parseInt(document.getElementById('alarmMinutes').value);
+    customAlarmSec = parseInt(document.getElementById('alarmSeconds').value);
+
+    // 提示用户可见的闹钟设置成功弹窗
+    alert("闹钟设置成功，时间" + fillTime(customAlarmHour) + ":" + fillTime(customAlarmMin) + ":" + fillTime(customAlarmSec));
 });
 
 // 播放闹钟音频函数
