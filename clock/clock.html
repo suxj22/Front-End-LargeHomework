@@ -6,6 +6,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 引入interact.js -->
+    <script src="https://unpkg.com/interactjs@latest/dist/interact.min.js"></script>
     <title>Clock</title>
     <link rel="stylesheet" href="./style.css">
 </head>
@@ -52,10 +54,12 @@
 
 
             <!--创建表盘指针-->
-            <div class="needles" style="--clr2: #ff4242; transform: rotateZ(162deg);" id="sc"><i></i></div>
-            <div class="needles needle2" style="--clr2: #5badff; transform: rotateZ(90deg);" id="mn"><i></i></div>
-            <div class="needles needle3" style="--clr2: #f06bff; transform: rotateZ(300deg);" id="hr"><i></i></div>
-
+            <div class="needles" style="--clr2: #ff4242; transform: rotateZ(162deg);" id="sc"><i draggable="true"></i></div>
+            <div class="needles needle2" style="--clr2: #5badff; transform: rotateZ(90deg);" id="mn"><i draggable="true"></i></div>
+            <div class="needles needle3" style="--clr2: #f06bff; transform: rotateZ(300deg);" id="hr"><i draggable="true"></i></div>
+            <div class="drag-handle" id="sc-handle"></div>
+            <div class="drag-handle" id="mn-handle"></div>
+            <div class="drag-handle" id="hr-handle"></div>
             <span style="--i:1;"><b>1</b></span>
             <span style="--i:2;"><b>2</b></span>
             <span style="--i:3;"><b>3</b></span>

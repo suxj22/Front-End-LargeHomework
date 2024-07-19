@@ -16,8 +16,10 @@ body{
 .clock{/*这是最外层的圆形容器*/
     position: relative;
     top: -80px;
+
     width: 280px;
     height: 280px;
+    z-index: 100;
     display: flex;
     justify-content: center;
     align-items: center;/*灵活布局加水平垂直居中可以实现居中效果*/
@@ -30,6 +32,8 @@ body{
     content: '';
     position: absolute;
     width: 5px;
+    top: calc(50% - 3px); /* 基于.clock的高度调整 */
+    left: calc(50% - 3px); /* 基于.clock的宽度调整 */
     height: 5px;
     background-color: black;
     z-index: 999;
@@ -124,45 +128,50 @@ body{
     0 0 80px var(--clr);
 }
 
-.needles{
+.needles {
     position: absolute;
-    width: 200px;
-    height: 200px;
+    width: 100px; /* 减小宽度 */
+    height: 100px; /* 减小高度 */
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    z-index: 10;
+    transform-origin: center center;
+    z-index: 97;
 }
 
-.needles i{
-    position: absolute;
+.needles i {
+    position: relative; /* 改为相对定位，以简化拖动逻辑 */
     width: 2px;
     background: var(--clr2);
-    height: 50%;
+    height: 50%; /* 调整高度比例，确保不超过容器的半径 */
     opacity: 0.75;
     border-radius: 6px;
-    transform-origin: bottom;
-    transform: scaleY(0.5);
+    transform-origin: bottom center; /* 确保旋转是从底部开始的 */
+    transition: transform 0.1s ease-in-out; /* 添加过渡效果 */
 }
 
-.needles.needle2{
-    width: 170px;
-    height: 170px;
-    z-index: 9;
+.needles.needle2 {
+    width: 80px; /* 减小宽度 */
+    height: 80px; /* 减小高度 */
+    transform-origin: center center;
+    z-index: 98;
 }
 
-.needles.needle2 i{
+.needles.needle2 i {
     width: 3px;
+    height: 50%; /* 分针可以稍微短一些 */
 }
 
-.needles.needle3{
-    width: 140px;
-    height: 140px;
-    z-index: 8;
+.needles.needle3 {
+    width: 60px; /* 减小宽度 */
+    height: 60px; /* 减小高度 */
+    transform-origin: center center;
+    z-index: 99;
 }
 
-.needles.needle3 i{
+.needles.needle3 i {
+    height: 50%; /* 时针可以更短一些 */
     width: 4px;
 }
 
@@ -263,4 +272,12 @@ body{
     /* 内边距为5像素上下，10像素左右 */
     cursor: pointer;
     /* 鼠标悬停时显示指针手势 */
+}
+
+.needles,
+.needle2,
+.needle3 {
+    cursor: pointer;
+    /* 设置旋转中心为时钟的中心点 */
+    transform-origin: center;
 }
