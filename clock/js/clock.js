@@ -81,6 +81,21 @@ function updateClock(timestamp) {
     let precise_min = (timerRunning ? timerMinute : customMinute) + precise_sec / 60;
     let precise_hour = (timerRunning ? timerHour : customHour) + precise_min / 60;
 
+    // 准备更新秒表的数字部分
+    // 更新 watchDisplay 显示
+    if (customedTime) {
+        let watchMinutes = Math.floor(precise_min);
+        let watchSeconds = Math.floor(precise_sec % 60);
+        let watchMilliseconds = Math.floor((precise_sec % 1) * 1000);
+    
+        // 格式化为字符串，确保分钟、秒、毫秒始终显示两位数
+        let displayText = `${watchMinutes.toString().padStart(2, '0')}:${watchSeconds.toString().padStart(2, '0')}:${watchMilliseconds.toString().padStart(3, '0')}`;
+    
+        // 将更新的文本显示在 watchDisplay 元素上
+        document.getElementById('watchDisplay').innerText = displayText;
+    }
+
+
     // 更新秒针、分针和时针的平滑位置
     hh_elem.style.strokeDashoffset = 510 * (1 - precise_hour / 12);
     mm_elem.style.strokeDashoffset = 630 * (1 - precise_min / 60);
@@ -93,6 +108,7 @@ function updateClock(timestamp) {
     hr_needle_elem.style.transform = `rotateZ(${precise_hour * 30}deg)`;
     mn_needle_elem.style.transform = `rotateZ(${precise_min * 6}deg)`;
     sc_needle_elem.style.transform = `rotateZ(${precise_sec * 6}deg)`;
+
 
     requestAnimationFrame(updateClock);
 }
@@ -127,6 +143,11 @@ document.getElementById('setTime').addEventListener('click', function () {
     customedTime = true;
 });
 
+// 为回到系统时间按钮添加事件监听器
+document.getElementById('reTime').addEventListener('click', function () {
+    customedTime = false;
+});
+
 // 为设置闹钟按钮添加事件监听器
 document.getElementById('setAlarm').addEventListener('click', function () {
     // 读取用户输入的时间并存储
@@ -143,8 +164,8 @@ function playsound() {
     });
 }
 
-// 为设置计时按钮添加事件监听器
-document.getElementById('setWatch').addEventListener('click', function () {
+// 为设置秒表按钮添加事件监听器
+document.getElementById('startWatch').addEventListener('click', function () {
     // 清空时间从0开始计时
     customedTime = true;
     customHour = 0;
@@ -155,8 +176,8 @@ document.getElementById('setWatch').addEventListener('click', function () {
     updateTime(customHour, customMinute, customSecond, true);
 });
 
-// 为停止计时按钮添加事件监听器
-document.getElementById('setStop').addEventListener('click', function () {
+// 为停止秒表按钮添加事件监听器
+document.getElementById('stopWatch').addEventListener('click', function () {
     // 清空时间从0开始计时
     alert("一共计时了" + getTime().hour + "小时" + getTime().minute + "分钟" + getTime().second + "秒");
     customedTime = false;
@@ -189,3 +210,10 @@ document.getElementById('setTimer').addEventListener('click', function () {
     timerRunning = true;
     startTimer();
 });
+
+// 获取停止计时按钮并添加事件监听器
+document.getElementById('stopTimer').addEventListener('click', function () {
+    timerRunning = false;
+    startTimer();
+});
+

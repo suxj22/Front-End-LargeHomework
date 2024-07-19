@@ -234,48 +234,151 @@ body{
     }
 }
 
-/* 将控件容器定位到屏幕的底部中心 */
+/* time-controls 放置在左上角 */
 #time-controls {
-    position: fixed;
-    /* 固定定位，相对于浏览器窗口 */
-    left: 50%;
-    /* 容器向左移动50%，然后向右移动自身宽度的50%，实现水平居中 */
-    transform: translateX(-50%);
-    bottom: 20px;
-    /* 控件距离屏幕底部20像素 */
-    color: white;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 200px;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-/* 为控件添加一些基本样式 */
+/* 块级排列内部元素 */
 #time-controls label,
 #time-controls input,
 #time-controls button {
-    display: inline;
-    margin: 10px auto;
-    /* 上下边距10px，自动左右边距使元素水平居中 */
-}
-
-/* 调整输入框和按钮的宽度 */
-#time-controls input,
-#time-controls button {
-    width: 100px;
-    /* 设置宽度为100像素 */
+    display: block;
+    margin: 10px 0;
+    width: 100%;
 }
 
 /* 按钮样式 */
 #time-controls button {
-    padding: 5px 10px;
-    /* 内边距为5像素上下，10像素左右 */
+    padding: 8px 0;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
     cursor: pointer;
-    /* 鼠标悬停时显示指针手势 */
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
 }
 
-#setWatch{
-    text-align: middle;
-    clear: both;
+#time-controls button:hover {
+    background-color: #45a049;
+    /* 悬停时的背景色 */
 }
 
-#setStop{
-    text-align: middle;
-    clear: both;
+
+
+
+/* time-clock 放置在左下角 */
+#time-clock {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 200px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 输入框和按钮样式 */
+#time-clock label,
+#time-clock input,
+#time-clock button {
+    display: block;
+    margin-bottom: 10px;
+    width: calc(100% - 20px);
+    /* 考虑内边距的影响 */
+}
+
+#time-clock button {
+    padding: 8px 0;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+#time-clock button:hover {
+    background-color: #45a049;
+}
+
+
+/* time-watch 放置在右上角 */
+#time-watch {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 200px;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 按钮和计时器显示样式 */
+#time-watch button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+#time-watch button:hover {
+    background-color: #45a049;
+}
+
+#watchDisplay {
+    text-align: center;
+    font-size: 24px;
+    color: white;
+}
+
+/* time-countdown 放置在右下角 */
+#time-countdown {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 200px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 输入框和按钮样式 */
+#time-countdown label,
+#time-countdown input,
+#time-countdown button {
+    display: block;
+    margin-bottom: 10px;
+    width: calc(100% - 20px);
+    /* 考虑内边距的影响 */
+}
+
+#time-countdown button {
+    padding: 8px 0;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+#time-countdown button:hover {
+    background-color: #45a049;
 }
