@@ -10,8 +10,13 @@ let lastTimestamp = null;
 let timerHour, timerMinute, timerSecond, timerMillisecond;
 let timerRunning = false;
 let timerIntervalId;
+let dragging = false;
 
 function updateClock(timestamp) {
+    if(dragging) {
+        return;
+    }
+
     let hh_elem = document.getElementById('hh');
     let mm_elem = document.getElementById('mm');
     let ss_elem = document.getElementById('ss');
@@ -99,7 +104,7 @@ function updateClock(timestamp) {
     }
 
 
-    // 更新秒针、分针和时针的平滑位置
+    // // 更新秒针、分针和时针的平滑位置
     hh_elem.style.strokeDashoffset = 510 * (1 - precise_hour / 12);
     mm_elem.style.strokeDashoffset = 630 * (1 - precise_min / 60);
     ss_elem.style.strokeDashoffset = 760 * (1 - precise_sec / 60);
@@ -249,6 +254,7 @@ function initNeedlePositions() {
 document.addEventListener("DOMContentLoaded", function () {
     const circles = document.querySelectorAll('.circle');
     const needles = document.querySelectorAll('.needles');
+    
 
     // 遍历每一个指针
     needles.forEach((needle, index) => {
@@ -259,33 +265,43 @@ document.addEventListener("DOMContentLoaded", function () {
         const centerY = parseFloat(window.getComputedStyle(circle).getPropertyValue('top')) + radius;
 
         let currentRotation = parseFloat(needle.style.transform.split('(')[1].split('deg')[0]);
+        let DragHour;
+        let DragMinute;
+        let DragSecond;
 
         interact(needle)
             .draggable({
                 // 拖动开始
                 onstart: function (event) {
                     event.preventDefault();
+                    dragging = true;
+                    var current_time = new Date();
+                    DragHour = current_time.getHours();
+                    DragMinute = current_time.getMinutes();
+                    DragSecond = current_time.getSeconds();
                 },
                 // 拖动中
                 onmove: function (event) {
-                    const x = event.pageX - (circle.getBoundingClientRect().left + window.scrollX);
-                    const y = event.pageY - (circle.getBoundingClientRect().top + window.scrollY);
+                    const x = event.pageX - (circle.getBoundingClientRect().left + radius);
+                    const y = event.pageY - (circle.getBoundingClientRect().top + radius);
                     const angle = calculateAngle(x, y, centerX, centerY);
                     needle.style.transform = `rotate(${angle}deg)`;
 
                     // 更新时间显示
-                    updateTimeFromNeedles(needle, angle);
+                    updateTimeFromNeedles(needle, angle, DragHour, DragMinute, DragSecond);
                 },
                 // 拖动结束
                 onend: function (event) {
-                    // 可以在这里更新数据或者执行其他动作
+                    // TODO 结束时先不恢复计时，而是出现一个按钮，等按下才恢复
+                    dragging = false;
+                    requestAnimationFrame(updateClock);
                 }
             });
     });
 
     // 计算角度
     function calculateAngle(x, y, centerX, centerY) {
-        let angle = Math.atan2(y - centerY, x - centerX) * (180 / Math.PI);
+        let angle = Math.atan2(y - centerY, x - centerX) * (180 / Math.PI) + 90;
         if (angle < 0) {
             angle += 360;
         }
@@ -293,7 +309,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // 更新时间显示
-    function updateTimeFromNeedles(needle, angle) {
+    function updateTimeFromNeedles(needle, angle, DragHour, DragMinute, DragSecond) {
         const id = needle.id;
         let timeValue;
 
@@ -314,20 +330,24 @@ document.addEventListener("DOMContentLoaded", function () {
         // 更新自定义时间输入框和电子显示屏
         switch (id) {
             case 'sc':
-                document.getElementById('customSeconds').value = timeValue.toString().padStart(2, '0');
+                // document.getElementById('customSeconds').value = timeValue.toString().padStart(2, '0');
+                DragSecond = timeValue
                 break;
             case 'mn':
-                document.getElementById('customMinutes').value = timeValue.toString().padStart(2, '0');
+                // document.getElementById('customMinutes').value = timeValue.toString().padStart(2, '0');
+                DragMinute = timeValue
                 break;
             case 'hr':
-                document.getElementById('customHours').value = timeValue.toString().padStart(2, '0');
+                // document.getElementById('customHours').value = timeValue.toString().padStart(2, '0');
+                DragHour = timeValue
                 break;
         }
 
         // 更新电子显示屏
-        updateTime(parseInt(document.getElementById('customHours').value),
-            parseInt(document.getElementById('customMinutes').value),
-            parseInt(document.getElementById('customSeconds').value), false);
+        // updateTime(parseInt(document.getElementById('customHours').value),
+        //     parseInt(document.getElementById('customMinutes').value),
+        //     parseInt(document.getElementById('customSeconds').value), false);
+        updateTime(DragHour, DragMinute, DragSecond, false)
         lastMinuteAngle = angle;
     }
 });
