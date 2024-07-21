@@ -474,3 +474,14 @@ document.getElementById('stopTimerHook').addEventListener('click', function () {
     timerRunning = false;
     startTimer();
 });
+
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+        // 移除所有Tab和内容的激活状态
+        document.querySelectorAll('.tab, .tab-content').forEach(el => el.classList.remove('active'));
+
+        // 激活当前Tab和对应的内容
+        tab.classList.add('active');
+        document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
+    });
+});
