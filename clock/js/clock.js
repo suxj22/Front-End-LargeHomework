@@ -12,6 +12,14 @@ let timerRunning = false;
 let timerIntervalId;
 let dragging = false;
 
+// 拖动变量
+let DragRememberHour = -1;
+let DragRememberMinute = -1;
+let DragRememberSecond = -1;
+let HourDragged = false;
+let MinuteDragged = false;
+let SecondDragged = false;
+
 function updateClock(timestamp) {
     if(dragging) {
         return;
@@ -155,6 +163,13 @@ document.getElementById('setTime').addEventListener('click', function () {
 // 为回到系统时间按钮添加事件监听器
 document.getElementById('reTime').addEventListener('click', function () {
     customedTime = false;
+    requestAnimationFrame(updateClock);
+    DragRememberHour = -1;
+    DragRememberMinute = -1;
+    DragRememberSecond = -1;
+    HourDragged = false;
+    MinuteDragged = false;
+    SecondDragged = false;
 });
 
 // 为设置闹钟按钮添加事件监听器
@@ -273,15 +288,34 @@ document.addEventListener("DOMContentLoaded", function () {
             .draggable({
                 // 拖动开始
                 onstart: function (event) {
+                    if(customedTime) return;
                     event.preventDefault();
                     dragging = true;
                     var current_time = new Date();
-                    DragHour = current_time.getHours();
-                    DragMinute = current_time.getMinutes();
-                    DragSecond = current_time.getSeconds();
+                    if(DragRememberHour != -1) {
+                        DragHour = DragRememberHour;
+                    }
+                    else {
+                        DragHour = current_time.getHours();
+                    }
+                    
+                    if(DragRememberMinute != -1) {
+                        DragMinute = DragRememberMinute;
+                    }
+                    else {
+                        DragMinute = current_time.getMinutes();
+                    } 
+                   
+                    if(DragRememberSecond != -1) [
+                        DragSecond = DragRememberSecond
+                    ]
+                    else {
+                        DragSecond = current_time.getSeconds();
+                    }
                 },
                 // 拖动中
                 onmove: function (event) {
+                    if(customedTime) return;
                     const x = event.pageX - (circle.getBoundingClientRect().left + radius);
                     const y = event.pageY - (circle.getBoundingClientRect().top + radius);
                     const angle = calculateAngle(x, y, centerX, centerY);
@@ -292,9 +326,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 // 拖动结束
                 onend: function (event) {
+                    if(customedTime) return;
                     // TODO 结束时先不恢复计时，而是出现一个按钮，等按下才恢复
                     dragging = false;
-                    requestAnimationFrame(updateClock);
+                    // requestAnimationFrame(updateClock);
                 }
             });
     });
@@ -331,15 +366,21 @@ document.addEventListener("DOMContentLoaded", function () {
         switch (id) {
             case 'sc':
                 // document.getElementById('customSeconds').value = timeValue.toString().padStart(2, '0');
-                DragSecond = timeValue
+                DragSecond = timeValue;
+                DragRememberSecond = timeValue;
+                SecondDragged = true;
                 break;
             case 'mn':
                 // document.getElementById('customMinutes').value = timeValue.toString().padStart(2, '0');
-                DragMinute = timeValue
+                DragMinute = timeValue;
+                DragRememberMinute = timeValue;
+                MinuteDragged = true;
                 break;
             case 'hr':
                 // document.getElementById('customHours').value = timeValue.toString().padStart(2, '0');
-                DragHour = timeValue
+                DragHour = timeValue;
+                DragRememberHour = timeValue;
+                HourDragged = true;
                 break;
         }
 
@@ -348,6 +389,15 @@ document.addEventListener("DOMContentLoaded", function () {
         //     parseInt(document.getElementById('customMinutes').value),
         //     parseInt(document.getElementById('customSeconds').value), false);
         updateTime(DragHour, DragMinute, DragSecond, false)
+        if(!HourDragged) {
+            DragRememberHour = DragHour;
+        }
+        if(!MinuteDragged) {
+            DragRememberMinute = DragMinute;
+        }
+        if(!SecondDragged) {
+            DragRememberSecond = DragSecond;
+        }
         lastMinuteAngle = angle;
     }
 });
