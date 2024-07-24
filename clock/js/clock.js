@@ -270,7 +270,7 @@ let timerDuration;
 // requestAnimationFrame(updateClock);
 // 填充时间，确保时间总是以两位数显示
 function fillTime(x) {
-    return x < 10 ? '0' + x : '' + x;
+	return x < 10 ? '0' + x : '' + x;
 }
 
 // 更新时间显示的函数
