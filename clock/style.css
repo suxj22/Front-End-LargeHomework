@@ -12,11 +12,44 @@ body{
     overflow: hidden;
     background: #2f363e;
 }
+.tabs {
+	position:absolute;
+	top:5px;
+	/* 调整Tabs的位置 */ left:50%;
+	transform:translateX(-50%);
+	display:inline-flex;
+	background-color:#6e9bdf;
+	border-radius:5px;
+	padding:5px;
+}
+.tabs div {
+	display:inline-block;
+	/* 使每个Tab按内容宽度排列 */ padding:10px 20px;
+	border-bottom:none;
+	background-color:#6e9bdf;
+	margin:0 5px;
+	cursor:pointer;
+	border-right:1px solid #000;
+	/* 添加右边框 */
+}
+.tabs div:last-child {
+	border-right:none;
+	/* 去掉最后一个Tab的右边框 */
+}
+.tabs div.active {
+	font-weight:bold;
+}
+.tab-content {
+	padding:20px;
+	display:none;
+}
+.tab-content.active {
+	display:block;
+}
 
 .clock{/*这是最外层的圆形容器*/
     position: relative;
-    top: -80px;
-
+    top: -40px;
     width: 280px;
     height: 280px;
     z-index: 100;
@@ -202,7 +235,7 @@ body{
     position: absolute;
     width: 50%;
     height: 50%;
-    top: 87%;
+    top: 95%;
     /* 将屏幕定位到视窗的中间 */
     left: 50%;
     /* 并将它向左和向右移动50%，实现水平居中 */
