@@ -145,6 +145,9 @@ function updateClock(timestamp) {
                     }
                 }
             }
+            DragRememberHour = customHour;
+            DragRememberMinute = customMinute;
+            DragRememberSecond = customSecond;
         }
         else if (customedTime) {
             //由于时间在之前已经推移，这个地方仅仅需要更新显示即可
