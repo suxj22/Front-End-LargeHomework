@@ -22,6 +22,8 @@ let DragRememberSecond = -1;
 let HourDragged = false;
 let MinuteDragged = false;
 let SecondDragged = false;
+let afterDragging = false;
+let afterDraggingInit = true;
 
 
 let alarmTriggered = false;
@@ -123,10 +125,29 @@ function updateClock(timestamp) {
         }
         updateTime(watchHour, watchMinute, watchSecond, false);
     } else {
-        if (customedTime) {
-
+        if(afterDragging && afterDraggingInit) {
+            customHour = DragRememberHour;
+            customMinute = DragRememberMinute;
+            customSecond = DragRememberSecond;
+            afterDraggingInit = false;
+        }
+        else if(afterDragging) {
+            customMillisecond += elapsed;
+            if (customMillisecond >= 1000) {
+                customMillisecond -= 1000;
+                customSecond++;
+                if (customSecond >= 60) {
+                    customSecond = 0;
+                    customMinute++;
+                    if (customMinute >= 60) {
+                        customMinute = 0;
+                        customHour = (customHour + 1) % 24;
+                    }
+                }
+            }
+        }
+        else if (customedTime) {
             //由于时间在之前已经推移，这个地方仅仅需要更新显示即可
-            updateTime(customHour, customMinute, customSecond, false);
         }
         else {
             // 系统默认时间处理方式
@@ -135,8 +156,8 @@ function updateClock(timestamp) {
             customMinute = current_time.getMinutes();
             customSecond = current_time.getSeconds();
             customMillisecond = current_time.getMilliseconds();
-            updateTime(customHour, customMinute, customSecond, false);
         }
+        updateTime(customHour, customMinute, customSecond, false);
     }
 
     // 计算当前时间的小数部分
@@ -243,6 +264,8 @@ document.getElementById('setTime').addEventListener('click', function () {
 // 为回到系统时间按钮添加事件监听器
 document.getElementById('reTime').addEventListener('click', function () {
     customedTime = false;
+    afterDragging = false;
+    afterDraggingInit = true;
     requestAnimationFrame(updateClock);
     DragRememberHour = -1;
     DragRememberMinute = -1;
@@ -373,7 +396,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .draggable({
                 // 拖动开始
                 onstart: function (event) {
-                    if (customedTime) return;
+                    if(customedTime || timerRunning || watchRunning) return;
                     event.preventDefault();
                     dragging = true;
                     var current_time = new Date();
@@ -397,7 +420,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 // 拖动中
                 onmove: function (event) {
-                    if (customedTime) return;
+                    if(customedTime || timerRunning || watchRunning) return;
                     const x = event.pageX - (circle.getBoundingClientRect().left + radius);
                     const y = event.pageY - (circle.getBoundingClientRect().top + radius);
                     const angle = calculateAngle(x, y, centerX, centerY);
@@ -408,10 +431,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 // 拖动结束
                 onend: function (event) {
-                    if (customedTime) return;
+                    if(customedTime || timerRunning || watchRunning) return;
                     // TODO 结束时先不恢复计时，而是出现一个按钮，等按下才恢复
                     dragging = false;
-                    // requestAnimationFrame(updateClock);
+                    afterDragging = true;
+                    afterDraggingInit = true;
+                    requestAnimationFrame(updateClock);
                 }
             });
     });
