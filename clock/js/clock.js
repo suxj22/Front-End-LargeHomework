@@ -611,66 +611,83 @@ function $(selector) {
 let li = $(".usercm ul li");
 let menu = $(".usercm")[0];
 
-//右键菜单单击
-document.oncontextmenu = function (event) {
+function showContextMenu(event) {
     var ev = event || window.event;
     var mX = event.clientX;
     var mY = event.clientY;
-    menu.style.display = "block";
     menu.style.left = mX + "px";
     menu.style.top = mY + "px";
-    return false; //取消window自带的菜单弹出来
+    menu.style.display = "block"; // 确保菜单显示
+    setTimeout(function() {
+        menu.classList.remove('hide');
+        menu.classList.add('show');
+    }, 10); // 延迟添加动画类以确保 display 属性已生效
+    return false; // 取消window自带的菜单弹出来
 }
 
-//点击页面菜单消失
-document.onclick = function () {
-    menu.style.display = "none";
+// 隐藏右键菜单
+function hideContextMenu() {
+    menu.classList.remove('show');
+    menu.classList.add('hide');
+    setTimeout(function() {
+        menu.style.display = "none"; // 确保菜单完全隐藏
+    }, 300); // 等待动画完成后隐藏
 }
 
-//阻止点击li冒泡
+// 显示右键菜单
+document.oncontextmenu = showContextMenu;
+
+// 隐藏右键菜单
+document.onclick = hideContextMenu;
+
+// 阻止点击li冒泡
 for (var i = 0, len = li.length; i < len; i++) {
     li.item(i).onclick = function (event) {
         var ev = event || window.event;
         console.log(this.innerText);
-        if (ev.stopPropagation()) {
+        if (ev.stopPropagation) {
             ev.stopPropagation();
         } else {
             ev.cancelBubble = false;
         }
+        // 添加点击选项后的淡出效果
+        menu.classList.remove('show');
+        menu.classList.add('hide');
+        setTimeout(function() {
+            menu.style.display = "none";
+        }, 300); // 等待动画完成后隐藏
     }
 }
 
-//目前以下的响应全部和点击按钮相同
-//TODO：优化响应并增加快捷键
+// 目前以下的响应全部和点击按钮相同
+// TODO：优化响应并增加快捷键
 document.getElementById('setWatchHook').addEventListener('click', function () {
     if (timerRunning) {
-        alert("正在使用计时器，请先关闭计时器！")
+        alert("正在使用计时器，请先关闭计时器！");
+        return;
     }
-    if (!timerRunning) {
-        watchHour = 0;
-        watchMinute = 0;
-        watchSecond = 0;
-        watchMillisecond = 0;
+    watchHour = 0;
+    watchMinute = 0;
+    watchSecond = 0;
+    watchMillisecond = 0;
 
-        updateTime(watchHour, watchMinute, watchSecond, true);
-        watchRunning = true;
-    }
-    menu.style.display = "none";
+    updateTime(watchHour, watchMinute, watchSecond, true);
+    watchRunning = true;
+    hideContextMenu(); // 点击后淡出菜单
 });
 
 document.getElementById('stopWatchHook').addEventListener('click', function () {
     if (timerRunning) {
-        alert("正在使用计时器，请先关闭计时器！")
+        alert("正在使用计时器，请先关闭计时器！");
+        return;
     }
-    else {
     alert("一共计时了" + watchHour + "小时" + watchMinute + "分钟" + watchSecond + "秒");
     watchHour = 0;
     watchMinute = 0;
     watchSecond = 0;
     watchMillisecond = 0;
     watchRunning = false;
-        }
-    menu.style.display = "none";
+    hideContextMenu(); // 点击后淡出菜单
 });
 
 // 为设置闹钟按钮添加事件监听器
@@ -679,7 +696,7 @@ document.getElementById('setAlarmHook').addEventListener('click', function () {
     customAlarmHour = parseInt(document.getElementById('customHours').value);
     customAlarmMin = parseInt(document.getElementById('customMinutes').value);
     customAlarmSec = parseInt(document.getElementById('customSeconds').value);
-    menu.style.display = "none";
+    hideContextMenu(); // 点击后淡出菜单
 });
 
 document.getElementById('setTimeHook').addEventListener('click', function () {
@@ -693,7 +710,7 @@ document.getElementById('setTimeHook').addEventListener('click', function () {
     updateTime(customHour, customMinute, customSecond, true);
 
     customedTime = true;
-    menu.style.display = "none";
+    hideContextMenu(); // 点击后淡出菜单
 });
 
 // 为回到系统时间按钮添加事件监听器
@@ -707,35 +724,33 @@ document.getElementById('setSystemTimeHook').addEventListener('click', function 
     HourDragged = false;
     MinuteDragged = false;
     SecondDragged = false;
-    menu.style.display = "none";
+    hideContextMenu(); // 点击后淡出菜单
 });
 
 // 为设置计时器按钮添加事件监听器
 document.getElementById('setTimerHook').addEventListener('click', function () {
     if (watchRunning) {
-        alert("正在使用秒表，请先停止秒表！")
+        alert("正在使用秒表，请先停止秒表！");
+        return;
     }
-    if (!watchRunning) {
-        // 读取用户输入的时间并存储
-        timerHour = parseInt(document.getElementById('timerHours').value);
-        timerMinute = parseInt(document.getElementById('timerMinutes').value);
-        timerSecond = parseInt(document.getElementById('timerSeconds').value);
-        timerMillisecond = 0;
+    // 读取用户输入的时间并存储
+    timerHour = parseInt(document.getElementById('timerHours').value);
+    timerMinute = parseInt(document.getElementById('timerMinutes').value);
+    timerSecond = parseInt(document.getElementById('timerSeconds').value);
+    timerMillisecond = 0;
 
-        // 调用updateTime函数，使用用户输入的时间
-        updateTime(timerHour, timerMinute, timerSecond, true);
-        timerRunning = true;
-    }
-    menu.style.display = "none";
+    // 调用updateTime函数，使用用户输入的时间
+    updateTime(timerHour, timerMinute, timerSecond, true);
+    timerRunning = true;
+    hideContextMenu(); // 点击后淡出菜单
 });
 
 // 获取停止计时按钮并添加事件监听器
 document.getElementById('stopTimerHook').addEventListener('click', function () {
     if (watchRunning) {
-        alert("正在使用秒表，请先停止秒表！")
+        alert("正在使用秒表，请先停止秒表！");
+        return;
     }
-    if (!watchRunning) {
-        timerRunning = false;
-    }
-    menu.style.display = "none";
+    timerRunning = false;
+    hideContextMenu(); // 点击后淡出菜单
 });

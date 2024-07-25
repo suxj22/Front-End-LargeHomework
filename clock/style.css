@@ -423,9 +423,63 @@ body{
     background-color: #194f8d;
 }
 
-/*右键上下文菜单*/
-.usercm{background-repeat:no-repeat;background-position:center center;background-size:cover;background-color:#fff;font-size:13px!important;width:130px;-moz-box-shadow:1px 1px 3px #b5b5b5;box-shadow:0px 0px 15px #b5b5b5;position:absolute;display:none;z-index:10000;opacity:0.9; border-radius: 8px;overflow:hidden;}
-.usercm ul{list-style-type:none;list-style-position:outside;margin:0px;padding:0px;display:block}
-.usercm ul li{margin:0px;padding:0px;line-height:35px;text-align:center}
-.usercm ul li:hover{background:#ccc;cursor:default;user-select: none;}
-div.usercm{background:#fff !important;}
+/* 右键上下文菜单 */
+.usercm {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-color: #fff;
+    font-size: 13px !important;
+    width: 130px;
+    -moz-box-shadow: 1px 1px 3px #b5b5b5;
+    box-shadow: 0px 0px 15px #b5b5b5;
+    position: absolute;
+    display: none;
+    z-index: 10000;
+    opacity: 0.9;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, opacity 0.3s ease; /* 添加过渡效果 */
+    transform: scale(0); /* 初始状态缩放为0 */
+    opacity: 0; /* 初始状态透明 */
+}
+
+.usercm ul {
+    list-style-type: none;
+    list-style-position: outside;
+    margin: 0px;
+    padding: 0px;
+    display: block;
+}
+
+.usercm ul li {
+    margin: 0px;
+    padding: 0px;
+    line-height: 35px;
+    text-align: center;
+}
+
+.usercm ul li:hover {
+    background: #ccc;
+    cursor: default;
+    user-select: none;
+}
+
+div.usercm {
+    background: #fff !important;
+}
+
+/* 显示右键菜单时的动画效果 */
+.usercm.show {
+    display: block; /* 确保菜单显示 */
+    transform: scale(1); /* 显示时缩放为1 */
+    opacity: 1; /* 显示时不透明 */
+}
+
+/* 隐藏右键菜单时的动画效果 */
+.usercm.hide {
+    transform: scale(0); /* 隐藏时缩放为0 */
+    opacity: 0; /* 隐藏时透明 */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* 添加过渡效果 */
+}
+
