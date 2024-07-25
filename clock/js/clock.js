@@ -25,6 +25,12 @@ let SecondDragged = false;
 let afterDragging = false;
 let afterDraggingInit = true;
 
+let ready_0 = false;
+let ready_11 = false;
+let ready_12 = false;
+let ready_23 = false;
+let downhalf = false;
+let uphalf = false;
 
 let alarmTriggered = false;
 
@@ -131,7 +137,7 @@ function updateClock(timestamp) {
             customSecond = DragRememberSecond;
             afterDraggingInit = false;
         }
-        else if(afterDragging) {
+        else if(afterDragging) {            
             customMillisecond += elapsed;
             if (customMillisecond >= 1000) {
                 customMillisecond -= 1000;
@@ -156,6 +162,14 @@ function updateClock(timestamp) {
             // 系统默认时间处理方式
             var current_time = new Date();
             customHour = current_time.getHours();
+            if(customHour >= 12) {
+                downhalf = true;
+                uphalf = false;
+            }
+            else {
+                downhalf = false;
+                uphalf = true;
+            }
             customMinute = current_time.getMinutes();
             customSecond = current_time.getSeconds();
             customMillisecond = current_time.getMilliseconds();
@@ -378,6 +392,7 @@ function initNeedlePositions() {
     hr_needle_elem.style.transform = `rotate(${curr_hour * 30 + curr_min / 2}deg)`;
 }
 
+// 拖动
 document.addEventListener("DOMContentLoaded", function () {
     const circles = document.querySelectorAll('.circle');
     const needles = document.querySelectorAll('.needles');
@@ -468,6 +483,54 @@ document.addEventListener("DOMContentLoaded", function () {
                 break;
             case 'hr': // 时针
                 timeValue = Math.floor(angle / 30) % 12;
+                if(downhalf) {
+                    timeValue += 12;
+                }
+
+                if(timeValue == 0) {
+                    ready_0 = true;
+                }
+                else if(timeValue == 11) {
+                    ready_11 = true;
+                }
+                else if(timeValue == 12) {
+                    ready_12 = true;
+                }
+                else if(timeValue == 23) {
+                    ready_23 = true;
+                }
+                
+                if(ready_0 && timeValue == 11) {
+                    downhalf = true;
+                    uphalf = false;
+                    timeValue = 23;
+                    ready_0 = false;
+                }
+                else if(ready_11 && timeValue == 0) {
+                    downhalf = true;
+                    uphalf = false;
+                    timeValue = 12;
+                    ready_11 = false;
+                }
+                else if(ready_12 && timeValue == 23) {
+                    downhalf = false;
+                    uphalf = true;
+                    timeValue = 11;
+                    ready_12 = false;
+                }
+                else if(ready_23 && timeValue == 12) {
+                    downhalf = false;
+                    uphalf = true;
+                    timeValue = 0;
+                    ready_23 = false;
+                }
+                else if(timeValue == 1 || timeValue == 10 || timeValue == 13 || timeValue == 22) {
+                    ready_0 = false;
+                    ready_11 = false;
+                    ready_12 = false;
+                    ready_23 = false;
+                }
+
                 break;
         }
 
