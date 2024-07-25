@@ -12,11 +12,44 @@ body{
     overflow: hidden;
     background: #2f363e;
 }
+.tabs {
+	position:absolute;
+	top:5px;
+	/* 调整Tabs的位置 */ left:50%;
+	transform:translateX(-50%);
+	display:inline-flex;
+	background-color:#6e9bdf;
+	border-radius:5px;
+	padding:5px;
+}
+.tabs div {
+	display:inline-block;
+	/* 使每个Tab按内容宽度排列 */ padding:10px 20px;
+	border-bottom:none;
+	background-color:#6e9bdf;
+	margin:0 5px;
+	cursor:pointer;
+	border-right:1px solid #000;
+	/* 添加右边框 */
+}
+.tabs div:last-child {
+	border-right:none;
+	/* 去掉最后一个Tab的右边框 */
+}
+.tabs div.active {
+	font-weight:bold;
+}
+.tab-content {
+	padding:20px;
+	display:none;
+}
+.tab-content.active {
+	display:block;
+}
 
 .clock{/*这是最外层的圆形容器*/
     position: relative;
-    top: -80px;
-
+    top: -40px;
     width: 280px;
     height: 280px;
     z-index: 100;
@@ -202,7 +235,7 @@ body{
     position: absolute;
     width: 50%;
     height: 50%;
-    top: 87%;
+    top: 95%;
     /* 将屏幕定位到视窗的中间 */
     left: 50%;
     /* 并将它向左和向右移动50%，实现水平居中 */
@@ -252,22 +285,40 @@ body{
     background-color: #333;
     padding: 10px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(72, 0, 207, 0.3);
+    color: rgb(171, 213, 255);
+}
+.control-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.control-group label {
+    width: 80px; /* 固定标签宽度 */
+    color:  rgb(171, 213, 255);
+}
+.control-group input {
+    flex: 1;
+    color: rgb(46, 66, 86);
 }
 
 /* 块级排列内部元素 */
-#time-controls label,
-#time-controls input,
+/* #time-controls label,
+#time-controls input, */
 #time-controls button {
     display: block;
     margin: 10px 0;
     width: 100%;
 }
+/* 输入框内字体颜色 */
+#time-controls input {
+    color: rgb(80, 102, 124);
+}
 
 /* 按钮样式 */
 #time-controls button {
     padding: 8px 0;
-    background-color: #4CAF50;
+    background-color: #354a62;
     border: none;
     color: white;
     cursor: pointer;
@@ -276,12 +327,9 @@ body{
 }
 
 #time-controls button:hover {
-    background-color: #45a049;
+    background-color: #194f8d;
     /* 悬停时的背景色 */
 }
-
-
-
 
 /* time-clock 放置在左下角 */
 #time-clock {
@@ -289,15 +337,16 @@ body{
     bottom: 20px;
     left: 20px;
     width: 200px;
-    background-color: #f0f0f0;
+    background-color: #333;
     padding: 10px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(72, 0, 207, 0.3);
+    color: rgb(171, 213, 255);
 }
 
 /* 输入框和按钮样式 */
-#time-clock label,
-#time-clock input,
+/* #time-clock label,
+#time-clock input, */
 #time-clock button {
     display: block;
     margin-bottom: 10px;
@@ -306,8 +355,11 @@ body{
 }
 
 #time-clock button {
-    padding: 8px 0;
-    background-color: #4CAF50;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #354a62;
     border: none;
     color: white;
     cursor: pointer;
@@ -326,7 +378,7 @@ body{
 
 
 #time-clock button:hover {
-    background-color: #45a049;
+    background-color:  #194f8d;
 }
 
 
@@ -339,7 +391,7 @@ body{
     background-color: #333;
     padding: 10px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(72, 0, 207, 0.3);
 }
 
 /* 按钮和计时器显示样式 */
@@ -348,7 +400,7 @@ body{
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: #4CAF50;
+    background-color: #354a62;
     border: none;
     color: white;
     cursor: pointer;
@@ -357,7 +409,7 @@ body{
 }
 
 #time-watch button:hover {
-    background-color: #45a049;
+    background-color: #194f8d;
 }
 
 #watchDisplay {
@@ -372,15 +424,14 @@ body{
     bottom: 20px;
     right: 20px;
     width: 200px;
-    background-color: #f0f0f0;
+    background-color: #333;
     padding: 10px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(72, 0, 207, 0.3);
 }
-
 /* 输入框和按钮样式 */
-#time-countdown label,
-#time-countdown input,
+/* #time-countdown label,
+#time-countdown input, */
 #time-countdown button {
     display: block;
     margin-bottom: 10px;
@@ -389,8 +440,11 @@ body{
 }
 
 #time-countdown button {
-    padding: 8px 0;
-    background-color: #4CAF50;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #354a62;
     border: none;
     color: white;
     cursor: pointer;
@@ -399,7 +453,7 @@ body{
 }
 
 #time-countdown button:hover {
-    background-color: #45a049;
+    background-color: #194f8d;
 }
 
 /*右键上下文菜单*/
