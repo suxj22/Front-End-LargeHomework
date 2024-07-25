@@ -242,7 +242,19 @@ body{
         stroke-dashoffset: -400;
     }
 }
-
+.control-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.control-group label {
+    width: 80px; /* 固定标签宽度 */
+    color:  rgb(171, 213, 255);
+}
+.control-group input {
+    flex: 1;
+    color: rgb(46, 66, 86);
+}
 /* time-controls 放置在左上角 */
 #time-controls {
     position: absolute;
@@ -256,18 +268,22 @@ body{
 }
 
 /* 块级排列内部元素 */
-#time-controls label,
-#time-controls input,
+/* #time-controls label,
+#time-controls input, */
 #time-controls button {
     display: block;
     margin: 10px 0;
     width: 100%;
 }
+/* 输入框内字体颜色 */
+#time-controls input {
+    color: rgb(80, 102, 124);
+}
 
 /* 按钮样式 */
 #time-controls button {
     padding: 8px 0;
-    background-color: #4CAF50;
+    background-color: #354a62;
     border: none;
     color: white;
     cursor: pointer;
@@ -276,11 +292,9 @@ body{
 }
 
 #time-controls button:hover {
-    background-color: #45a049;
+    background-color: #194f8d;
     /* 悬停时的背景色 */
 }
-
-
 
 
 /* time-clock 放置在左下角 */
@@ -289,15 +303,16 @@ body{
     bottom: 20px;
     left: 20px;
     width: 200px;
-    background-color: #f0f0f0;
+    background-color: #333;
     padding: 10px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(72, 0, 207, 0.3);
+    color: rgb(171, 213, 255);
 }
 
 /* 输入框和按钮样式 */
-#time-clock label,
-#time-clock input,
+/* #time-clock label,
+#time-clock input, */
 #time-clock button {
     display: block;
     margin-bottom: 10px;
@@ -306,8 +321,11 @@ body{
 }
 
 #time-clock button {
-    padding: 8px 0;
-    background-color: #4CAF50;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #354a62;
     border: none;
     color: white;
     cursor: pointer;
@@ -326,7 +344,7 @@ body{
 
 
 #time-clock button:hover {
-    background-color: #45a049;
+    background-color:  #194f8d;
 }
 
 
@@ -339,7 +357,7 @@ body{
     background-color: #333;
     padding: 10px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(72, 0, 207, 0.3);
 }
 
 /* 按钮和计时器显示样式 */
@@ -348,7 +366,7 @@ body{
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: #4CAF50;
+    background-color: #354a62;
     border: none;
     color: white;
     cursor: pointer;
@@ -357,7 +375,7 @@ body{
 }
 
 #time-watch button:hover {
-    background-color: #45a049;
+    background-color: #194f8d;
 }
 
 #watchDisplay {
@@ -372,15 +390,15 @@ body{
     bottom: 20px;
     right: 20px;
     width: 200px;
-    background-color: #f0f0f0;
+    background-color: #333;
     padding: 10px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(72, 0, 207, 0.3);
 }
 
 /* 输入框和按钮样式 */
-#time-countdown label,
-#time-countdown input,
+/* #time-countdown label,
+#time-countdown input, */
 #time-countdown button {
     display: block;
     margin-bottom: 10px;
@@ -389,8 +407,11 @@ body{
 }
 
 #time-countdown button {
-    padding: 8px 0;
-    background-color: #4CAF50;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #354a62;
     border: none;
     color: white;
     cursor: pointer;
@@ -399,7 +420,7 @@ body{
 }
 
 #time-countdown button:hover {
-    background-color: #45a049;
+    background-color: #194f8d;
 }
 
 /*右键上下文菜单*/

@@ -164,24 +164,30 @@
     <!--功能控件-->
     <!--时间设置功能-->
     <div id="time-controls">
-        <label for="customHours">自定义小时:</label>
-        <input type="number" id="customHours" value="12" min="0" max="23">
-        <label for="customMinutes">自定义分钟:</label>
-        <input type="number" id="customMinutes" value="00" min="0" max="59">
-        <label for="customSeconds">自定义秒:</label>
-        <input type="number" id="customSeconds" value="00" min="0" max="59">
+      <div class="control-group">
+        <label for="customHours">小时:</label>
+        <input type="number" id="customHours" value="12" min="0" max="23"></div>
+      <div class="control-group">
+        <label for="customMinutes">分钟:</label>
+        <input type="number" id="customMinutes" value="00" min="0" max="59"></div>
+      <div class="control-group">
+        <label for="customSeconds">秒:</label>
+        <input type="number" id="customSeconds" value="00" min="0" max="59"></div>
         <button id="setTime">设置时间</button>
         <button id="reTime">回到系统时间</button>
     </div>
 
     <!--设置闹钟-->
     <div id="time-clock">
+      <div class="control-group">
         <label for="alarmHours">小时:</label>
-        <input type="number" id="alarmHours" value="12" min="0" max="23">
+        <input type="number" id="alarmHours" value="12" min="0" max="23"></div>
+      <div class="control-group">
         <label for="alarmMinutes">分钟:</label>
-        <input type="number" id="alarmMinutes" value="00" min="0" max="59">
+        <input type="number" id="alarmMinutes" value="00" min="0" max="59"></div>
+      <div class="control-group">
         <label for="alarmSeconds">秒:</label>
-        <input type="number" id="alarmSeconds" value="00" min="0" max="59">
+        <input type="number" id="alarmSeconds" value="00" min="0" max="59"></div>
         <button id="setAlarm">设置闹钟</button>
     </div>
 
@@ -193,12 +199,15 @@
 
     <!--倒计时功能-->
     <div id="time-countdown">
-        <label for="timerHours">计时器小时:</label>
-        <input type="number" id="timerHours" value="0" min="0">
-        <label for="timerMinutes">计时器分钟:</label>
-        <input type="number" id="timerMinutes" value="0" min="0" max="59">
-        <label for="timerSeconds">计时器秒:</label>
-        <input type="number" id="timerSeconds" value="0" min="0" max="59">
+      <div class="control-group">
+        <label for="timerHours">小时:</label>
+        <input type="number" id="timerHours" value="0" min="0" max="59"></div>
+      <div class="control-group">
+        <label for="timerMinutes">分钟:</label>
+        <input type="number" id="timerMinutes" value="0" min="0" max="59"></div>
+      <div class="control-group">
+        <label for="timerSeconds">秒:</label>
+        <input type="number" id="timerSeconds" value="0" min="0" max="59"></div>
         <button id="setTimer">设置计时器</button>
         <button id="stopTimer">停止计时器</button>
     </div>
