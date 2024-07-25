@@ -724,3 +724,110 @@ document.querySelectorAll('.tab').forEach(tab => {
 		document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
 	});
 });
+
+
+//世界时钟相关函数
+
+function gb(){
+	var date = new Date();
+	var hour = date.getHours();
+    customMinute = date.getMinutes();
+    customSecond = date.getSeconds();
+	if(hour > 7){
+		customHour = hour - 7;
+	}
+	else{
+		customHour = hour + 17;
+	}
+	//alert(customHour+":"+customMinute+":"+customSecond);
+	//todo: 看到的uu麻烦调一下接口（如果有变化）
+	slowupdateTime(customHour, customMinute, customSecond, true);
+	customedTime = true;
+}
+
+function us(){
+	var date = new Date();
+	var hour = date.getHours();
+    customMinute = date.getMinutes();
+    customSecond = date.getSeconds();
+	if(hour > 12){
+		customHour = hour - 12;
+	}
+	else{
+		customHour = hour + 12;
+	}
+	//alert(customHour+":"+customMinute+":"+customSecond);
+	slowupdateTime(customHour, customMinute, customSecond, true);
+	customedTime = true;
+}
+
+function ru(){
+	var date = new Date();
+	var hour = date.getHours();
+    customMinute = date.getMinutes();
+    customSecond = date.getSeconds();
+	if(hour > 5){
+		customHour = hour - 5;
+	}
+	else{
+		customHour = hour + 19;
+	}
+	//alert(customHour+":"+customMinute+":"+customSecond);
+	slowupdateTime(customHour, customMinute, customSecond, true);
+	customedTime = true;
+}
+
+function ind(){
+	var date = new Date();
+	var hour = date.getHours();
+    customMinute = date.getMinutes();
+    customSecond = date.getSeconds();
+	if(customMinute > 30){
+		customMinute -= 30;
+	}
+	else{
+		customMinute += 30;
+		hour -= 1;
+	}
+	if(hour > 2){
+		customHour = hour - 2;
+	}
+	else{
+		customHour = hour + 22;
+	}
+	//alert(customHour+":"+customMinute+":"+customSecond);
+	updateTime(customHour, customMinute, customSecond, true);
+	customedTime = true;
+}
+
+function br(){
+	var date = new Date();
+	var hour = date.getHours();
+    customMinute = date.getMinutes();
+    customSecond = date.getSeconds();
+	if(hour > 11){
+		customHour = hour - 11;
+	}
+	else{
+		customHour = hour + 11;
+	}
+	//alert(customHour+":"+customMinute+":"+customSecond);
+	updateTime(customHour, customMinute, customSecond, true);
+	customedTime = true;
+}
+
+function tr(){
+	var date = new Date();
+	var hour = date.getHours();
+    customMinute = date.getMinutes();
+    customSecond = date.getSeconds();
+	if(hour > 5){
+		customHour = hour - 5;
+	}
+	else{
+		customHour = hour + 5;
+	}
+	//alert(customHour+":"+customMinute+":"+customSecond);
+	updateTime(customHour, customMinute, customSecond, true);
+	customedTime = true;
+}
