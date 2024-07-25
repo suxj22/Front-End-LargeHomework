@@ -164,53 +164,74 @@
     <!--功能控件-->
     <!--时间设置功能-->
     <div id="time-controls">
-      <div class="control-group">
-        <label for="customHours">小时:</label>
-        <input type="number" id="customHours" value="12" min="0" max="23"></div>
-      <div class="control-group">
-        <label for="customMinutes">分钟:</label>
-        <input type="number" id="customMinutes" value="00" min="0" max="59"></div>
-      <div class="control-group">
-        <label for="customSeconds">秒:</label>
-        <input type="number" id="customSeconds" value="00" min="0" max="59"></div>
-        <button id="setTime">设置时间</button>
-        <button id="reTime">回到系统时间</button>
-    </div>
+      <button id="toggleTopLeft">显示/隐藏 时间控件</button>
+      <div class="controls">
+          <div class="control-group">
+              <label for="customHours">小时:</label>
+              <input type="number" id="customHours" value="12" min="0" max="23">
+          </div>
+          <div class="control-group">
+              <label for="customMinutes">分钟:</label>
+              <input type="number" id="customMinutes" value="00" min="0" max="59">
+          </div>
+          <div class="control-group">
+              <label for="customSeconds">秒:</label>
+              <input type="number" id="customSeconds" value="00" min="0" max="59">
+          </div>
+          <button id="setTime">设置时间</button>
+          <button id="reTime">回到系统时间</button>
+      </div>
+  </div>
 
     <!--设置闹钟-->
     <div id="time-clock">
-      <div class="control-group">
-        <label for="alarmHours">小时:</label>
-        <input type="number" id="alarmHours" value="12" min="0" max="23"></div>
-      <div class="control-group">
-        <label for="alarmMinutes">分钟:</label>
-        <input type="number" id="alarmMinutes" value="00" min="0" max="59"></div>
-      <div class="control-group">
-        <label for="alarmSeconds">秒:</label>
-        <input type="number" id="alarmSeconds" value="00" min="0" max="59"></div>
-        <button id="setAlarm">设置闹钟</button>
-    </div>
+      <button id="toggleTimeClock">显示/隐藏 闹钟控件</button>
+      <div class="controls">
+          <div class="control-group">
+              <label for="alarmHours">小时:</label>
+              <input type="number" id="alarmHours" value="12" min="0" max="23">
+          </div>
+          <div class="control-group">
+              <label for="alarmMinutes">分钟:</label>
+              <input type="number" id="alarmMinutes" value="00" min="0" max="59">
+          </div>
+          <div class="control-group">
+              <label for="alarmSeconds">秒:</label>
+              <input type="number" id="alarmSeconds" value="00" min="0" max="59">
+          </div>
+          <button id="setAlarm">设置闹钟</button>
+      </div>
+  </div>
 
-    <div id="time-watch">
+  <div id="time-watch">
+    <button id="toggleTimeWatch">显示/隐藏 计时器控件</button>
+    <div class="controls">
         <button id="startWatch">开始计时</button>
         <button id="stopWatch">停止计时</button>
         <div id="watchDisplay">00:00:00</div>
     </div>
+</div>
 
     <!--倒计时功能-->
     <div id="time-countdown">
-      <div class="control-group">
-        <label for="timerHours">小时:</label>
-        <input type="number" id="timerHours" value="0" min="0" max="59"></div>
-      <div class="control-group">
-        <label for="timerMinutes">分钟:</label>
-        <input type="number" id="timerMinutes" value="0" min="0" max="59"></div>
-      <div class="control-group">
-        <label for="timerSeconds">秒:</label>
-        <input type="number" id="timerSeconds" value="0" min="0" max="59"></div>
-        <button id="setTimer">设置计时器</button>
-        <button id="stopTimer">停止计时器</button>
-    </div>
+      <button id="toggleTimerControls">显示/隐藏 倒计时控件</button>
+      <div class="controls" id="timer-controls">
+          <div class="control-group">
+              <label for="timerHours">小时:</label>
+              <input type="number" id="timerHours" value="0" min="0" max="59">
+          </div>
+          <div class="control-group">
+              <label for="timerMinutes">分钟:</label>
+              <input type="number" id="timerMinutes" value="0" min="0" max="59">
+          </div>
+          <div class="control-group">
+              <label for="timerSeconds">秒:</label>
+              <input type="number" id="timerSeconds" value="0" min="0" max="59">
+          </div>
+          <button id="setTimer">设置计时器</button>
+          <button id="stopTimer">停止计时器</button>
+      </div>
+  </div>
     <!--右键菜单相关控件-->
     <div class="usercm" style="left: 199px; top: 5px; display: none;">
         <ul>

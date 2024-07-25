@@ -267,33 +267,34 @@ body{
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-/* 块级排列内部元素 */
-/* #time-controls label,
-#time-controls input, */
 #time-controls button {
     display: block;
     margin: 10px 0;
     width: 100%;
 }
-/* 输入框内字体颜色 */
+
 #time-controls input {
     color: rgb(80, 102, 124);
 }
 
-/* 按钮样式 */
 #time-controls button {
     padding: 8px 0;
     background-color: #354a62;
     border: none;
     color: white;
     cursor: pointer;
+    width: 180px;
+    height: 35px;
     border-radius: 4px;
     transition: background-color 0.3s ease;
 }
 
 #time-controls button:hover {
     background-color: #194f8d;
-    /* 悬停时的背景色 */
+}
+
+.controls {
+    display: none; /* 初始状态隐藏 */
 }
 
 
@@ -311,8 +312,6 @@ body{
 }
 
 /* 输入框和按钮样式 */
-/* #time-clock label,
-#time-clock input, */
 #time-clock button {
     display: block;
     margin-bottom: 10px;
@@ -330,8 +329,18 @@ body{
     color: white;
     cursor: pointer;
     border-radius: 4px;
+    width: 180px;
+    height: 35px;
     transition: background-color 0.3s ease;
 }
+#time-clock button:hover {
+    background-color: #194f8d;
+}
+
+.controls {
+    display: none; /* 初始状态隐藏 */
+}
+
 
 /* 鼠标悬停时显示指针手势 */
 .needles,
@@ -343,24 +352,22 @@ body{
 }
 
 
-#time-clock button:hover {
-    background-color:  #194f8d;
-}
+
 
 
 /* time-watch 放置在右上角 */
 #time-watch {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 200px;
     background-color: #333;
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(72, 0, 207, 0.3);
 }
-
-/* 按钮和计时器显示样式 */
+#time-watch {
+    top: 20px;
+    right: 20px;
+    width: 200px;
+}
 #time-watch button {
     display: block;
     width: 100%;
@@ -373,17 +380,18 @@ body{
     border-radius: 4px;
     transition: background-color 0.3s ease;
 }
-
 #time-watch button:hover {
     background-color: #194f8d;
 }
-
 #watchDisplay {
     text-align: center;
     font-size: 24px;
     color: white;
 }
 
+.controls {
+    display: none; /* 初始状态隐藏 */
+}
 /* time-countdown 放置在右下角 */
 #time-countdown {
     position: absolute;
@@ -394,16 +402,6 @@ body{
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(72, 0, 207, 0.3);
-}
-
-/* 输入框和按钮样式 */
-/* #time-countdown label,
-#time-countdown input, */
-#time-countdown button {
-    display: block;
-    margin-bottom: 10px;
-    width: calc(100% - 20px);
-    /* 考虑内边距的影响 */
 }
 
 #time-countdown button {
@@ -420,7 +418,30 @@ body{
 }
 
 #time-countdown button:hover {
+    transform: scale(1.1);
     background-color: #194f8d;
+}
+
+#timer-controls {
+    display: none; /* 初始状态隐藏 */
+}
+
+#timer-controls .control-group {
+    margin-bottom: 10px;
+}
+
+#timer-controls .control-group label {
+    display: block;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+#timer-controls .control-group input {
+    width: calc(100% - 20px);
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
 }
 
 /*右键上下文菜单*/

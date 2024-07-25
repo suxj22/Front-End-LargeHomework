@@ -626,3 +626,36 @@ document.getElementById('stopTimerHook').addEventListener('click', function () {
     timerRunning = false;
     startTimer();
 });
+document.getElementById('toggleTimerControls').addEventListener('click', function() {
+    var timerControls = document.getElementById('timer-controls');
+    if (timerControls.style.display === 'none' || timerControls.style.display === '') {
+        timerControls.style.display = 'block';
+    } else {
+        timerControls.style.display = 'none';
+    }
+});
+
+document.getElementById('toggleTopLeft').addEventListener('click', function() {
+    var controls = document.querySelector('#time-controls .controls');
+    if (controls.style.display === 'none' || controls.style.display === '') {
+        controls.style.display = 'block';
+    } else {
+        controls.style.display = 'none';
+    }
+});
+document.getElementById('toggleTimeClock').addEventListener('click', function() {
+    var controls = document.querySelector('#time-clock .controls');
+    if (controls.style.display === 'none' || controls.style.display === '') {
+        controls.style.display = 'block';
+    } else {
+        controls.style.display = 'none';
+    }
+});
+document.getElementById('toggleTimeWatch').addEventListener('click', function() {
+    var controls = document.querySelector('#time-watch .controls');
+    if (controls.style.display === 'none' || controls.style.display === '') {
+        controls.style.display = 'block';
+    } else {
+        controls.style.display = 'none';
+    }
+});
