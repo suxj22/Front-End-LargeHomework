@@ -269,7 +269,6 @@ document.getElementById('reTime').addEventListener('click', function () {
     customedTime = false;
     afterDragging = false;
     afterDraggingInit = true;
-    requestAnimationFrame(updateClock);
     DragRememberHour = -1;
     DragRememberMinute = -1;
     DragRememberSecond = -1;
@@ -593,6 +592,7 @@ document.getElementById('setWatchHook').addEventListener('click', function () {
         updateTime(watchHour, watchMinute, watchSecond, true);
         watchRunning = true;
     }
+    menu.style.display = "none";
 });
 
 document.getElementById('stopWatchHook').addEventListener('click', function () {
@@ -607,6 +607,7 @@ document.getElementById('stopWatchHook').addEventListener('click', function () {
     watchMillisecond = 0;
     watchRunning = false;
         }
+    menu.style.display = "none";
 });
 
 // 为设置闹钟按钮添加事件监听器
@@ -615,6 +616,7 @@ document.getElementById('setAlarmHook').addEventListener('click', function () {
     customAlarmHour = parseInt(document.getElementById('customHours').value);
     customAlarmMin = parseInt(document.getElementById('customMinutes').value);
     customAlarmSec = parseInt(document.getElementById('customSeconds').value);
+    menu.style.display = "none";
 });
 
 document.getElementById('setTimeHook').addEventListener('click', function () {
@@ -628,11 +630,21 @@ document.getElementById('setTimeHook').addEventListener('click', function () {
     updateTime(customHour, customMinute, customSecond, true);
 
     customedTime = true;
+    menu.style.display = "none";
 });
 
 // 为回到系统时间按钮添加事件监听器
 document.getElementById('setSystemTimeHook').addEventListener('click', function () {
     customedTime = false;
+    afterDragging = false;
+    afterDraggingInit = true;
+    DragRememberHour = -1;
+    DragRememberMinute = -1;
+    DragRememberSecond = -1;
+    HourDragged = false;
+    MinuteDragged = false;
+    SecondDragged = false;
+    menu.style.display = "none";
 });
 
 // 为设置计时器按钮添加事件监听器
@@ -651,6 +663,7 @@ document.getElementById('setTimerHook').addEventListener('click', function () {
         updateTime(timerHour, timerMinute, timerSecond, true);
         timerRunning = true;
     }
+    menu.style.display = "none";
 });
 
 // 获取停止计时按钮并添加事件监听器
@@ -661,4 +674,5 @@ document.getElementById('stopTimerHook').addEventListener('click', function () {
     if (!watchRunning) {
         timerRunning = false;
     }
+    menu.style.display = "none";
 });
