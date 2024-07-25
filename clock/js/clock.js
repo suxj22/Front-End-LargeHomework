@@ -50,7 +50,7 @@ function updateClock(timestamp) {
     lastTimestamp = timestamp;
 
     // 用户自定义时间时，这个时间无论是否被使用上，均需要更新
-    if (customedTime) {
+    if (customedTime && !afterDragging) {
         customMillisecond += elapsed;
         if (customMillisecond >= 1000) {
             customMillisecond -= 1000;
@@ -305,24 +305,33 @@ function playsound() {
 
 // 为秒表开始按钮添加事件监听器
 document.getElementById('startWatch').addEventListener('click', function () {
-    // 清空时间从0开始计时
-    watchHour = 0;
-    watchMinute = 0;
-    watchSecond = 0;
-    watchMillisecond = 0;
+    if (timerRunning) {
+        alert("正在使用计时器，请先关闭计时器！")
+    }
+    if (!timerRunning) {
+        watchHour = 0;
+        watchMinute = 0;
+        watchSecond = 0;
+        watchMillisecond = 0;
 
-    updateTime(watchHour, watchMinute, watchSecond, true);
-    watchRunning = true;
+        updateTime(watchHour, watchMinute, watchSecond, true);
+        watchRunning = true;
+    }
 });
 
 // 为秒表停止按钮添加事件监听器
 document.getElementById('stopWatch').addEventListener('click', function () {
+    if (timerRunning) {
+        alert("正在使用计时器，请先关闭计时器！")
+    }
+    else {
     alert("一共计时了" + watchHour + "小时" + watchMinute + "分钟" + watchSecond + "秒");
     watchHour = 0;
     watchMinute = 0;
     watchSecond = 0;
     watchMillisecond = 0;
     watchRunning = false;
+        }
 });
 
 // 获取当前时间，如果用户自定义了时间，则使用自定义的时间
@@ -399,7 +408,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .draggable({
                 // 拖动开始
                 onstart: function (event) {
-                    if(customedTime || timerRunning || watchRunning) return;
+                    if(timerRunning || watchRunning) return;
                     event.preventDefault();
                     dragging = true;
                     var current_time = new Date();
@@ -423,7 +432,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 // 拖动中
                 onmove: function (event) {
-                    if(customedTime || timerRunning || watchRunning) return;
+                    if(timerRunning || watchRunning) return;
                     const x = event.pageX - (circle.getBoundingClientRect().left + radius);
                     const y = event.pageY - (circle.getBoundingClientRect().top + radius);
                     const angle = calculateAngle(x, y, centerX, centerY);
@@ -434,7 +443,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 // 拖动结束
                 onend: function (event) {
-                    if(customedTime || timerRunning || watchRunning) return;
+                    if(timerRunning || watchRunning) return;
                     // TODO 结束时先不恢复计时，而是出现一个按钮，等按下才恢复
                     dragging = false;
                     afterDragging = true;
@@ -507,30 +516,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // 为设置计时器按钮添加事件监听器
 document.getElementById('setTimer').addEventListener('click', function () {
-    // 读取用户输入的时间并存储
-    timerHour = parseInt(document.getElementById('timerHours').value);
-    timerMinute = parseInt(document.getElementById('timerMinutes').value);
-    timerSecond = parseInt(document.getElementById('timerSeconds').value);
-    timerMillisecond = 0;
+    if (watchRunning) {
+        alert("正在使用秒表，请先停止秒表！")
+    }
+    if (!watchRunning) {
+        // 读取用户输入的时间并存储
+        timerHour = parseInt(document.getElementById('timerHours').value);
+        timerMinute = parseInt(document.getElementById('timerMinutes').value);
+        timerSecond = parseInt(document.getElementById('timerSeconds').value);
+        timerMillisecond = 0;
 
-    // 调用updateTime函数，使用用户输入的时间
-    updateTime(timerHour, timerMinute, timerSecond, true);
-    timerRunning = true;
-    startTimer();
+        // 调用updateTime函数，使用用户输入的时间
+        updateTime(timerHour, timerMinute, timerSecond, true);
+        timerRunning = true;
+    }
 });
 
 // 获取停止计时按钮并添加事件监听器
 document.getElementById('stopTimer').addEventListener('click', function () {
-    timerRunning = false;
-    startTimer();
+    if (watchRunning) {
+        alert("正在使用秒表，请先停止秒表！")
+    }
+    if (!watchRunning) {
+        timerRunning = false;
+    }
 });
 
 function $(selector) {
     return document.querySelectorAll(selector);
 }
 
-var li = $(".usercm ul li");
-var menu = $(".usercm")[0];
+let li = $(".usercm ul li");
+let menu = $(".usercm")[0];
 
 //右键菜单单击
 document.oncontextmenu = function (event) {
@@ -564,20 +581,32 @@ for (var i = 0, len = li.length; i < len; i++) {
 //目前以下的响应全部和点击按钮相同
 //TODO：优化响应并增加快捷键
 document.getElementById('setWatchHook').addEventListener('click', function () {
-    // 清空时间从0开始计时
-    customedTime = true;
+    if (timerRunning) {
+        alert("正在使用计时器，请先关闭计时器！")
+    }
+    if (!timerRunning) {
+        watchHour = 0;
+        watchMinute = 0;
+        watchSecond = 0;
+        watchMillisecond = 0;
+
+        updateTime(watchHour, watchMinute, watchSecond, true);
+        watchRunning = true;
+    }
+});
+
+document.getElementById('stopWatchHook').addEventListener('click', function () {
+    if (timerRunning) {
+        alert("正在使用计时器，请先关闭计时器！")
+    }
+    else {
+    alert("一共计时了" + watchHour + "小时" + watchMinute + "分钟" + watchSecond + "秒");
     watchHour = 0;
     watchMinute = 0;
     watchSecond = 0;
-    updateTime(watchHour, watchMinute, watchSecond, true);
-    //启用自定义的计时器
-    watchRunning = true;
-});
-
-document.getElementById('setStopHook').addEventListener('click', function () {
-    // 清空时间从0开始计时
-    alert("一共计时了" + watchHour + "小时" + watchMinute + "分钟" + watchSecond + "秒");
+    watchMillisecond = 0;
     watchRunning = false;
+        }
 });
 
 // 为设置闹钟按钮添加事件监听器
@@ -593,13 +622,12 @@ document.getElementById('setTimeHook').addEventListener('click', function () {
     customHour = parseInt(document.getElementById('customHours').value);
     customMinute = parseInt(document.getElementById('customMinutes').value);
     customSecond = parseInt(document.getElementById('customSeconds').value);
+    customMillisecond = 0;
 
     // 调用updateTime函数，使用用户输入的时间
     updateTime(customHour, customMinute, customSecond, true);
-    // TODO:这个时间添加数字渐变效果,.time-animation已经在css中实现
+
     customedTime = true;
-    // 开始自定义时间的计时
-    startCustomTimer();
 });
 
 // 为回到系统时间按钮添加事件监听器
@@ -609,20 +637,28 @@ document.getElementById('setSystemTimeHook').addEventListener('click', function 
 
 // 为设置计时器按钮添加事件监听器
 document.getElementById('setTimerHook').addEventListener('click', function () {
-    // 读取用户输入的时间并存储
-    timerHour = parseInt(document.getElementById('timerHours').value);
-    timerMinute = parseInt(document.getElementById('timerMinutes').value);
-    timerSecond = parseInt(document.getElementById('timerSeconds').value);
-    timerMillisecond = 0;
+    if (watchRunning) {
+        alert("正在使用秒表，请先停止秒表！")
+    }
+    if (!watchRunning) {
+        // 读取用户输入的时间并存储
+        timerHour = parseInt(document.getElementById('timerHours').value);
+        timerMinute = parseInt(document.getElementById('timerMinutes').value);
+        timerSecond = parseInt(document.getElementById('timerSeconds').value);
+        timerMillisecond = 0;
 
-    // 调用updateTime函数，使用用户输入的时间
-    updateTime(timerHour, timerMinute, timerSecond, true);
-    timerRunning = true;
-    startTimer();
+        // 调用updateTime函数，使用用户输入的时间
+        updateTime(timerHour, timerMinute, timerSecond, true);
+        timerRunning = true;
+    }
 });
 
 // 获取停止计时按钮并添加事件监听器
 document.getElementById('stopTimerHook').addEventListener('click', function () {
-    timerRunning = false;
-    startTimer();
+    if (watchRunning) {
+        alert("正在使用秒表，请先停止秒表！")
+    }
+    if (!watchRunning) {
+        timerRunning = false;
+    }
 });
