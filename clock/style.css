@@ -483,3 +483,152 @@ div.usercm {
     transition: transform 0.3s ease, opacity 0.3s ease; /* 添加过渡效果 */
 }
 
+/*世界时钟按钮样式*/
+.btn {
+    position: absolute;
+    padding: 30px 30px;
+    background: #92c7eb;
+    pointer-events: auto;
+    background-image: url("img/gb.png");
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+    border: none;
+    left: 25px;
+    width: 70px;
+    border-radius: 900px;
+    height: 70px;
+    transition: all 0.5s;
+    cursor: pointer;
+   }
+
+.btn:hover
+   {
+    width: 75px;
+    height: 75px;
+    shadow: black;
+   }
+
+.btn_us {
+    position: absolute;
+    padding: 30px 30px;
+    background: #92c7eb;
+    pointer-events: auto;
+    background-image: url("img/us.png");
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+    border: none;
+    left: 110px;
+    width: 70px;
+    border-radius: 900px;
+    height: 70px;
+    transition: all 0.5s;
+    cursor: pointer;
+   }
+
+.btn_us:hover
+   {
+    width: 75px;
+    height: 75px;
+   }
+
+.btn_ru {
+    position: absolute;
+    padding: 30px 30px;
+    background: #92c7eb;
+    pointer-events: auto;
+    background-image: url("img/ru.png");
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+    border: none;
+    left: 195px;
+    width: 70px;
+    border-radius: 900px;
+    height: 70px;
+    transition: all 0.5s;
+    cursor: pointer;
+   }
+
+.btn_ru:hover
+   {
+    width: 75px;
+    height: 75px;
+   }
+
+.btn_in {
+    position: absolute;
+    padding: 30px 30px;
+    background: #92c7eb;
+    pointer-events: auto;
+    background-image: url("img/in.png");
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+    border: none;
+    left: 25px;
+    margin-top: 90px;
+    width: 70px;
+    border-radius: 900px;
+    height: 70px;
+    transition: all 0.5s;
+    cursor: pointer;
+   }
+
+.btn_in:hover
+   {
+    width: 75px;
+    height: 75px;
+    shadow: black;
+   }
+
+.btn_br {
+    position: absolute;
+    padding: 30px 30px;
+    background: #92c7eb;
+    pointer-events: auto;
+    background-image: url("img/br.png");
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+    border: none;
+    margin-top: 90px;
+    left: 110px;
+    width: 70px;
+    border-radius: 900px;
+    height: 70px;
+    transition: all 0.5s;
+    cursor: pointer;
+   }
+
+.btn_br:hover
+   {
+    width: 75px;
+    height: 75px;
+   }
+
+.btn_tu {
+    position: absolute;
+    padding: 30px 30px;
+    background: #92c7eb;
+    pointer-events: auto;
+    background-image: url("img/tu.png");
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+    border: none;
+    margin-top: 90px;
+    left: 195px;
+    width: 70px;
+    border-radius: 900px;
+    height: 70px;
+    transition: all 0.5s;
+    cursor: pointer;
+   }
+
+.btn_tu:hover
+   {
+    width: 75px;
+    height: 75px;
+   }
