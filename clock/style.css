@@ -290,6 +290,7 @@ body{
 }
 
 #time-controls button:hover {
+    transform: scale(1.05);
     background-color: #194f8d;
 }
 
@@ -335,6 +336,7 @@ body{
     transition: background-color 0.3s ease;
 }
 #time-clock button:hover {
+    transform: scale(1.05);
     background-color: #194f8d;
 }
 
@@ -386,6 +388,7 @@ body{
     transition: background-color 0.3s ease;
 }
 #time-watch button:hover {
+    transform: scale(1.05);
     background-color: #194f8d;
 }
 
@@ -424,7 +427,7 @@ body{
 }
 
 #time-countdown button:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
     background-color: #194f8d;
 }
 

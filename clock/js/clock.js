@@ -802,9 +802,6 @@ function gb(){
 	else{
 		customHour = hour + 17;
 	}
-	//alert(customHour+":"+customMinute+":"+customSecond);
-	//todo: 看到的uu麻烦调一下接口（如果有变化）
-	slowupdateTime(customHour, customMinute, customSecond, true);
 	customedTime = true;
 }
 
@@ -819,8 +816,6 @@ function us(){
 	else{
 		customHour = hour + 12;
 	}
-	//alert(customHour+":"+customMinute+":"+customSecond);
-	slowupdateTime(customHour, customMinute, customSecond, true);
 	customedTime = true;
 }
 
@@ -835,8 +830,6 @@ function ru(){
 	else{
 		customHour = hour + 19;
 	}
-	//alert(customHour+":"+customMinute+":"+customSecond);
-	slowupdateTime(customHour, customMinute, customSecond, true);
 	customedTime = true;
 }
 
@@ -858,8 +851,6 @@ function ind(){
 	else{
 		customHour = hour + 22;
 	}
-	//alert(customHour+":"+customMinute+":"+customSecond);
-	updateTime(customHour, customMinute, customSecond, true);
 	customedTime = true;
 }
 
@@ -874,8 +865,6 @@ function br(){
 	else{
 		customHour = hour + 11;
 	}
-	//alert(customHour+":"+customMinute+":"+customSecond);
-	updateTime(customHour, customMinute, customSecond, true);
 	customedTime = true;
 }
 
@@ -890,7 +879,5 @@ function tu(){
 	else{
 		customHour = hour + 5;
 	}
-	//alert(customHour+":"+customMinute+":"+customSecond);
-	updateTime(customHour, customMinute, customSecond, true);
 	customedTime = true;
 }
