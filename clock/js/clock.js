@@ -289,6 +289,7 @@ document.getElementById('reTime').addEventListener('click', function () {
     HourDragged = false;
     MinuteDragged = false;
     SecondDragged = false;
+    document.body.style.backgroundImage = null;
 });
 
 // 为设置闹钟按钮添加事件监听器
@@ -725,6 +726,7 @@ document.getElementById('setSystemTimeHook').addEventListener('click', function 
     MinuteDragged = false;
     SecondDragged = false;
     hideContextMenu(); // 点击后淡出菜单
+    document.body.style.backgroundImage = null;
 });
 
 // 为设置计时器按钮添加事件监听器
@@ -803,6 +805,7 @@ function gb(){
 		customHour = hour + 17;
 	}
 	customedTime = true;
+    document.body.style.backgroundImage="url(img/London.jpeg)"; //改变背景图片
 }
 
 function us(){
@@ -817,6 +820,7 @@ function us(){
 		customHour = hour + 12;
 	}
 	customedTime = true;
+    document.body.style.backgroundImage="url(img/NY.jpg)"; //改变背景图片
 }
 
 function ru(){
@@ -831,6 +835,7 @@ function ru(){
 		customHour = hour + 19;
 	}
 	customedTime = true;
+    document.body.style.backgroundImage="url(img/Moscow.jpg)"; //改变背景图片
 }
 
 function ind(){
@@ -852,6 +857,7 @@ function ind(){
 		customHour = hour + 22;
 	}
 	customedTime = true;
+    document.body.style.backgroundImage="url(img/delhi.jpg)"; //改变背景图片
 }
 
 function br(){
@@ -866,6 +872,7 @@ function br(){
 		customHour = hour + 11;
 	}
 	customedTime = true;
+    document.body.style.backgroundImage="url(img/rio.jpg)"; //改变背景图片
 }
 
 function tu(){
@@ -880,4 +887,5 @@ function tu(){
 		customHour = hour + 5;
 	}
 	customedTime = true;
+    document.body.style.backgroundImage="url(img/ist.png)"; //改变背景图片
 }
