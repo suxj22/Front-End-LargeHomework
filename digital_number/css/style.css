@@ -20,34 +20,30 @@ body{
     font-size: 22vh;
     fill:none;
     stroke-width: 4px;
-    stroke-dasharray: 100,300;
-    animation: drawing 10s linear infinite;
+    stroke-dasharray: 100,400;
+    animation: drawing -8s linear infinite;
 }
 
 .words.time_word_1{
     stroke: deepskyblue;
-    text-shadow: 0 0 50px deepskyblue;
+    text-shadow: 0 0 25px deepskyblue;
     animation-delay: -2s ;
 }
+
 .words.time_word_2 {
-    stroke: lightgreen;
-    text-shadow: 0 0 50px lightgreen;
+    stroke: orangered;
+    text-shadow: 0 0 25px orangered;
     animation-delay: -4s;
 }
 .words.time_word_3 {
-    stroke: orangered;
-    text-shadow: 0 0 50px orangered;
-    animation-delay: -6s;
-}
-.words.time_word_4 {
     stroke: pink;
-    text-shadow: 0 0 50px violet;
-    animation-delay: -8s;
+    text-shadow: 0 0 25px violet;
+    animation-delay: -6s;
 }
 
 @keyframes drawing {
     to{
-        stroke-dashoffset: -400;
+        stroke-dashoffset: -500;
     }
 }
 

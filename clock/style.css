@@ -16,7 +16,6 @@ body{
 .clock{/*这是最外层的圆形容器*/
     position: relative;
     top: -80px;
-
     width: 280px;
     height: 280px;
     z-index: 100;
@@ -275,6 +274,7 @@ body{
 
 #time-controls input {
     color: rgb(80, 102, 124);
+    text-align: center; /* 设置数字居中 */
 }
 
 #time-controls button {
@@ -309,6 +309,7 @@ body{
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(72, 0, 207, 0.3);
     color: rgb(171, 213, 255);
+
 }
 
 /* 输入框和按钮样式 */
@@ -342,6 +343,10 @@ body{
 }
 
 
+#time-clock input{
+        text-align: center;
+            /* 设置数字居中 */
+}
 /* 鼠标悬停时显示指针手势 */
 .needles,
 .needle2,
@@ -383,6 +388,7 @@ body{
 #time-watch button:hover {
     background-color: #194f8d;
 }
+
 #watchDisplay {
     text-align: center;
     font-size: 24px;
@@ -444,12 +450,10 @@ body{
     box-sizing: border-box;
 }
 
-/*右键上下文菜单*/
-.usercm{background-repeat:no-repeat;background-position:center center;background-size:cover;background-color:#fff;font-size:13px!important;width:130px;-moz-box-shadow:1px 1px 3px #b5b5b5;box-shadow:0px 0px 15px #b5b5b5;position:absolute;display:none;z-index:10000;opacity:0.9; border-radius: 8px;overflow:hidden;}
-.usercm ul{list-style-type:none;list-style-position:outside;margin:0px;padding:0px;display:block}
-.usercm ul li{margin:0px;padding:0px;line-height:35px;text-align:center}
-.usercm ul li:hover{background:#ccc;cursor:default;user-select: none;}
-div.usercm{background:#fff !important;}
+#time-countdown input {
+    text-align: center;
+    /* 设置数字居中 */
+}
 /* 右键上下文菜单 */
 .usercm {
     background-repeat: no-repeat;
@@ -510,3 +514,152 @@ div.usercm {
     transition: transform 0.3s ease, opacity 0.3s ease; /* 添加过渡效果 */
 }
 
+/*世界时钟按钮样式*/
+.btn {
+    position: absolute;
+    padding: 30px 30px;
+    background: #92c7eb;
+    pointer-events: auto;
+    background-image: url("img/gb.png");
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+    border: none;
+    left: 25px;
+    width: 70px;
+    border-radius: 900px;
+    height: 70px;
+    transition: all 0.5s;
+    cursor: pointer;
+   }
+
+.btn:hover
+   {
+    width: 75px;
+    height: 75px;
+    shadow: black;
+   }
+
+.btn_us {
+    position: absolute;
+    padding: 30px 30px;
+    background: #92c7eb;
+    pointer-events: auto;
+    background-image: url("img/us.png");
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+    border: none;
+    left: 110px;
+    width: 70px;
+    border-radius: 900px;
+    height: 70px;
+    transition: all 0.5s;
+    cursor: pointer;
+   }
+
+.btn_us:hover
+   {
+    width: 75px;
+    height: 75px;
+   }
+
+.btn_ru {
+    position: absolute;
+    padding: 30px 30px;
+    background: #92c7eb;
+    pointer-events: auto;
+    background-image: url("img/ru.png");
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+    border: none;
+    left: 195px;
+    width: 70px;
+    border-radius: 900px;
+    height: 70px;
+    transition: all 0.5s;
+    cursor: pointer;
+   }
+
+.btn_ru:hover
+   {
+    width: 75px;
+    height: 75px;
+   }
+
+.btn_in {
+    position: absolute;
+    padding: 30px 30px;
+    background: #92c7eb;
+    pointer-events: auto;
+    background-image: url("img/in.png");
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+    border: none;
+    left: 25px;
+    margin-top: 90px;
+    width: 70px;
+    border-radius: 900px;
+    height: 70px;
+    transition: all 0.5s;
+    cursor: pointer;
+   }
+
+.btn_in:hover
+   {
+    width: 75px;
+    height: 75px;
+    shadow: black;
+   }
+
+.btn_br {
+    position: absolute;
+    padding: 30px 30px;
+    background: #92c7eb;
+    pointer-events: auto;
+    background-image: url("img/br.png");
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+    border: none;
+    margin-top: 90px;
+    left: 110px;
+    width: 70px;
+    border-radius: 900px;
+    height: 70px;
+    transition: all 0.5s;
+    cursor: pointer;
+   }
+
+.btn_br:hover
+   {
+    width: 75px;
+    height: 75px;
+   }
+
+.btn_tu {
+    position: absolute;
+    padding: 30px 30px;
+    background: #92c7eb;
+    pointer-events: auto;
+    background-image: url("img/tu.png");
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+    border: none;
+    margin-top: 90px;
+    left: 195px;
+    width: 70px;
+    border-radius: 900px;
+    height: 70px;
+    transition: all 0.5s;
+    cursor: pointer;
+   }
+
+.btn_tu:hover
+   {
+    width: 75px;
+    height: 75px;
+   }
