@@ -16,7 +16,6 @@ body{
 .clock{/*这是最外层的圆形容器*/
     position: relative;
     top: -80px;
-
     width: 280px;
     height: 280px;
     z-index: 100;
@@ -278,6 +277,7 @@ body{
 /* 输入框内字体颜色 */
 #time-controls input {
     color: rgb(80, 102, 124);
+    text-align: center; /* 设置数字居中 */
 }
 
 /* 按钮样式 */
@@ -308,6 +308,7 @@ body{
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(72, 0, 207, 0.3);
     color: rgb(171, 213, 255);
+    
 }
 
 /* 输入框和按钮样式 */
@@ -333,6 +334,10 @@ body{
     transition: background-color 0.3s ease;
 }
 
+#time-clock input{
+        text-align: center;
+            /* 设置数字居中 */
+}
 /* 鼠标悬停时显示指针手势 */
 .needles,
 .needle2,
@@ -378,6 +383,8 @@ body{
     background-color: #194f8d;
 }
 
+
+
 #watchDisplay {
     text-align: center;
     font-size: 24px;
@@ -422,7 +429,10 @@ body{
 #time-countdown button:hover {
     background-color: #194f8d;
 }
-
+#time-countdown input {
+    text-align: center;
+    /* 设置数字居中 */
+}
 /* 右键上下文菜单 */
 .usercm {
     background-repeat: no-repeat;

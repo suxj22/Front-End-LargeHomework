@@ -754,6 +754,9 @@ document.getElementById('stopTimerHook').addEventListener('click', function () {
     timerRunning = false;
     hideContextMenu(); // 点击后淡出菜单
 });
+
+
+
 //世界时钟相关函数
 
 function gb(){
