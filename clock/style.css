@@ -12,44 +12,10 @@ body{
     overflow: hidden;
     background: #2f363e;
 }
-.tabs {
-	position:absolute;
-	top:5px;
-	/* 调整Tabs的位置 */ left:50%;
-	transform:translateX(-50%);
-	display:inline-flex;
-	background-color:#6e9bdf;
-	border-radius:5px;
-	padding:5px;
-}
-.tabs div {
-	display:inline-block;
-	/* 使每个Tab按内容宽度排列 */ padding:10px 20px;
-	border-bottom:none;
-	background-color:#6e9bdf;
-	margin:0 5px;
-	cursor:pointer;
-	border-right:1px solid #000;
-	/* 添加右边框 */
-}
-.tabs div:last-child {
-	border-right:none;
-	/* 去掉最后一个Tab的右边框 */
-}
-.tabs div.active {
-	font-weight:bold;
-}
-.tab-content {
-	padding:20px;
-	display:none;
-}
-.tab-content.active {
-	display:block;
-}
 
 .clock{/*这是最外层的圆形容器*/
     position: relative;
-    top: -40px;
+    top: -80px;
     width: 280px;
     height: 280px;
     z-index: 100;
@@ -235,7 +201,7 @@ body{
     position: absolute;
     width: 50%;
     height: 50%;
-    top: 95%;
+    top: 87%;
     /* 将屏幕定位到视窗的中间 */
     left: 50%;
     /* 并将它向左和向右移动50%，实现水平居中 */
@@ -275,19 +241,6 @@ body{
         stroke-dashoffset: -400;
     }
 }
-
-/* time-controls 放置在左上角 */
-#time-controls {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 200px;
-    background-color: #333;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(72, 0, 207, 0.3);
-    color: rgb(171, 213, 255);
-}
 .control-group {
     display: flex;
     align-items: center;
@@ -301,35 +254,50 @@ body{
     flex: 1;
     color: rgb(46, 66, 86);
 }
+/* time-controls 放置在左上角 */
+#time-controls {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 200px;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
 
-/* 块级排列内部元素 */
-/* #time-controls label,
-#time-controls input, */
 #time-controls button {
     display: block;
     margin: 10px 0;
     width: 100%;
 }
-/* 输入框内字体颜色 */
+
 #time-controls input {
     color: rgb(80, 102, 124);
+    text-align: center; /* 设置数字居中 */
 }
 
-/* 按钮样式 */
 #time-controls button {
     padding: 8px 0;
     background-color: #354a62;
     border: none;
     color: white;
     cursor: pointer;
+    width: 180px;
+    height: 35px;
     border-radius: 4px;
     transition: background-color 0.3s ease;
 }
 
 #time-controls button:hover {
+    transform: scale(1.05);
     background-color: #194f8d;
-    /* 悬停时的背景色 */
 }
+
+.controls {
+    display: none; /* 初始状态隐藏 */
+}
+
 
 /* time-clock 放置在左下角 */
 #time-clock {
@@ -342,11 +310,10 @@ body{
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(72, 0, 207, 0.3);
     color: rgb(171, 213, 255);
+
 }
 
 /* 输入框和按钮样式 */
-/* #time-clock label,
-#time-clock input, */
 #time-clock button {
     display: block;
     margin-bottom: 10px;
@@ -364,9 +331,24 @@ body{
     color: white;
     cursor: pointer;
     border-radius: 4px;
+    width: 180px;
+    height: 35px;
     transition: background-color 0.3s ease;
 }
+#time-clock button:hover {
+    transform: scale(1.05);
+    background-color: #194f8d;
+}
 
+.controls {
+    display: none; /* 初始状态隐藏 */
+}
+
+
+#time-clock input{
+        text-align: center;
+            /* 设置数字居中 */
+}
 /* 鼠标悬停时显示指针手势 */
 .needles,
 .needle2,
@@ -377,24 +359,22 @@ body{
 }
 
 
-#time-clock button:hover {
-    background-color:  #194f8d;
-}
+
 
 
 /* time-watch 放置在右上角 */
 #time-watch {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 200px;
     background-color: #333;
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(72, 0, 207, 0.3);
 }
-
-/* 按钮和计时器显示样式 */
+#time-watch {
+    top: 20px;
+    right: 20px;
+    width: 200px;
+}
 #time-watch button {
     display: block;
     width: 100%;
@@ -407,8 +387,8 @@ body{
     border-radius: 4px;
     transition: background-color 0.3s ease;
 }
-
 #time-watch button:hover {
+    transform: scale(1.05);
     background-color: #194f8d;
 }
 
@@ -418,6 +398,9 @@ body{
     color: white;
 }
 
+.controls {
+    display: none; /* 初始状态隐藏 */
+}
 /* time-countdown 放置在右下角 */
 #time-countdown {
     position: absolute;
@@ -428,15 +411,6 @@ body{
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(72, 0, 207, 0.3);
-}
-/* 输入框和按钮样式 */
-/* #time-countdown label,
-#time-countdown input, */
-#time-countdown button {
-    display: block;
-    margin-bottom: 10px;
-    width: calc(100% - 20px);
-    /* 考虑内边距的影响 */
 }
 
 #time-countdown button {
@@ -453,15 +427,95 @@ body{
 }
 
 #time-countdown button:hover {
+    transform: scale(1.05);
     background-color: #194f8d;
 }
 
-/*右键上下文菜单*/
-.usercm{background-repeat:no-repeat;background-position:center center;background-size:cover;background-color:#fff;font-size:13px!important;width:130px;-moz-box-shadow:1px 1px 3px #b5b5b5;box-shadow:0px 0px 15px #b5b5b5;position:absolute;display:none;z-index:10000;opacity:0.9; border-radius: 8px;overflow:hidden;}
-.usercm ul{list-style-type:none;list-style-position:outside;margin:0px;padding:0px;display:block}
-.usercm ul li{margin:0px;padding:0px;line-height:35px;text-align:center}
-.usercm ul li:hover{background:#ccc;cursor:default;user-select: none;}
-div.usercm{background:#fff !important;}
+#timer-controls {
+    display: none; /* 初始状态隐藏 */
+}
+
+#timer-controls .control-group {
+    margin-bottom: 10px;
+}
+
+#timer-controls .control-group label {
+    display: block;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+#timer-controls .control-group input {
+    width: calc(100% - 20px);
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+#time-countdown input {
+    text-align: center;
+    /* 设置数字居中 */
+}
+/* 右键上下文菜单 */
+.usercm {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-color: #fff;
+    font-size: 13px !important;
+    width: 130px;
+    -moz-box-shadow: 1px 1px 3px #b5b5b5;
+    box-shadow: 0px 0px 15px #b5b5b5;
+    position: absolute;
+    display: none;
+    z-index: 10000;
+    opacity: 0.9;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, opacity 0.3s ease; /* 添加过渡效果 */
+    transform: scale(0); /* 初始状态缩放为0 */
+    opacity: 0; /* 初始状态透明 */
+}
+
+.usercm ul {
+    list-style-type: none;
+    list-style-position: outside;
+    margin: 0px;
+    padding: 0px;
+    display: block;
+}
+
+.usercm ul li {
+    margin: 0px;
+    padding: 0px;
+    line-height: 35px;
+    text-align: center;
+}
+
+.usercm ul li:hover {
+    background: #ccc;
+    cursor: default;
+    user-select: none;
+}
+
+div.usercm {
+    background: #fff !important;
+}
+
+/* 显示右键菜单时的动画效果 */
+.usercm.show {
+    display: block; /* 确保菜单显示 */
+    transform: scale(1); /* 显示时缩放为1 */
+    opacity: 1; /* 显示时不透明 */
+}
+
+/* 隐藏右键菜单时的动画效果 */
+.usercm.hide {
+    transform: scale(0); /* 隐藏时缩放为0 */
+    opacity: 0; /* 隐藏时透明 */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* 添加过渡效果 */
+}
 
 /*世界时钟按钮样式*/
 .btn {
@@ -469,12 +523,12 @@ div.usercm{background:#fff !important;}
     padding: 30px 30px;
     background: #92c7eb;
     pointer-events: auto;
-    background-image: url("gb.png");
+    background-image: url("img/gb.png");
     background-size: cover;
     background-position: center;
     display: inline-block;
     border: none;
-    left: 50px;
+    left: 25px;
     width: 70px;
     border-radius: 900px;
     height: 70px;
@@ -486,6 +540,7 @@ div.usercm{background:#fff !important;}
    {
     width: 75px;
     height: 75px;
+    shadow: black;
    }
 
 .btn_us {
@@ -498,7 +553,7 @@ div.usercm{background:#fff !important;}
     background-position: center;
     display: inline-block;
     border: none;
-    left: 125px;
+    left: 110px;
     width: 70px;
     border-radius: 900px;
     height: 70px;
