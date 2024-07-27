@@ -2,13 +2,11 @@
 let customHour, customMinute, customSecond, customMillisecond;
 let customAlarmHour, customAlarmMin, customAlarmSec;
 let customedTime = false;
-let intervalId;
 let lastTimestamp = null;
 
 // 计时器相关变量
 let timerHour, timerMinute, timerSecond, timerMillisecond;
 let timerRunning = false;
-let timerIntervalId;
 
 // 秒表相关变量
 let watchHour, watchMinute, watchSecond, watchMillisecond;
@@ -72,23 +70,6 @@ function updateClock(timestamp) {
         }
     }
 
-    // if (customedTime) {
-    //     customMillisecond += elapsed;
-    //     if (customMillisecond >= 1000) {
-    //         customMillisecond -= 1000;
-    //         customSecond++;
-    //         if (customSecond >= 60) {
-    //             customSecond = 0;
-    //             customMinute++;
-    //             if (customMinute >= 60) {
-    //                 customMinute = 0;
-    //                 customHour = (customHour + 1) % 24;
-    //             }
-    //         }
-    //     }
-    //     updateTime(customHour, customMinute, customSecond, false);
-    // } else
-
     // 计时器
     if (timerRunning) {
         timerMillisecond -= elapsed;
@@ -103,7 +84,6 @@ function updateClock(timestamp) {
                     timerHour--;
                     if (timerHour < 0) {
                         // 计时器到时间
-                        clearInterval(timerIntervalId);
                         alert("计时器到时间了！");
                         timerRunning = false;
                         timerHour = 0;
@@ -188,8 +168,6 @@ function updateClock(timestamp) {
     let currentMinute = Math.floor(precise_min % 60);
     let currentSecond = Math.floor(precise_sec % 60);
 
-
-
 // 检查闹钟时间
 if (!alarmTriggered && currentHour === customAlarmHour && currentMinute === customAlarmMin && currentSecond === customAlarmSec) {
     playsound();
@@ -203,8 +181,6 @@ if (!alarmTriggered && currentHour === customAlarmHour && currentMinute === cust
 if (currentHour !== customAlarmHour || currentMinute !== customAlarmMin || currentSecond !== customAlarmSec) {
     alarmTriggered = false;
 }
-
-
 
     // 准备更新秒表的数字部分
     // 更新 watchDisplay 显示
@@ -264,12 +240,41 @@ function updateTime(hour, minute, second, to_animate) {
     });
 }
 
+// 验证用户输入的时间
+function validateTime(hour, minute, second) {
+    const hourRegex = /^([0-1]?[0-9]|2[0-3])$/;
+    const minuteSecondRegex = /^([0-5]?[0-9])$/;
+
+    if (!hourRegex.test(hour)) {
+        alert("小时数必须在0到23之间");
+        return false;
+    }
+    if (!minuteSecondRegex.test(minute)) {
+        alert("分钟数必须在0到59之间");
+        return false;
+    }
+    if (!minuteSecondRegex.test(second)) {
+        alert("秒数必须在0到59之间");
+        return false;
+    }
+    return true;
+}
+
 // 为设置时间按钮添加事件监听器
 document.getElementById('setTime').addEventListener('click', function () {
     // 读取用户输入的时间并存储
-    customHour = parseInt(document.getElementById('customHours').value);
-    customMinute = parseInt(document.getElementById('customMinutes').value);
-    customSecond = parseInt(document.getElementById('customSeconds').value);
+    let hour = parseInt(document.getElementById('customHours').value);
+    let minute = parseInt(document.getElementById('customMinutes').value);
+    let second = parseInt(document.getElementById('customSeconds').value);
+
+    // 验证用户输入的时间
+    if (!validateTime(hour, minute, second)) {
+        return;
+    }
+
+    customHour = hour;
+    customMinute = minute;
+    customSecond = second;
     customMillisecond = 0;
 
     // 调用updateTime函数，使用用户输入的时间
@@ -295,9 +300,18 @@ document.getElementById('reTime').addEventListener('click', function () {
 // 为设置闹钟按钮添加事件监听器
 document.getElementById('setAlarm').addEventListener('click', function () {
     // 读取用户输入的时间并存储
-    customAlarmHour = parseInt(document.getElementById('alarmHours').value);
-    customAlarmMin = parseInt(document.getElementById('alarmMinutes').value);
-    customAlarmSec = parseInt(document.getElementById('alarmSeconds').value);
+    let hour = parseInt(document.getElementById('alarmHours').value);
+    let minute = parseInt(document.getElementById('alarmMinutes').value);
+    let second = parseInt(document.getElementById('alarmSeconds').value);
+
+    // 验证用户输入的时间
+    if (!validateTime(hour, minute, second)) {
+        return;
+    }
+
+    customAlarmHour = hour;
+    customAlarmMin = minute;
+    customAlarmSec = second;
 
     // 提示用户可见的闹钟设置成功弹窗
     alert("闹钟设置成功，时间" + fillTime(customAlarmHour) + ":" + fillTime(customAlarmMin) + ":" + fillTime(customAlarmSec));
@@ -320,7 +334,8 @@ function playsound() {
 // 为秒表开始按钮添加事件监听器
 document.getElementById('startWatch').addEventListener('click', function () {
     if (timerRunning) {
-        alert("正在使用计时器，请先关闭计时器！")
+        alert("正在使用计时器，请先关闭计时器！");
+        return;
     }
     if (!timerRunning) {
         watchHour = 0;
@@ -336,257 +351,38 @@ document.getElementById('startWatch').addEventListener('click', function () {
 // 为秒表停止按钮添加事件监听器
 document.getElementById('stopWatch').addEventListener('click', function () {
     if (timerRunning) {
-        alert("正在使用计时器，请先关闭计时器！")
-    }
-    else {
-    alert("一共计时了" + watchHour + "小时" + watchMinute + "分钟" + watchSecond + "秒");
-    watchHour = 0;
-    watchMinute = 0;
-    watchSecond = 0;
-    watchMillisecond = 0;
-    watchRunning = false;
-        }
-});
-
-// 获取当前时间，如果用户自定义了时间，则使用自定义的时间
-function getTime() {
-    if (!customedTime) {
-        var now_time = new Date();
-        return {
-            hour: now_time.getHours(),
-            minute: now_time.getMinutes(),
-            second: now_time.getSeconds(),
-            millisecond: now_time.getMilliseconds()
-        };
-    }
-    return { hour: customHour, minute: customMinute, second: customSecond, millisecond: customMillisecond };
-}
-
-let draggingElement = null;
-let lastX, lastY;
-let center = {
-    x: 0,
-    y: 0
-};
-let clockRadius = 0;
-
-// 初始化时钟中心和半径
-function initClock() {
-    const clockDiv = document.querySelector('.clock');
-    const clockRect = clockDiv.getBoundingClientRect();
-    center.x = clockRect.left + clockRect.width / 2;
-    center.y = clockRect.top + clockRect.height / 2;
-    clockRadius = Math.min(clockRect.width, clockRect.height) / 2;
-
-    // 初始化时钟指针位置
-    initNeedlePositions();
-}
-
-// 初始化时钟指针位置的函数
-function initNeedlePositions() {
-    var current_time = new Date();
-    let curr_hour = current_time.getHours();
-    let curr_min = current_time.getMinutes();
-    let curr_sec = current_time.getSeconds();
-
-    let sc_needle_elem = document.getElementById('sc');
-    let mn_needle_elem = document.getElementById('mn');
-    let hr_needle_elem = document.getElementById('hr');
-
-    // 设置秒针位置
-    sc_needle_elem.style.transform = `rotate(${curr_sec * 6}deg)`;
-    // 设置分针位置
-    mn_needle_elem.style.transform = `rotate(${curr_min * 6 + curr_sec / 10}deg)`;
-    // 设置时针位置
-    hr_needle_elem.style.transform = `rotate(${curr_hour * 30 + curr_min / 2}deg)`;
-}
-
-// 拖动
-document.addEventListener("DOMContentLoaded", function () {
-    const circles = document.querySelectorAll('.circle');
-    const needles = document.querySelectorAll('.needles');
-
-    // 遍历每一个指针
-    needles.forEach((needle, index) => {
-        const circle = circles[index];
-        const svgCircle = circle.querySelector('circle');
-        const radius = parseFloat(window.getComputedStyle(svgCircle).getPropertyValue('r'));
-        const centerX = parseFloat(window.getComputedStyle(circle).getPropertyValue('left')) + radius;
-        const centerY = parseFloat(window.getComputedStyle(circle).getPropertyValue('top')) + radius;
-
-        let currentRotation = parseFloat(needle.style.transform.split('(')[1].split('deg')[0]);
-        let DragHour;
-        let DragMinute;
-        let DragSecond;
-
-        interact(needle)
-            .draggable({
-                // 拖动开始
-                onstart: function (event) {
-                    if(timerRunning || watchRunning) return;
-                    event.preventDefault();
-                    dragging = true;
-                    var current_time = new Date();
-                    if (DragRememberHour != -1) {
-                        DragHour = DragRememberHour;
-                    } else {
-                        DragHour = current_time.getHours();
-                    }
-
-                    if (DragRememberMinute != -1) {
-                        DragMinute = DragRememberMinute;
-                    } else {
-                        DragMinute = current_time.getMinutes();
-                    }
-
-                    if (DragRememberSecond != -1) {
-                        DragSecond = DragRememberSecond;
-                    } else {
-                        DragSecond = current_time.getSeconds();
-                    }
-                },
-                // 拖动中
-                onmove: function (event) {
-                    if(timerRunning || watchRunning) return;
-                    const x = event.pageX - (circle.getBoundingClientRect().left + radius);
-                    const y = event.pageY - (circle.getBoundingClientRect().top + radius);
-                    const angle = calculateAngle(x, y, centerX, centerY);
-                    needle.style.transform = `rotate(${angle}deg)`;
-
-                    // 更新时间显示
-                    updateTimeFromNeedles(needle, angle, DragHour, DragMinute, DragSecond);
-                },
-                // 拖动结束
-                onend: function (event) {
-                    if(timerRunning || watchRunning) return;
-                    // TODO 结束时先不恢复计时，而是出现一个按钮，等按下才恢复
-                    dragging = false;
-                    afterDragging = true;
-                    afterDraggingInit = true;
-                    requestAnimationFrame(updateClock);
-                }
-            });
-    });
-
-    // 计算角度
-    function calculateAngle(x, y, centerX, centerY) {
-        let angle = Math.atan2(y - centerY, x - centerX) * (180 / Math.PI) + 90;
-        if (angle < 0) {
-            angle += 360;
-        }
-        return angle;
-    }
-
-    // 更新时间显示
-    function updateTimeFromNeedles(needle, angle, DragHour, DragMinute, DragSecond) {
-        const id = needle.id;
-        let timeValue;
-
-        // 将角度转换为时间值
-        switch (id) {
-            case 'sc': // 秒针
-                timeValue = Math.round(angle / 6) % 60;
-                break;
-            case 'mn': // 分针
-                timeValue = Math.round(angle / 6) % 60;
-                break;
-            case 'hr': // 时针
-                timeValue = Math.floor(angle / 30) % 12;
-                if(downhalf) {
-                    timeValue += 12;
-                }
-
-                if(timeValue == 0) {
-                    ready_0 = true;
-                }
-                else if(timeValue == 11) {
-                    ready_11 = true;
-                }
-                else if(timeValue == 12) {
-                    ready_12 = true;
-                }
-                else if(timeValue == 23) {
-                    ready_23 = true;
-                }
-
-                if(ready_0 && timeValue == 11) {
-                    downhalf = true;
-                    uphalf = false;
-                    timeValue = 23;
-                    ready_0 = false;
-                }
-                else if(ready_11 && timeValue == 0) {
-                    downhalf = true;
-                    uphalf = false;
-                    timeValue = 12;
-                    ready_11 = false;
-                }
-                else if(ready_12 && timeValue == 23) {
-                    downhalf = false;
-                    uphalf = true;
-                    timeValue = 11;
-                    ready_12 = false;
-                }
-                else if(ready_23 && timeValue == 12) {
-                    downhalf = false;
-                    uphalf = true;
-                    timeValue = 0;
-                    ready_23 = false;
-                }
-                else if(timeValue == 1 || timeValue == 10 || timeValue == 13 || timeValue == 22) {
-                    ready_0 = false;
-                    ready_11 = false;
-                    ready_12 = false;
-                    ready_23 = false;
-                }
-
-                break;
-        }
-
-        // 更新自定义时间输入框和电子显示屏
-        switch (id) {
-            case 'sc':
-                DragSecond = timeValue;
-                DragRememberSecond = timeValue;
-                SecondDragged = true;
-                break;
-            case 'mn':
-                DragMinute = timeValue;
-                DragRememberMinute = timeValue;
-                MinuteDragged = true;
-                break;
-            case 'hr':
-                DragHour = timeValue;
-                DragRememberHour = timeValue;
-                HourDragged = true;
-                break;
-        }
-
-        // 更新电子显示屏
-        updateTime(DragHour, DragMinute, DragSecond, false)
-        if (!HourDragged) {
-            DragRememberHour = DragHour;
-        }
-        if (!MinuteDragged) {
-            DragRememberMinute = DragMinute;
-        }
-        if (!SecondDragged) {
-            DragRememberSecond = DragSecond;
-        }
-        lastMinuteAngle = angle;
+        alert("正在使用计时器，请先关闭计时器！");
+        return;
+    } else {
+        alert("一共计时了" + watchHour + "小时" + watchMinute + "分钟" + watchSecond + "秒");
+        watchHour = 0;
+        watchMinute = 0;
+        watchSecond = 0;
+        watchMillisecond = 0;
+        watchRunning = false;
     }
 });
 
 // 为设置计时器按钮添加事件监听器
 document.getElementById('setTimer').addEventListener('click', function () {
     if (watchRunning) {
-        alert("正在使用秒表，请先停止秒表！")
+        alert("正在使用秒表，请先停止秒表！");
+        return;
     }
     if (!watchRunning) {
         // 读取用户输入的时间并存储
-        timerHour = parseInt(document.getElementById('timerHours').value);
-        timerMinute = parseInt(document.getElementById('timerMinutes').value);
-        timerSecond = parseInt(document.getElementById('timerSeconds').value);
+        let hour = parseInt(document.getElementById('timerHours').value);
+        let minute = parseInt(document.getElementById('timerMinutes').value);
+        let second = parseInt(document.getElementById('timerSeconds').value);
+
+        // 验证用户输入的时间
+        if (!validateTime(hour, minute, second)) {
+            return;
+        }
+
+        timerHour = hour;
+        timerMinute = minute;
+        timerSecond = second;
         timerMillisecond = 0;
 
         // 调用updateTime函数，使用用户输入的时间
@@ -598,7 +394,8 @@ document.getElementById('setTimer').addEventListener('click', function () {
 // 获取停止计时按钮并添加事件监听器
 document.getElementById('stopTimer').addEventListener('click', function () {
     if (watchRunning) {
-        alert("正在使用秒表，请先停止秒表！")
+        alert("正在使用秒表，请先停止秒表！");
+        return;
     }
     if (!watchRunning) {
         timerRunning = false;
@@ -694,17 +491,35 @@ document.getElementById('stopWatchHook').addEventListener('click', function () {
 // 为设置闹钟按钮添加事件监听器
 document.getElementById('setAlarmHook').addEventListener('click', function () {
     // 读取用户输入的时间并存储
-    customAlarmHour = parseInt(document.getElementById('customHours').value);
-    customAlarmMin = parseInt(document.getElementById('customMinutes').value);
-    customAlarmSec = parseInt(document.getElementById('customSeconds').value);
+    let hour = parseInt(document.getElementById('customHours').value);
+    let minute = parseInt(document.getElementById('customMinutes').value);
+    let second = parseInt(document.getElementById('customSeconds').value);
+
+    // 验证用户输入的时间
+    if (!validateTime(hour, minute, second)) {
+        return;
+    }
+
+    customAlarmHour = hour;
+    customAlarmMin = minute;
+    customAlarmSec = second;
     hideContextMenu(); // 点击后淡出菜单
 });
 
 document.getElementById('setTimeHook').addEventListener('click', function () {
     // 读取用户输入的时间并存储
-    customHour = parseInt(document.getElementById('customHours').value);
-    customMinute = parseInt(document.getElementById('customMinutes').value);
-    customSecond = parseInt(document.getElementById('customSeconds').value);
+    let hour = parseInt(document.getElementById('customHours').value);
+    let minute = parseInt(document.getElementById('customMinutes').value);
+    let second = parseInt(document.getElementById('customSeconds').value);
+
+    // 验证用户输入的时间
+    if (!validateTime(hour, minute, second)) {
+        return;
+    }
+
+    customHour = hour;
+    customMinute = minute;
+    customSecond = second;
     customMillisecond = 0;
 
     // 调用updateTime函数，使用用户输入的时间
@@ -736,9 +551,18 @@ document.getElementById('setTimerHook').addEventListener('click', function () {
         return;
     }
     // 读取用户输入的时间并存储
-    timerHour = parseInt(document.getElementById('timerHours').value);
-    timerMinute = parseInt(document.getElementById('timerMinutes').value);
-    timerSecond = parseInt(document.getElementById('timerSeconds').value);
+    let hour = parseInt(document.getElementById('timerHours').value);
+    let minute = parseInt(document.getElementById('timerMinutes').value);
+    let second = parseInt(document.getElementById('timerSeconds').value);
+
+    // 验证用户输入的时间
+    if (!validateTime(hour, minute, second)) {
+        return;
+    }
+
+    timerHour = hour;
+    timerMinute = minute;
+    timerSecond = second;
     timerMillisecond = 0;
 
     // 调用updateTime函数，使用用户输入的时间
@@ -790,102 +614,101 @@ document.getElementById('toggleTimeWatch').addEventListener('click', function() 
     }
 });
 
-
-//世界时钟相关函数
+// 世界时钟相关函数
 
 function gb(){
-	var date = new Date();
-	var hour = date.getHours();
+    var date = new Date();
+    var hour = date.getHours();
     customMinute = date.getMinutes();
     customSecond = date.getSeconds();
-	if(hour > 7){
-		customHour = hour - 7;
-	}
-	else{
-		customHour = hour + 17;
-	}
-	customedTime = true;
-    document.body.style.backgroundImage="url(img/London.jpeg)"; //改变背景图片
+    if(hour > 7){
+        customHour = hour - 7;
+    }
+    else{
+        customHour = hour + 17;
+    }
+    customedTime = true;
+    document.body.style.backgroundImage="url(img/London.jpeg)"; // 改变背景图片
 }
 
 function us(){
-	var date = new Date();
-	var hour = date.getHours();
+    var date = new Date();
+    var hour = date.getHours();
     customMinute = date.getMinutes();
     customSecond = date.getSeconds();
-	if(hour > 12){
-		customHour = hour - 12;
-	}
-	else{
-		customHour = hour + 12;
-	}
-	customedTime = true;
-    document.body.style.backgroundImage="url(img/NY.jpg)"; //改变背景图片
+    if(hour > 12){
+        customHour = hour - 12;
+    }
+    else{
+        customHour = hour + 12;
+    }
+    customedTime = true;
+    document.body.style.backgroundImage="url(img/NY.jpg)"; // 改变背景图片
 }
 
 function ru(){
-	var date = new Date();
-	var hour = date.getHours();
+    var date = new Date();
+    var hour = date.getHours();
     customMinute = date.getMinutes();
     customSecond = date.getSeconds();
-	if(hour > 5){
-		customHour = hour - 5;
-	}
-	else{
-		customHour = hour + 19;
-	}
-	customedTime = true;
-    document.body.style.backgroundImage="url(img/Moscow.jpg)"; //改变背景图片
+    if(hour > 5){
+        customHour = hour - 5;
+    }
+    else{
+        customHour = hour + 19;
+    }
+    customedTime = true;
+    document.body.style.backgroundImage="url(img/Moscow.jpg)"; // 改变背景图片
 }
 
 function ind(){
-	var date = new Date();
-	var hour = date.getHours();
+    var date = new Date();
+    var hour = date.getHours();
     customMinute = date.getMinutes();
     customSecond = date.getSeconds();
-	if(customMinute > 30){
-		customMinute -= 30;
-	}
-	else{
-		customMinute += 30;
-		hour -= 1;
-	}
-	if(hour > 2){
-		customHour = hour - 2;
-	}
-	else{
-		customHour = hour + 22;
-	}
-	customedTime = true;
-    document.body.style.backgroundImage="url(img/delhi.jpg)"; //改变背景图片
+    if(customMinute > 30){
+        customMinute -= 30;
+    }
+    else{
+        customMinute += 30;
+        hour -= 1;
+    }
+    if(hour > 2){
+        customHour = hour - 2;
+    }
+    else{
+        customHour = hour + 22;
+    }
+    customedTime = true;
+    document.body.style.backgroundImage="url(img/delhi.jpg)"; // 改变背景图片
 }
 
 function br(){
-	var date = new Date();
-	var hour = date.getHours();
+    var date = new Date();
+    var hour = date.getHours();
     customMinute = date.getMinutes();
     customSecond = date.getSeconds();
-	if(hour > 11){
-		customHour = hour - 11;
-	}
-	else{
-		customHour = hour + 11;
-	}
-	customedTime = true;
-    document.body.style.backgroundImage="url(img/rio.jpg)"; //改变背景图片
+    if(hour > 11){
+        customHour = hour - 11;
+    }
+    else{
+        customHour = hour + 11;
+    }
+    customedTime = true;
+    document.body.style.backgroundImage="url(img/rio.jpg)"; // 改变背景图片
 }
 
 function tu(){
-	var date = new Date();
-	var hour = date.getHours();
+    var date = new Date();
+    var hour = date.getHours();
     customMinute = date.getMinutes();
     customSecond = date.getSeconds();
-	if(hour > 5){
-		customHour = hour - 5;
-	}
-	else{
-		customHour = hour + 5;
-	}
-	customedTime = true;
-    document.body.style.backgroundImage="url(img/ist.png)"; //改变背景图片
+    if(hour > 5){
+        customHour = hour - 5;
+    }
+    else{
+        customHour = hour + 5;
+    }
+    customedTime = true;
+    document.body.style.backgroundImage="url(img/ist.png)"; // 改变背景图片
 }
