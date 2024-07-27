@@ -698,6 +698,8 @@ document.getElementById('setAlarmHook').addEventListener('click', function () {
     customAlarmMin = parseInt(document.getElementById('customMinutes').value);
     customAlarmSec = parseInt(document.getElementById('customSeconds').value);
     hideContextMenu(); // 点击后淡出菜单
+     // 提示用户可见的闹钟设置成功弹窗
+    alert("闹钟设置成功，时间" + fillTime(customAlarmHour) + ":" + fillTime(customAlarmMin) + ":" + fillTime(customAlarmSec));
 });
 
 document.getElementById('setTimeHook').addEventListener('click', function () {
