@@ -1,6 +1,8 @@
 // 初始化全局变量
 let customHour, customMinute, customSecond, customMillisecond;
 let customAlarmHour, customAlarmMin, customAlarmSec;
+// 闹钟全局变量 内容是设置的闹钟时间
+let alarms = [];
 let customedTime = false;
 let lastTimestamp = null;
 
@@ -304,7 +306,30 @@ document.getElementById('setAlarm').addEventListener('click', function () {
     if (!validateTime(hour, minute, second)) {
         return;
     }
+  // 创建新的闹钟对象
+    let newAlarm = {
+        hour: hour,
+        minute: minute,
+        second: second
+    };
 
+   // 检查闹钟时间是否已经存在于数组之中
+    let alarmExists = alarms.some(function(alarm) {
+        return alarm.hour === newAlarm.hour && alarm.minute === newAlarm.minute && alarm.second === newAlarm.second;
+    });
+
+    if (alarmExists) {
+        alert("这个闹钟时间已经存在！");
+        return;
+    }
+
+    // 将新闹钟添加到闹钟数组中
+    alarms.push(newAlarm);
+
+    // 显示闹钟菜单并填充闹钟列表
+    showAlarmMenu();
+
+    //TODO:把customedAlarmTime检查修改为遍历闹钟数组
     customAlarmHour = hour;
     customAlarmMin = minute;
     customAlarmSec = second;
@@ -312,6 +337,47 @@ document.getElementById('setAlarm').addEventListener('click', function () {
     // 提示用户可见的闹钟设置成功弹窗
     alert("闹钟设置成功，时间" + fillTime(customAlarmHour) + ":" + fillTime(customAlarmMin) + ":" + fillTime(customAlarmSec));
 });
+
+// 显示闹钟菜单功能
+// 显示闹钟菜单并填充闹钟列表
+function showAlarmMenu() {
+    // 获取闹钟菜单元素
+    const alarmMenu = document.getElementById('alarmMenu');
+    const alarmList = document.getElementById('alarmList');
+
+   // 检查闹钟数组是否为空
+    if (alarms.length === 0) {
+        // 如果没有闹钟，则隐藏闹钟菜单
+        alarmMenu.style.display = 'none';
+        return;
+    } else {
+        // 如果有闹钟，则显示闹钟菜单
+        alarmMenu.style.display = 'block';
+    }
+
+
+    // 清空现有的闹钟列表
+    alarmList.innerHTML = '';
+
+    alarms.forEach((alarm, index) => {
+        let listItem = document.createElement('li');
+        listItem.textContent = `闹钟 ${index + 1}: ${fillTime(alarm.hour)}:${fillTime(alarm.minute)}:${fillTime(alarm.second)}`;
+
+        // 创建删除按钮并添加到列表项中
+        let deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete-btn';
+        listItem.appendChild(deleteBtn);
+
+        // 将列表项添加到闹钟列表中
+        alarmList.appendChild(listItem);
+
+        // 为删除按钮添加点击事件
+        deleteBtn.onclick = function() {
+            alarms.splice(index, 1);
+            showAlarmMenu();
+        };
+    });
+}
 
 // 播放闹钟音频函数
 function playsound() {
@@ -772,12 +838,17 @@ document.getElementById('toggleTopLeft').addEventListener('click', function() {
         controls.style.display = 'none';
     }
 });
+// 同时隐藏闹钟设置和菜单
 document.getElementById('toggleTimeClock').addEventListener('click', function() {
     var controls = document.querySelector('#time-clock .controls');
+    var alarmMenu = document.getElementById('alarmMenu');
+
     if (controls.style.display === 'none' || controls.style.display === '') {
         controls.style.display = 'block';
+        alarmMenu.style.display = 'block';
     } else {
         controls.style.display = 'none';
+        alarmMenu.style.display = 'none';
     }
 });
 document.getElementById('toggleTimeWatch').addEventListener('click', function() {

@@ -351,6 +351,101 @@ body{
     background-color: #194f8d;
 }
 
+
+/* 闹钟菜单样式
+/* 闹钟菜单样式 */
+.alarm-menu {
+        position: absolute;
+            left: 100%;
+            /* 放置在time-clock的右侧 */
+            top: 0;
+            /* 与time-clock顶部对齐 */
+            width: 200px;
+            /* 根据需要调整宽度 */
+            background-color: #333;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(72, 0, 207, 0.3);
+            color: rgb(171, 213, 255);
+            z-index: 1;
+            /* 确保菜单在time-clock之上 */
+}
+
+.alarm-menu h5{
+    text-align: center;
+}
+
+.alarm-menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.alarm-menu li {
+    position: relative;
+    padding: 5px 0;
+    border-bottom: 1px solid #444;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.alarm-menu li:hover {
+    background-color: #354a62;
+}
+
+/* 删除按钮样式 */
+#alarmList li .delete-btn {
+    display: none;
+    position: absolute;
+    right: 5px;
+    /* 调整距离右边的距离 */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    /* 调整按钮宽度 */
+    height: 20px;
+    /* 调整按钮高度 */
+    border-radius: 50%;
+    background-color: #f44336;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    /* 移除边框 */
+    outline: none;
+    /* 移除轮廓 */
+}
+
+/* 鼠标悬停在列表项上时显示删除按钮 */
+#alarmList li:hover .delete-btn {
+    display: flex;
+}
+
+/* 调整×符号的样式 */
+#alarmList li .delete-btn::before {
+    content: '×';
+    font-size: 14px;
+    /* 调整字体大小 */
+    line-height: 1;
+}
+
+.alarm-menu button {
+    margin-left: 5px;
+    padding: 5px;
+    background-color: #ff4242;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.alarm-menu button:hover {
+    background-color: #d32f2f;
+}
+
+
 .controls {
     display: none; /* 初始状态隐藏 */
 }
