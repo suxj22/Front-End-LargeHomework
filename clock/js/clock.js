@@ -310,7 +310,8 @@ document.getElementById('setAlarm').addEventListener('click', function () {
     let newAlarm = {
         hour: hour,
         minute: minute,
-        second: second
+        second: second,
+        enabled: true
     };
 
    // 检查闹钟时间是否已经存在于数组之中
@@ -362,6 +363,15 @@ function showAlarmMenu() {
         let listItem = document.createElement('li');
         listItem.innerHTML = `闹钟 ${index + 1}: ${fillTime(alarm.hour)}:${fillTime(alarm.minute)}:${fillTime(alarm.second)}`;
 
+        // 设置列表项的透明度根据启用状态
+        listItem.style.opacity = alarm.enabled ? '1' : '0.5';
+
+        // 创建启用/禁用按钮并添加到列表项中
+        let toggleBtn = document.createElement('button');
+        toggleBtn.className = 'toggle-btn';
+        toggleBtn.textContent = alarm.enabled ? '禁' : '启';
+        listItem.appendChild(toggleBtn);
+
         // 创建删除按钮并添加到列表项中
         let deleteBtn = document.createElement('button');
         deleteBtn.className = 'delete-btn';
@@ -390,10 +400,20 @@ function showAlarmMenu() {
                 alarm.minute = newMinute;
                 alarm.second = newSecond;
                 listItem.innerHTML = `闹钟 ${index + 1}: ${fillTime(alarm.hour)}:${fillTime(alarm.minute)}:${fillTime(alarm.second)}`;
-                listItem.appendChild(deleteBtn); // 重新添加删除按钮
+                listItem.style.opacity = alarm.enabled ? '1' : '0.5';
+                listItem.appendChild(toggleBtn);
+                listItem.appendChild(deleteBtn);
             } else {
                 alert('输入的时间无效！');
             }
+        });
+
+        // 为启用/禁用按钮添加点击事件
+        toggleBtn.addEventListener('click', function(event) {
+            event.stopPropagation(); // 阻止事件冒泡
+            alarm.enabled = !alarm.enabled;
+            listItem.style.opacity = alarm.enabled ? '1' : '0.5';
+            toggleBtn.textContent = alarm.enabled ? '禁' : '启';
         });
 
         // 为删除按钮添加点击事件，并阻止事件冒泡
@@ -404,6 +424,7 @@ function showAlarmMenu() {
         });
     });
 }
+
 
 // 用于填充时间的辅助函数，确保时间格式为两位数
 function fillTime(time) {
