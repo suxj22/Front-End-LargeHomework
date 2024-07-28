@@ -360,7 +360,7 @@ body{
             /* 放置在time-clock的右侧 */
             top: 0;
             /* 与time-clock顶部对齐 */
-            width: 200px;
+            width: 250px;
             /* 根据需要调整宽度 */
             background-color: #333;
             padding: 10px;
@@ -397,7 +397,7 @@ body{
 #alarmList li .delete-btn {
     display: none;
     position: absolute;
-    right: 5px;
+    right: 20px;
     /* 调整距离右边的距离 */
     top: 50%;
     transform: translateY(-50%);
@@ -430,6 +430,57 @@ body{
     /* 调整字体大小 */
     line-height: 1;
 }
+
+/* 启用/禁用按钮样式 */
+#alarmList li .toggle-btn {
+    display: none;
+    position: absolute;
+    right: 50px;
+    /* 调整距离右边的距离，确保不与删除按钮重叠 */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    /* 调整按钮宽度 */
+    height: 20px;
+    /* 调整按钮高度 */
+    border-radius: 50%;
+    background-color: #4CAF50;
+    /* 启用按钮的背景色 */
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    /* 移除边框 */
+    outline: none;
+    /* 移除轮廓 */
+}
+
+/* 鼠标悬停在列表项上时显示启用/禁用按钮 */
+#alarmList li:hover .toggle-btn {
+    display: flex;
+}
+
+/* 调整启用/禁用符号的样式 */
+#alarmList li .toggle-btn::before {
+    /* 启用状态下的符号 */
+    font-size: 14px;
+    /* 调整字体大小 */
+    line-height: 1;
+}
+
+/* 禁用状态样式 */
+#alarmList li .toggle-btn.disabled {
+    background-color: #9E9E9E;
+    /* 禁用状态按钮的背景色 */
+}
+
+#alarmList li .toggle-btn.disabled::before {
+    content: '禁';
+    /* 禁用状态下的符号 */
+}
+
 
 .alarm-menu button {
     margin-left: 5px;
