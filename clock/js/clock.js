@@ -30,7 +30,6 @@ let ready_23 = false;
 let downhalf = false;
 let uphalf = false;
 
-let alarmTriggered = false;
 
 function updateClock(timestamp) {
     if (dragging) {
@@ -168,21 +167,7 @@ function updateClock(timestamp) {
     let currentMinute = Math.floor(precise_min % 60);
     let currentSecond = Math.floor(precise_sec % 60);
 
-// 检查闹钟时间
-if (!alarmTriggered && currentHour === customAlarmHour && currentMinute === customAlarmMin && currentSecond === customAlarmSec) {
-    playsound();
-    setTimeout(function() {
-        alert("闹钟时间到了！");
-    }, 100); // 延迟 100 毫秒显示 alert
-    alarmTriggered = true;
-}
 
-// 重置闹钟触发标志位，当时间不等于闹钟时间时
-if (currentHour !== customAlarmHour || currentMinute !== customAlarmMin || currentSecond !== customAlarmSec) {
-    alarmTriggered = false;
-}
-
-    // 准备更新秒表的数字部分
     // 更新 watchDisplay 显示
     if (watchRunning) {
         let watchMinutes = Math.floor(precise_min);
@@ -313,19 +298,6 @@ document.getElementById('setAlarm').addEventListener('click', function () {
     alert("闹钟设置成功，时间" + fillTime(customAlarmHour) + ":" + fillTime(customAlarmMin) + ":" + fillTime(customAlarmSec));
 });
 
-// 播放闹钟音频函数
-function playsound() {
-    let alarmSound = new Audio('ikun.mp3'); // 请确保路径正确
-    alarmSound.addEventListener('canplaythrough', function () {
-        console.log('Audio loaded successfully, playing sound.');
-        alarmSound.play().catch(function (error) {
-            console.error('无法播放音频:', error);
-        });
-    });
-    alarmSound.addEventListener('error', function (error) {
-        console.error('音频加载失败:', error);
-    });
-}
 
 // 为秒表开始按钮添加事件监听器
 document.getElementById('startWatch').addEventListener('click', function () {
