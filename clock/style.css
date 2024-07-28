@@ -360,7 +360,7 @@ body{
             /* 放置在time-clock的右侧 */
             top: 0;
             /* 与time-clock顶部对齐 */
-            width: 200px;
+            width: 250px;
             /* 根据需要调整宽度 */
             background-color: #333;
             padding: 10px;
@@ -397,7 +397,7 @@ body{
 #alarmList li .delete-btn {
     display: none;
     position: absolute;
-    right: 5px;
+    right: 20px;
     /* 调整距离右边的距离 */
     top: 50%;
     transform: translateY(-50%);
@@ -430,6 +430,7 @@ body{
     /* 调整字体大小 */
     line-height: 1;
 }
+
 
 .alarm-menu button {
     margin-left: 5px;
