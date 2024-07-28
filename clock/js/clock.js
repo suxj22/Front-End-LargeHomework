@@ -170,6 +170,44 @@ function updateClock(timestamp) {
     let currentSecond = Math.floor(precise_sec % 60);
 
 
+        // 检查当前时间与闹钟时间是否匹配
+    alarms.forEach((alarm, index) => {
+        if (customHour === alarm.hour && customMinute === alarm.minute && customSecond === alarm.second) {
+// 播放闹钟音频
+// playsound();
+    let alarmSound = new Audio('ikun.mp3'); // 请确保路径正确
+    alarmSound.loop = true; // 使音频循环播放
+            alarmSound.play();
+// 弹窗提示
+Swal.fire({
+    title: '闹钟时间到了！',
+    text: '选择确定以延时5分钟，取消以关闭闹钟。',
+    icon: 'info',
+    showCancelButton: true,
+    confirmButtonText: '确定',
+    cancelButtonText: '取消'
+}).then((result) => {
+    if (result.isConfirmed) {
+        // 延时5分钟
+        alarm.second += 5;
+        if (alarm.minute >= 60) {
+            alarm.minute -= 60;
+            alarm.hour = (alarm.hour + 1) % 24;
+        }
+        alarmSound.pause();
+    } else {
+        // 立即关闭闹钟
+        alarms.splice(index, 1);
+        showAlarmMenu();
+        alarmSound.pause();
+    }
+});
+        }
+    });
+
+
+
+
     // 更新 watchDisplay 显示
     if (watchRunning) {
         let watchMinutes = Math.floor(precise_min);
@@ -208,6 +246,41 @@ function updateClock(timestamp) {
 
 // 初始化时钟更新
 requestAnimationFrame(updateClock);
+
+function playsound() {
+    let alarmSound = new Audio('ikun.mp3'); // 请确保路径正确
+    alarmSound.loop = true; // 使音频循环播放
+    alarmSound.play().catch(function (error) {
+        console.error('无法播放音频:', error);
+    });
+
+    // 暴露用于停止音频播放的函数
+    window.stopAlarmSound = function() {
+        alarmSound.pause();
+        alarmSound.currentTime = 0;
+    }
+}
+
+// 为弹窗操作添加事件监听器
+function handleAlarmAction(delay) {
+    if (delay) {
+        customAlarmMin += 5;
+        if (customAlarmMin >= 60) {
+            customAlarmMin -= 60;
+            customAlarmHour = (customAlarmHour + 1) % 24;
+        }
+    } else {
+        stopAlarmSound();
+    }
+}
+
+// 在HTML中，设置相应的弹窗按钮，确保有功能关闭声音
+document.getElementById('snoozeButton').addEventListener('click', function() {
+    handleAlarmAction(true);
+});
+document.getElementById('dismissButton').addEventListener('click', function() {
+    handleAlarmAction(false);
+});
 
 // 填充时间，确保时间总是以两位数显示
 function fillTime(x) {
@@ -361,20 +434,6 @@ function showAlarmMenu() {
             alarms.splice(index, 1);
             showAlarmMenu();
         };
-    });
-}
-
-// 播放闹钟音频函数
-function playsound() {
-    let alarmSound = new Audio('ikun.mp3'); // 请确保路径正确
-    alarmSound.addEventListener('canplaythrough', function () {
-        console.log('Audio loaded successfully, playing sound.');
-        alarmSound.play().catch(function (error) {
-            console.error('无法播放音频:', error);
-        });
-    });
-    alarmSound.addEventListener('error', function (error) {
-        console.error('音频加载失败:', error);
     });
 }
 

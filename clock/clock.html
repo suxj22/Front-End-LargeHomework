@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- 引入interact.js -->
     <script src="https://unpkg.com/interactjs@latest/dist/interact.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <title>Clock</title>
     <link rel="stylesheet" href="./style.css">
 </head>
@@ -201,6 +203,9 @@
               <input type="number" id="alarmSeconds" value="00" min="0" max="59">
           </div>
           <button id="setAlarm">设置闹钟</button>
+          <button id="snoozeButton" style="display:none;">延时5分钟</button>
+          <button id="dismissButton" style="display:none;">关闭闹钟</button>
+
       </div>
       <!--增加闹钟菜单-->
     <div id="alarmMenu" class="alarm-menu" style="display: none;">
