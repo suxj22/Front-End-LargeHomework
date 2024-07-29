@@ -224,7 +224,14 @@
     <div class="controls">
         <button id="startWatch">启动秒表</button>
         <button id="stopWatch">停止秒表</button>
-        <div id="watchDisplay">00:00:00</div>
+        <!--增加重置秒表功能-->
+        <!--TODO: 修改目前停止秒表和重置秒表的逻辑-->
+        <button id="restartWatch">重置秒表</button>
+        <div id="watchDisplay">00:00:000</div>
+    </div>
+    <div id="watchMenu" class="watch-menu" style="display: none;">
+        秒表菜单
+        <ul id="watchList"></ul>
     </div>
 </div>
 

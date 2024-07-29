@@ -13,7 +13,13 @@ let timerRunning = false;
 // 秒表相关变量
 let watchHour, watchMinute, watchSecond, watchMillisecond;
 let watchRunning = false;
-
+let watchStopped = false;
+let savedWatchTime = {
+    hour: 0,
+    minute: 0,
+    second: 0,
+    millisecond: 0
+}; // 用于保存秒表时间的变量
 // 拖动变量
 let dragging = false;
 let DragRememberHour = -1;
@@ -111,7 +117,9 @@ function updateClock(timestamp) {
             }
         }
         updateTime(watchHour, watchMinute, watchSecond);
-    } else {
+    } else if (watchStopped) {
+    }
+        else {
         if(afterDragging && afterDraggingInit) {
             customHour = DragRememberHour;
             customMinute = DragRememberMinute;
@@ -159,9 +167,9 @@ function updateClock(timestamp) {
     }
 
     // 计算当前时间的小数部分
-    let precise_sec = (timerRunning ? timerSecond : (watchRunning ? watchSecond : customSecond)) + (timerRunning ? timerMillisecond : (watchRunning ? watchMillisecond : customMillisecond)) / 1000;
-    let precise_min = (timerRunning ? timerMinute : (watchRunning ? watchMinute : customMinute)) + precise_sec / 60;
-    let precise_hour = (timerRunning ? timerHour : (watchRunning ? watchHour : customHour)) + precise_min / 60;
+    let precise_sec = (timerRunning ? timerSecond : (watchRunning ? watchSecond : (watchStopped ? savedWatchTime.second: customSecond))) + (timerRunning ? timerMillisecond : (watchRunning ? watchMillisecond : (watchStopped ? savedWatchTime.millisecond : customMillisecond))) / 1000;
+    let precise_min = (timerRunning ? timerMinute : (watchRunning ? watchMinute : (watchStopped ? savedWatchTime.minute : customMinute))) + precise_sec / 60;
+    let precise_hour = (timerRunning ? timerHour : (watchRunning ? watchHour : (watchStopped ? savedWatchTime.hour : customHour))) + precise_min / 60;
 
 
     // 获取当前时间的整数部分
@@ -215,16 +223,17 @@ function updateClock(timestamp) {
         // 将更新的文本显示在 watchDisplay 元素上
         document.getElementById('watchDisplay').innerText = `${watchMinutes.toString().padStart(2, '0')}:${watchSeconds.toString().padStart(2, '0')}:${watchMilliseconds.toString().padStart(3, '0')}`;
     }
-    else {
-        let watchMinutes = 0;
-        let watchSeconds = 0;
-        let watchMilliseconds = 0;
+    else if (watchStopped) {
+        let watchMinutes = savedWatchTime.minute;
+        let watchSeconds = savedWatchTime.second;
+        let watchMilliseconds = Math.floor(savedWatchTime.millisecond); // 截断小数部分，只保留整数
 
         // 格式化为字符串，确保分钟、秒、毫秒始终显示两位数
         // 将更新的文本显示在 watchDisplay 元素上
-        document.getElementById('watchDisplay').innerText = `${watchMinutes.toString().padStart(2, '0')}:${watchSeconds.toString().padStart(2, '0')}:${watchMilliseconds.toString().padStart(3, '0')}`;
+        // 注意：这里不需要对毫秒数使用padStart，因为它已经是整数了
+        document.getElementById('watchDisplay').innerText =
+            `${watchMinutes.toString().padStart(2, '0')}:${watchSeconds.toString().padStart(2, '0')}:${watchMilliseconds}`; // 直接显示毫秒整数，不使用padStart
     }
-
     // 更新秒针、分针和时针的平滑位置
     hh_elem.style.strokeDashoffset = 510 * (1 - precise_hour / 12);
     mm_elem.style.strokeDashoffset = 630 * (1 - precise_min / 60);
@@ -499,32 +508,78 @@ document.getElementById('startWatch').addEventListener('click', function () {
         alert("正在使用计时器，请先关闭计时器！");
         return;
     }
-    if (!timerRunning) {
-        watchHour = 0;
-        watchMinute = 0;
-        watchSecond = 0;
-        watchMillisecond = 0;
-
+    if (!watchRunning) {
+        // 如果秒表之前被暂停过，从保存的时间继续
+        if (watchStopped) {
+            watchHour = savedWatchTime.hour;
+            watchMinute = savedWatchTime.minute;
+            watchSecond = savedWatchTime.second;
+            watchMillisecond = savedWatchTime.millisecond;
+        } else {
+            // 如果秒表没有被暂停过，从零开始
+            watchHour = 0;
+            watchMinute = 0;
+            watchSecond = 0;
+            watchMillisecond = 0;
+        }
+        
         updateTime(watchHour, watchMinute, watchSecond);
         watchRunning = true;
+        watchPaused = false; // 清除暂停标记
     }
 });
-
 // 为秒表停止按钮添加事件监听器
 document.getElementById('stopWatch').addEventListener('click', function () {
     if (timerRunning) {
         alert("正在使用计时器，请先关闭计时器！");
-
     } else {
-        alert("一共计时了" + watchHour + "小时" + watchMinute + "分钟" + watchSecond + "秒");
-        watchHour = 0;
-        watchMinute = 0;
-        watchSecond = 0;
-        watchMillisecond = 0;
+        watchStopped = true;
         watchRunning = false;
+        savedWatchTime = {
+            hour: watchHour,
+            minute: watchMinute,
+            second: watchSecond,
+            millisecond: Math.floor(watchMillisecond)
+        };
+        // 格式化时间字符串
+        let timeStr = `${savedWatchTime.minute.toString().padStart(2, '0')}:${savedWatchTime.second.toString().padStart(2, '0')}:${savedWatchTime.millisecond.toString().padStart(3, '0')} ms`;
+         // 创建新的列表项
+        let newItem = document.createElement('li');
+        newItem.textContent = timeStr; // 设置列表项的文本内容
+        
+        // 将新的列表项添加到 watchMenu 元素中
+        document.getElementById('watchMenu').appendChild(newItem);
+
+
     }
 });
 
+// 为秒表重置按钮添加事件监听器
+function restartWatch() {
+    // 清空秒表菜单中的所有列表项
+    const watchMenu = document.getElementById('watchMenu');
+    watchMenu.innerHTML = '秒表菜单'; // 清空列表
+
+    // 重置秒表时间
+    watchHour = 0;
+    watchMinute = 0;
+    watchSecond = 0;
+    watchMillisecond = 0;
+    
+    // 重置保存的秒表时间
+    savedWatchTime = {
+        hour: 0,
+        minute: 0,
+        second: 0,
+        millisecond: 0
+    };
+    document.getElementById('watchDisplay').innerText = '00:00:000';
+    // 重置秒表状态
+    watchRunning = false;
+    watchStopped = false;
+}
+// 为 restartWatch 按钮添加点击事件监听器
+document.getElementById('restartWatch').addEventListener('click', restartWatch);
 
 // 拖动
 document.addEventListener("DOMContentLoaded", function () {
@@ -953,10 +1008,13 @@ document.getElementById('toggleTimeClock').addEventListener('click', function() 
 });
 document.getElementById('toggleTimeWatch').addEventListener('click', function() {
     var controls = document.querySelector('#time-watch .controls');
+    var watchMenu = document.querySelector('#watchMenu');
     if (controls.style.display === 'none' || controls.style.display === '') {
         controls.style.display = 'block';
+        watchMenu.style.display = 'block';
     } else {
         controls.style.display = 'none';
+        watchMenu.style.display = 'none';
     }
 });
 
