@@ -509,20 +509,20 @@ document.getElementById('lapWatch').addEventListener('click', function () {
         return;
     }
 
-        savedWatchTime = {
-            hour: watchHour,
-            minute: watchMinute,
-            second: watchSecond,
-            millisecond: Math.floor(watchMillisecond)
-        };
-        // 格式化时间字符串
-        let timeStr = `${savedWatchTime.minute.toString().padStart(2, '0')}:${savedWatchTime.second.toString().padStart(2, '0')}:${savedWatchTime.millisecond.toString().padStart(3, '0')} ms`;
-         // 创建新的列表项
-        let newItem = document.createElement('li');
-        newItem.textContent = timeStr; // 设置列表项的文本内容
+    savedWatchTime = {
+        hour: watchHour,
+        minute: watchMinute,
+        second: watchSecond,
+        millisecond: Math.floor(watchMillisecond)
+    };
+    // 格式化时间字符串
+    let timeStr = `${savedWatchTime.minute.toString().padStart(2, '0')}:${savedWatchTime.second.toString().padStart(2, '0')}:${savedWatchTime.millisecond.toString().padStart(3, '0')} ms`;
+     // 创建新的列表项
+    let newItem = document.createElement('li');
+    newItem.textContent = timeStr; // 设置列表项的文本内容
 
-        // 将新的列表项添加到 watchMenu 元素中
-        document.getElementById('watchMenu').appendChild(newItem);
+    // 将新的列表项添加到 watchMenu 元素中
+    document.getElementById('watchMenu').appendChild(newItem);
 });
 
 
