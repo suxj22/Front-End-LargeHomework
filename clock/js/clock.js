@@ -169,45 +169,41 @@ function updateClock(timestamp) {
     let currentMinute = Math.floor(precise_min % 60);
     let currentSecond = Math.floor(precise_sec % 60);
 
-        // 检查当前时间与闹钟时间是否匹配
-alarms.forEach((alarm, index) => {
-    if (customHour === alarm.hour && customMinute === alarm.minute && customSecond === alarm.second && alarm.enabled) {
-        // 播放闹钟音频
-        let alarmSound = new Audio('ikun.mp3'); // 请确保路径正确
-        alarmSound.loop = true; // 使音频循环播放
-        alarmSound.play();
+    // 检查当前时间与闹钟时间是否匹配
+    alarms.forEach((alarm, index) => {
+        if (currentHour === alarm.hour && currentMinute === alarm.minute && currentSecond === alarm.second && alarm.enabled) {
+            // 播放闹钟音频
+            let alarmSound = new Audio('ikun.mp3'); // 请确保路径正确
+            alarmSound.loop = true; // 使音频循环播放
+            alarmSound.play();
 
-        // 弹窗提示
-        Swal.fire({
-            title: '闹钟时间到了！',
-            text: '选择确定以延时5分钟，取消以关闭闹钟。',
-            icon: 'info',
-            showCancelButton: false,
-            showDenyButton: true,
-            confirmButtonText: '延时5分钟',
-            denyButtonText: '关闭闹钟'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // 延时5分钟
-                alarm.minute += 10;
-                if (alarm.minute >= 60) {
-                    alarm.minute -= 60;
-                    alarm.hour = (alarm.hour + 1) % 24;
+            // 弹窗提示
+            Swal.fire({
+                title: '闹钟时间到了！',
+                text: '选择确定以延时5分钟，取消以关闭闹钟。',
+                icon: 'info',
+                showCancelButton: false,
+                showDenyButton: true,
+                confirmButtonText: '延时5分钟',
+                denyButtonText: '关闭闹钟'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // 延时5分钟
+                    alarm.minute += 5;
+                    if (alarm.minute >= 60) {
+                        alarm.minute -= 60;
+                        alarm.hour = (alarm.hour + 1) % 24;
+                    }
+                    showAlarmMenu();
+                } else if (result.isDenied) {
+                    // 禁用闹钟
+                    alarm.enabled = false;
+                    showAlarmMenu();
                 }
-                showAlarmMenu();
-            } else if (result.isDenied) {
-                // 禁用闹钟
-                alarm.enabled = false;
-                showAlarmMenu();
-            }
-            alarmSound.pause();
-        })
-    }
-});
-
-
-
-
+                alarmSound.pause();
+            })
+        }
+    });
 
     // 更新 watchDisplay 显示
     if (watchRunning) {
@@ -357,6 +353,7 @@ document.getElementById('reTime').addEventListener('click', function () {
 // 为设置闹钟按钮添加事件监听器
 document.getElementById('setAlarm').addEventListener('click', function () {
     // 读取用户输入的时间并存储
+    let name = document.getElementById('alarmName').value || '未命名';
     let hour = parseInt(document.getElementById('alarmHours').value);
     let minute = parseInt(document.getElementById('alarmMinutes').value);
     let second = parseInt(document.getElementById('alarmSeconds').value);
@@ -365,15 +362,17 @@ document.getElementById('setAlarm').addEventListener('click', function () {
     if (!validateTime(hour, minute, second)) {
         return;
     }
-  // 创建新的闹钟对象
+
+    // 创建新的闹钟对象
     let newAlarm = {
+        name: name,
         hour: hour,
         minute: minute,
         second: second,
         enabled: true
     };
 
-   // 检查闹钟时间是否已经存在于数组之中
+    // 检查闹钟时间是否已经存在于数组之中
     let alarmExists = alarms.some(function(alarm) {
         return alarm.hour === newAlarm.hour && alarm.minute === newAlarm.minute && alarm.second === newAlarm.second;
     });
@@ -389,101 +388,97 @@ document.getElementById('setAlarm').addEventListener('click', function () {
     // 显示闹钟菜单并填充闹钟列表
     showAlarmMenu();
 
-    //TODO:把customedAlarmTime检查修改为遍历闹钟数组
-    customAlarmHour = hour;
-    customAlarmMin = minute;
-    customAlarmSec = second;
-
     // 提示用户可见的闹钟设置成功弹窗
-    alert("闹钟设置成功，时间" + fillTime(customAlarmHour) + ":" + fillTime(customAlarmMin) + ":" + fillTime(customAlarmSec));
+    alert("闹钟设置成功，时间" + fillTime(hour) + ":" + fillTime(minute) + ":" + fillTime(second));
 });
 
 // 显示闹钟菜单功能
 // 显示闹钟菜单并填充闹钟列表
 function showAlarmMenu() {
-    // 获取闹钟菜单元素
     const alarmMenu = document.getElementById('alarmMenu');
     const alarmList = document.getElementById('alarmList');
 
-    // 检查闹钟数组是否为空
     if (alarms.length === 0) {
-        // 如果没有闹钟，隐藏闹钟菜单并显示提示信息
         alarmList.innerHTML = '<li>没有设置闹钟</li>';
         alarmMenu.style.display = 'none';
         return;
     } else {
-        // 如果有闹钟，则显示闹钟菜单
         alarmMenu.style.display = 'block';
     }
 
-    // 清空现有的闹钟列表
     alarmList.innerHTML = '';
 
     alarms.forEach((alarm, index) => {
         let listItem = document.createElement('li');
-        listItem.innerHTML = `闹钟 ${index + 1}: ${fillTime(alarm.hour)}:${fillTime(alarm.minute)}:${fillTime(alarm.second)}`;
+        listItem.innerHTML = `${alarm.name} - ${fillTime(alarm.hour)}:${fillTime(alarm.minute)}:${fillTime(alarm.second)}`;
 
-        // 设置列表项的透明度根据启用状态
         listItem.style.opacity = alarm.enabled ? '1' : '0.5';
 
-        // 创建启用/禁用按钮并添加到列表项中
         let toggleBtn = document.createElement('button');
         toggleBtn.className = 'toggle-btn';
         toggleBtn.textContent = alarm.enabled ? '禁' : '启';
         listItem.appendChild(toggleBtn);
 
-        // 创建删除按钮并添加到列表项中
         let deleteBtn = document.createElement('button');
         deleteBtn.className = 'delete-btn';
+        deleteBtn.textContent = '删除';
         listItem.appendChild(deleteBtn);
 
-        // 将列表项添加到闹钟列表中
         alarmList.appendChild(listItem);
 
-        // 为列表项添加点击事件，用于编辑闹钟时间
         listItem.addEventListener('click', function() {
-            // 分别提示输入小时、分钟和秒
-            let newHour = prompt('请输入新的小时（0-23）', `${fillTime(alarm.hour)}`);
-            if (newHour === null) return;
-            newHour = parseInt(newHour, 10);
+            Swal.fire({
+                title: '编辑闹钟',
+                html: `
+                    <input type="text" id="swal-input1" class="swal2-input" placeholder="闹钟名称" value="${alarm.name}">
+                    <input type="number" id="swal-input2" class="swal2-input" placeholder="小时" value="${alarm.hour}">
+                    <input type="number" id="swal-input3" class="swal2-input" placeholder="分钟" value="${alarm.minute}">
+                    <input type="number" id="swal-input4" class="swal2-input" placeholder="秒" value="${alarm.second}">
+                `,
+                focusConfirm: false,
+                preConfirm: () => {
+                    const name = document.getElementById('swal-input1').value;
+                    const hour = parseInt(document.getElementById('swal-input2').value, 10);
+                    const minute = parseInt(document.getElementById('swal-input3').value, 10);
+                    const second = parseInt(document.getElementById('swal-input4').value, 10);
 
-            let newMinute = prompt('请输入新的分钟（0-59）', `${fillTime(alarm.minute)}`);
-            if (newMinute === null) return;
-            newMinute = parseInt(newMinute, 10);
+                    if (!name || !validateTime(hour, minute, second)) {
+                        Swal.showValidationMessage('请输入有效的名称和时间');
+                        return;
+                    }
 
-            let newSecond = prompt('请输入新的秒数（0-59）', `${fillTime(alarm.second)}`);
-            if (newSecond === null) return;
-            newSecond = parseInt(newSecond, 10);
+                    return { name, hour, minute, second };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    alarm.name = result.value.name;
+                    alarm.hour = result.value.hour;
+                    alarm.minute = result.value.minute;
+                    alarm.second = result.value.second;
 
-            if (validateTime(newHour, newMinute, newSecond)) {
-                alarm.hour = newHour;
-                alarm.minute = newMinute;
-                alarm.second = newSecond;
-                listItem.innerHTML = `闹钟 ${index + 1}: ${fillTime(alarm.hour)}:${fillTime(alarm.minute)}:${fillTime(alarm.second)}`;
-                listItem.style.opacity = alarm.enabled ? '1' : '0.5';
-                listItem.appendChild(toggleBtn);
-                listItem.appendChild(deleteBtn);
-            } else {
-                alert('输入的时间无效！');
-            }
+                    listItem.innerHTML = `${alarm.name} - ${fillTime(alarm.hour)}:${fillTime(alarm.minute)}:${fillTime(alarm.second)}`;
+                    listItem.style.opacity = alarm.enabled ? '1' : '0.5';
+                    listItem.appendChild(toggleBtn);
+                    listItem.appendChild(deleteBtn);
+                }
+            });
         });
 
-        // 为启用/禁用按钮添加点击事件
         toggleBtn.addEventListener('click', function(event) {
-            event.stopPropagation(); // 阻止事件冒泡
+            event.stopPropagation();
             alarm.enabled = !alarm.enabled;
             listItem.style.opacity = alarm.enabled ? '1' : '0.5';
             toggleBtn.textContent = alarm.enabled ? '禁' : '启';
         });
 
-        // 为删除按钮添加点击事件，并阻止事件冒泡
         deleteBtn.addEventListener('click', function(event) {
-            event.stopPropagation(); // 阻止事件冒泡
+            event.stopPropagation();
             alarms.splice(index, 1);
             showAlarmMenu();
         });
     });
 }
+
 
 
 

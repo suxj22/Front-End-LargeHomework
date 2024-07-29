@@ -190,21 +190,25 @@
     <div id="time-clock">
 
       <div class="controls">
-          <div class="control-group">
-              <label for="alarmHours">小时:</label>
-              <input type="number" id="alarmHours" value="12" min="0" max="23">
-          </div>
-          <div class="control-group">
-              <label for="alarmMinutes">分钟:</label>
-              <input type="number" id="alarmMinutes" value="00" min="0" max="59">
-          </div>
-          <div class="control-group">
-              <label for="alarmSeconds">秒:</label>
-              <input type="number" id="alarmSeconds" value="00" min="0" max="59">
-          </div>
-          <button id="setAlarm">设置闹钟</button>
-          <button id="snoozeButton" style="display:none;">延时5分钟</button>
-          <button id="dismissButton" style="display:none;">关闭闹钟</button>
+      <div class="control-group">
+          <label for="alarmName">名称:</label>
+          <input type="text" id="alarmName" value="未命名">
+      </div>
+      <div class="control-group">
+          <label for="alarmHours">小时:</label>
+          <input type="number" id="alarmHours" value="12" min="0" max="23">
+      </div>
+      <div class="control-group">
+          <label for="alarmMinutes">分钟:</label>
+          <input type="number" id="alarmMinutes" value="00" min="0" max="59">
+      </div>
+      <div class="control-group">
+          <label for="alarmSeconds">秒:</label>
+          <input type="number" id="alarmSeconds" value="00" min="0" max="59">
+      </div>
+      <button id="setAlarm">设置闹钟</button>
+      <button id="snoozeButton" style="display:none;">延时5分钟</button>
+      <button id="dismissButton" style="display:none;">关闭闹钟</button>
 
       </div>
       <!--增加闹钟菜单-->
