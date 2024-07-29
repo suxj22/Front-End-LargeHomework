@@ -20,6 +20,11 @@ let savedWatchTime = {
     second: 0,
     millisecond: 0
 }; // 用于保存秒表时间的变量
+
+// 秒表计次相关变量
+let lapTimes = [];
+
+
 // 拖动变量
 let dragging = false;
 let DragRememberHour = -1;
@@ -502,6 +507,22 @@ function validateTime(hour, minute, second) {
 }
 
 
+// 为计次按钮添加事件监听器
+document.getElementById('lapWatch').addEventListener('click', function () {
+    if (!watchRunning) {
+        alert("秒表未启动！");
+        return;
+    }
+
+    let lapTime = `${watchHour.toString().padStart(2, '0')}:${watchMinute.toString().padStart(2, '0')}:${watchSecond.toString().padStart(2, '0')}:${watchMillisecond.toString().padStart(3, '0')}`;
+    lapTimes.push(lapTime);
+
+    let lapItem = document.createElement('li');
+    lapItem.textContent = lapTime;
+    document.getElementById('watchMenu').appendChild(lapItem);
+});
+
+
 // 为秒表开始按钮添加事件监听器
 document.getElementById('startWatch').addEventListener('click', function () {
     if (timerRunning) {
@@ -522,36 +543,26 @@ document.getElementById('startWatch').addEventListener('click', function () {
             watchSecond = 0;
             watchMillisecond = 0;
         }
-        
+
         updateTime(watchHour, watchMinute, watchSecond);
         watchRunning = true;
         watchPaused = false; // 清除暂停标记
     }
 });
-// 为秒表停止按钮添加事件监听器
+// 为秒表暂停按钮添加事件监听器
 document.getElementById('stopWatch').addEventListener('click', function () {
     if (timerRunning) {
         alert("正在使用计时器，请先关闭计时器！");
-    } else {
-        watchStopped = true;
-        watchRunning = false;
-        savedWatchTime = {
-            hour: watchHour,
-            minute: watchMinute,
-            second: watchSecond,
-            millisecond: Math.floor(watchMillisecond)
-        };
-        // 格式化时间字符串
-        let timeStr = `${savedWatchTime.minute.toString().padStart(2, '0')}:${savedWatchTime.second.toString().padStart(2, '0')}:${savedWatchTime.millisecond.toString().padStart(3, '0')} ms`;
-         // 创建新的列表项
-        let newItem = document.createElement('li');
-        newItem.textContent = timeStr; // 设置列表项的文本内容
-        
-        // 将新的列表项添加到 watchMenu 元素中
-        document.getElementById('watchMenu').appendChild(newItem);
-
-
+        return;
     }
+    watchStopped = true;
+    watchRunning = false;
+    savedWatchTime = {
+        hour: watchHour,
+        minute: watchMinute,
+        second: watchSecond,
+        millisecond: Math.floor(watchMillisecond)
+    };
 });
 
 // 为秒表重置按钮添加事件监听器
@@ -565,7 +576,7 @@ function restartWatch() {
     watchMinute = 0;
     watchSecond = 0;
     watchMillisecond = 0;
-    
+
     // 重置保存的秒表时间
     savedWatchTime = {
         hour: 0,
