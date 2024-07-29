@@ -430,7 +430,6 @@ function showAlarmMenu() {
 
         let deleteBtn = document.createElement('button');
         deleteBtn.className = 'delete-btn';
-        deleteBtn.textContent = '删除';
         listItem.appendChild(deleteBtn);
 
         alarmList.appendChild(listItem);

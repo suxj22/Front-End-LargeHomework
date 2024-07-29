@@ -261,6 +261,9 @@ body{
     width: 80px; /* 固定标签宽度 */
     color:  rgb(171, 213, 255);
 }
+.control-group #alarmName{
+    width: 100px;
+}
 .control-group input {
     flex: 1;
     color: rgb(46, 66, 86);
