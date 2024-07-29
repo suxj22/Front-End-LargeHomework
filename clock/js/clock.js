@@ -21,10 +21,6 @@ let savedWatchTime = {
     millisecond: 0
 }; // 用于保存秒表时间的变量
 
-// 秒表计次相关变量
-let lapTimes = [];
-
-
 // 拖动变量
 let dragging = false;
 let DragRememberHour = -1;
@@ -565,12 +561,6 @@ document.getElementById('stopWatch').addEventListener('click', function () {
     }
     watchStopped = true;
     watchRunning = false;
-    savedWatchTime = {
-        hour: watchHour,
-        minute: watchMinute,
-        second: watchSecond,
-        millisecond: Math.floor(watchMillisecond)
-    };
 });
 
 // 为秒表重置按钮添加事件监听器
