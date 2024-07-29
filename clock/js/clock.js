@@ -169,41 +169,42 @@ function updateClock(timestamp) {
     let currentMinute = Math.floor(precise_min % 60);
     let currentSecond = Math.floor(precise_sec % 60);
 
-
         // 检查当前时间与闹钟时间是否匹配
-    alarms.forEach((alarm, index) => {
-        if (customHour === alarm.hour && customMinute === alarm.minute && customSecond === alarm.second) {
-// 播放闹钟音频
-// playsound();
-    let alarmSound = new Audio('ikun.mp3'); // 请确保路径正确
-    alarmSound.loop = true; // 使音频循环播放
-            alarmSound.play();
-// 弹窗提示
-Swal.fire({
-    title: '闹钟时间到了！',
-    text: '选择确定以延时5分钟，取消以关闭闹钟。',
-    icon: 'info',
-    showCancelButton: true,
-    confirmButtonText: '确定',
-    cancelButtonText: '取消'
-}).then((result) => {
-    if (result.isConfirmed) {
-        // 延时5分钟
-        alarm.second += 5;
-        if (alarm.minute >= 60) {
-            alarm.minute -= 60;
-            alarm.hour = (alarm.hour + 1) % 24;
-        }
-        alarmSound.pause();
-    } else {
-        // 立即关闭闹钟
-        alarms.splice(index, 1);
-        showAlarmMenu();
-        alarmSound.pause();
+alarms.forEach((alarm, index) => {
+    if (customHour === alarm.hour && customMinute === alarm.minute && customSecond === alarm.second && alarm.enabled) {
+        // 播放闹钟音频
+        let alarmSound = new Audio('ikun.mp3'); // 请确保路径正确
+        alarmSound.loop = true; // 使音频循环播放
+        alarmSound.play();
+
+        // 弹窗提示
+        Swal.fire({
+            title: '闹钟时间到了！',
+            text: '选择确定以延时5分钟，取消以关闭闹钟。',
+            icon: 'info',
+            showCancelButton: false,
+            showDenyButton: true,
+            confirmButtonText: '延时5分钟',
+            denyButtonText: '关闭闹钟'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // 延时5分钟
+                alarm.minute += 10;
+                if (alarm.minute >= 60) {
+                    alarm.minute -= 60;
+                    alarm.hour = (alarm.hour + 1) % 24;
+                }
+                showAlarmMenu();
+            } else if (result.isDenied) {
+                // 禁用闹钟
+                alarm.enabled = false;
+                showAlarmMenu();
+            }
+            alarmSound.pause();
+        })
     }
 });
-        }
-    });
+
 
 
 
@@ -482,6 +483,7 @@ function showAlarmMenu() {
         });
     });
 }
+
 
 
 // 用于填充时间的辅助函数，确保时间格式为两位数
