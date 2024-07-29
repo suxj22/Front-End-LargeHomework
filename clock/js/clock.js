@@ -407,7 +407,8 @@ function showAlarmMenu() {
 
     // 检查闹钟数组是否为空
     if (alarms.length === 0) {
-        // 如果没有闹钟，则隐藏闹钟菜单
+        // 如果没有闹钟，隐藏闹钟菜单并显示提示信息
+        alarmList.innerHTML = '<li>没有设置闹钟</li>';
         alarmMenu.style.display = 'none';
         return;
     } else {
