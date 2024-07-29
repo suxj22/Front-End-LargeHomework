@@ -552,7 +552,7 @@ body{
     right: 20px;
     width: 200px;
 }
-#time-watch button {
+#time-watch button{
     display: block;
     width: 100%;
     padding: 10px;
@@ -564,6 +564,39 @@ body{
     border-radius: 4px;
     transition: background-color 0.3s ease;
 }
+
+#watchMenu{
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #354a62;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    max-height: 300px;
+    overflow-y: auto;
+}
+/* 可选：自定义滚动条样式 */
+#watchMenu::-webkit-scrollbar {
+    width: 8px;
+    /* 滚动条宽度 */
+}
+
+#watchMenu::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    /* 滚动条滑块颜色 */
+    border-radius: 4px;
+    /* 滚动条滑块圆角 */
+}
+
+#watchMenu::-webkit-scrollbar-track {
+    background-color: transparent;
+    /* 滚动条轨道颜色 */
+}
+
 #time-watch button:hover {
     transform: scale(1.05);
     background-color: #194f8d;
