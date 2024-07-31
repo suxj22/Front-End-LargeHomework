@@ -570,9 +570,17 @@ document.getElementById('stopWatch').addEventListener('click', function () {
         alert("正在使用计时器，请先关闭计时器！");
         return;
     }
+    // 保存当前时间
+    savedWatchTime = {
+        hour: watchHour,
+        minute: watchMinute,
+        second: watchSecond,
+        millisecond: watchMillisecond
+    };
     watchStopped = true;
     watchRunning = false;
 });
+
 
 // 为秒表重置按钮添加事件监听器
 function restartWatch() {
