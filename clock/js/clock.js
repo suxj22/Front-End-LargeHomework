@@ -9,6 +9,13 @@ let lastTimestamp = null;
 // 计时器相关变量
 let timerHour, timerMinute, timerSecond, timerMillisecond;
 let timerRunning = false;
+let timerStopped = false;
+let savedTime = {
+    hour: 0,
+    minute: 0,
+    second: 0,
+    millisecond: 0
+};
 
 // 秒表相关变量
 let watchHour, watchMinute, watchSecond, watchMillisecond;
@@ -103,6 +110,7 @@ function updateClock(timestamp) {
             }
         }
         updateTime(timerHour, timerMinute, timerSecond);
+    } else if (timerStopped){
     } else if (watchRunning) {// 秒表
         watchMillisecond += elapsed;
         if (watchMillisecond >= 1000) {
@@ -793,6 +801,36 @@ document.getElementById('setTimer').addEventListener('click', function () {
         timerRunning = true;
     }
 });
+
+// 获取暂停计时器按钮并添加事件监听器
+document.getElementById('pauseTimer').addEventListener('click', function (){
+    if (watchRunning){
+        alert("正在使用秒表，请先停止秒表！");
+        return;
+    }
+    if (!watchRunning) {
+        if(!timerRunning){
+            alert("请先启动计时器！");
+        }
+        else{
+            timerRunning = false;
+            timerStopped = true;
+        }
+    }
+}
+);
+
+// 获取暂停计时器按钮并添加事件监听器
+document.getElementById('startTimer').addEventListener('click', function (){
+    if(!timerStopped){
+        alert("未找到暂停中的计时器！")
+    }
+    else{
+        timerRunning = true;
+        timerStopped = false;
+    }    
+}
+);
 
 // 获取停止计时按钮并添加事件监听器
 document.getElementById('stopTimer').addEventListener('click', function () {
