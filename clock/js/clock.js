@@ -110,8 +110,11 @@ function updateClock(timestamp) {
             }
         }
         updateTime(timerHour, timerMinute, timerSecond);
-    } else if (timerStopped){
-    } else if (watchRunning) {// 秒表
+    }
+    else if (timerStopped){
+
+    }
+    else if (watchRunning) {// 秒表
         watchMillisecond += elapsed;
         if (watchMillisecond >= 1000) {
             watchMillisecond -= 1000;
@@ -176,9 +179,10 @@ function updateClock(timestamp) {
     }
 
     // 计算当前时间的小数部分
-    let precise_sec = (timerRunning ? timerSecond : (watchRunning ? watchSecond : (watchStopped ? savedWatchTime.second: customSecond))) + (timerRunning ? timerMillisecond : (watchRunning ? watchMillisecond : (watchStopped ? savedWatchTime.millisecond : customMillisecond))) / 1000;
-    let precise_min = (timerRunning ? timerMinute : (watchRunning ? watchMinute : (watchStopped ? savedWatchTime.minute : customMinute))) + precise_sec / 60;
-    let precise_hour = (timerRunning ? timerHour : (watchRunning ? watchHour : (watchStopped ? savedWatchTime.hour : customHour))) + precise_min / 60;
+    let precise_sec = (timerRunning || timerStopped ? timerSecond : (watchRunning ? watchSecond : (watchStopped ? savedWatchTime.second : customSecond))) +
+                  (timerRunning || timerStopped ? timerMillisecond : (watchRunning ? watchMillisecond : (watchStopped ? savedWatchTime.millisecond : customMillisecond))) / 1000;
+    let precise_min = (timerRunning || timerStopped ? timerMinute : (watchRunning ? watchMinute : (watchStopped ? savedWatchTime.minute : customMinute))) + precise_sec / 60;
+    let precise_hour = (timerRunning || timerStopped ? timerHour : (watchRunning ? watchHour : (watchStopped ? savedWatchTime.hour : customHour))) + precise_min / 60;
 
 
     // 获取当前时间的整数部分
@@ -803,22 +807,21 @@ document.getElementById('setTimer').addEventListener('click', function () {
 });
 
 // 获取暂停计时器按钮并添加事件监听器
-document.getElementById('pauseTimer').addEventListener('click', function (){
+document.getElementById('pauseTimer').addEventListener('click', function () {
     if (watchRunning){
         alert("正在使用秒表，请先停止秒表！");
         return;
     }
     if (!watchRunning) {
         if(!timerRunning){
-            alert("请先启动计时器！");
+            alert("请先恢复启动计时器！");
         }
         else{
             timerRunning = false;
             timerStopped = true;
         }
     }
-}
-);
+});
 
 // 获取暂停计时器按钮并添加事件监听器
 document.getElementById('startTimer').addEventListener('click', function (){
@@ -840,6 +843,7 @@ document.getElementById('stopTimer').addEventListener('click', function () {
     }
     if (!watchRunning) {
         timerRunning = false;
+        timerStopped = false; // 重置停止状态
     }
 });
 
