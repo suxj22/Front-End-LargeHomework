@@ -742,9 +742,9 @@ div.usercm {
     display: inline-block;
     border: none;
     left: 25px;
-    width: 70px;
+    width: 50px;
     border-radius: 900px;
-    height: 70px;
+    height: 50px;
     transition: all 0.5s;
     cursor: pointer;
    }
@@ -767,9 +767,9 @@ div.usercm {
     display: inline-block;
     border: none;
     left: 110px;
-    width: 70px;
+    width: 50px;
     border-radius: 900px;
-    height: 70px;
+    height: 50px;
     transition: all 0.5s;
     cursor: pointer;
    }
@@ -791,9 +791,9 @@ div.usercm {
     display: inline-block;
     border: none;
     left: 195px;
-    width: 70px;
+    width: 50px;
     border-radius: 900px;
-    height: 70px;
+    height: 50px;
     transition: all 0.5s;
     cursor: pointer;
    }
@@ -815,10 +815,10 @@ div.usercm {
     display: inline-block;
     border: none;
     left: 25px;
-    margin-top: 90px;
-    width: 70px;
+    margin-top: 70px;
+    width: 50px;
     border-radius: 900px;
-    height: 70px;
+    height: 50px;
     transition: all 0.5s;
     cursor: pointer;
    }
@@ -840,11 +840,11 @@ div.usercm {
     background-position: center;
     display: inline-block;
     border: none;
-    margin-top: 90px;
+    margin-top: 70px;
     left: 110px;
-    width: 70px;
+    width: 50px;
     border-radius: 900px;
-    height: 70px;
+    height: 50px;
     transition: all 0.5s;
     cursor: pointer;
    }
@@ -865,11 +865,11 @@ div.usercm {
     background-position: center;
     display: inline-block;
     border: none;
-    margin-top: 90px;
+    margin-top: 70px;
     left: 195px;
-    width: 70px;
+    width: 50px;
     border-radius: 900px;
-    height: 70px;
+    height: 50px;
     transition: all 0.5s;
     cursor: pointer;
    }
